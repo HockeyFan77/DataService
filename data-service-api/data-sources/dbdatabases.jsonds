@@ -1,0 +1,43 @@
+<SqlCommand timeout="300">
+  <Parameters>
+    <Parameter name="@dbmappings" type="NVarChar" size="2000"/>
+  </Parameters>
+  <CommandText>
+    <![CDATA[
+      /*
+      declare @dbmappings varchar(2000)
+
+      set @dbmappings = 'A=AdventureWorks;S=Sandbox;M=master'
+      */
+
+      ; with dbmap as (
+        select
+          left([value], charindex('=', [value]) - 1) as abbr,
+          right([value], len([value]) - charindex('=', [value])) as [name]
+        from
+          string_split(@dbmappings, ';')
+        where
+          [value] like '[A-Z]%=[A-Z]%'
+      )
+      select
+        isnull((
+          select
+            msd.database_id as id,
+            dbmap.abbr,
+            msd.[name],
+            convert(varchar(16), msd.create_date, 120) as crdate,
+            compatibility_level as compatlevel
+          from
+            dbmap
+            join master.sys.databases as msd
+              on msd.[name] = dbmap.[name]
+             and msd.[name] not in (/*'master',*/ 'tempdb', 'model', 'msdb')
+             and msd.[state] = 0
+          order by
+            concat(iif(msd.[name] != 'master', 0, 1), msd.[name])
+          for json path
+        ), '[]') as databases
+      for json path, without_array_wrapper
+    ]]>
+  </CommandText>
+</SqlCommand>

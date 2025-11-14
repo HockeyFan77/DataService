@@ -1,0 +1,95 @@
+using System.ComponentModel;
+
+namespace DataServiceApi.Utility
+{
+
+  public static class StringConverter
+  {
+    public static object? ConvertTo(string? s, Type type)
+      => InternalConvertToWithDefault(s, type, false, null);
+
+    public static T? ConvertTo<T>(string? s)
+      => (T?)InternalConvertToWithDefault(s, typeof(T), false, null);
+
+    public static object? ConvertToDefault(string? s, Type type)
+      => InternalConvertToWithDefault(s, type, true, type.IsValueType ? Activator.CreateInstance(type) : null);
+
+    public static object? ConvertToDefault(string? s, Type type, object? defaultValue)
+      => InternalConvertToWithDefault(s, type, true, defaultValue);
+
+    public static T? ConvertToDefault<T>(string? s)
+      => (T?)InternalConvertToWithDefault(s, typeof(T), true, default(T));
+
+    public static T? ConvertToDefault<T>(string? s, T? defaultValue)
+      => (T?)InternalConvertToWithDefault(s, typeof(T), true, defaultValue);
+
+    private static object? InternalConvertToWithDefault(string? s, Type type, bool useDefault = false, object? defaultValue = null)
+    {
+      var nullableUnderlyingType = Nullable.GetUnderlyingType(type);
+      var underlyingType = nullableUnderlyingType ?? type;
+      if ( string.IsNullOrEmpty(s) )
+      {
+        if ( !underlyingType.IsValueType || nullableUnderlyingType != null )
+          return null;
+
+        if ( underlyingType == typeof(string) )
+          return string.Empty;
+
+        if ( useDefault )
+          return defaultValue;
+
+        throw new InvalidCastException($"Cannot convert null or empty string to non-nullable value type {underlyingType.FullName}");
+      }
+
+      // Handle enums
+      if ( underlyingType.IsEnum )
+      {
+        if ( Enum.TryParse(underlyingType, s, true, out var enumValue) )
+          return enumValue;
+
+        if ( useDefault )
+          return defaultValue;
+
+        throw new InvalidCastException($"Cannot convert \"{s}\" to enum {type.FullName}");
+      }
+
+      // Handle booleans (allow 0/1 or true/false, case-insensitive)
+      if ( underlyingType == typeof(bool) )
+      {
+        if ( s.Equals("0", StringComparison.OrdinalIgnoreCase) || s.Equals("false", StringComparison.OrdinalIgnoreCase) )
+          return false;
+
+        if ( s.Equals("1", StringComparison.OrdinalIgnoreCase) || s.Equals("true", StringComparison.OrdinalIgnoreCase) )
+          return true;
+
+        if ( useDefault )
+          return defaultValue;
+
+        throw new InvalidCastException($"Cannot convert \"{s}\" to boolean");
+      }
+
+      try
+      {
+        // Use Convert.ChangeType for primitives
+        var result = Convert.ChangeType(s, underlyingType);
+        if ( result != null || underlyingType.IsValueType || nullableUnderlyingType != null )
+          return result;
+
+        // Try TypeConverter as a fallback for custom types
+        var converter = TypeDescriptor.GetConverter(underlyingType);
+        if ( converter.CanConvertFrom(typeof(string)) )
+          return converter.ConvertFromInvariantString(s);
+
+        throw new InvalidCastException($"Cannot convert \"{s}\" to type {underlyingType.FullName}");
+      }
+      catch
+      {
+        if ( useDefault )
+          return defaultValue;
+
+        throw;
+      }
+    }
+  }
+
+}

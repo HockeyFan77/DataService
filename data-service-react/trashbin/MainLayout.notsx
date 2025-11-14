@@ -1,0 +1,71 @@
+import { Splitter, SplitterPanel } from 'primereact/splitter';
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+import { Toolbar } from 'primereact/toolbar';
+import { Button } from 'primereact/button';
+
+export default function App() {
+  const data = Array.from({ length: 100 }, (_, i) => ({
+    id: i + 1,
+    name: `Object ${i + 1}`,
+    type: 'U',
+  }));
+
+  return (
+    <div className="h-screen w-screen flex flex-col overflow-hidden">
+      {/* Top Toolbar */}
+      <Toolbar
+        start={
+          <>
+            <Button label="Home" className="mr-4" />
+            <span className="font-semibold">My Page</span>
+          </>
+        }
+      />
+
+      {/* Content Layout */}
+      <div className="flex flex-1 min-h-0 p-2">
+        <Splitter layout="horizontal" className="flex-1 min-h-0">
+          <SplitterPanel size={25} minSize={10}>
+            <div className="h-full w-full p-2 bg-gray-50 rounded">
+              <h2 className="text-sm font-medium mb-2">Sidebar</h2>
+              <p className="text-sm text-gray-500">Parameters go here.</p>
+            </div>
+          </SplitterPanel>
+
+          <SplitterPanel size={75} minSize={30}>
+            <div className="flex flex-col h-full w-full p-2">
+              <div className="flex justify-between items-center mb-2">
+                <h1 className="text-lg font-semibold">DB Objects</h1>
+                <a
+                  href="/current-page"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 underline"
+                >
+                  Open in new tab
+                </a>
+              </div>
+
+              {/* Table container */}
+              <div className="flex-1 min-h-0 overflow-hidden">
+                <DataTable
+                  value={data}
+                  className="w-full h-full"
+                  scrollable
+                  scrollHeight="flex"
+                  size="small"
+                  dataKey="id"
+                >
+                  <Column field="id" header="ID" />
+                  <Column field="name" header="Name" />
+                  <Column field="type" header="Type" />
+                </DataTable>
+              </div>
+            </div>
+          </SplitterPanel>
+        </Splitter>
+      </div>
+    </div>
+  );
+}

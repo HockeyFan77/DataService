@@ -1,0 +1,47 @@
+<SqlCommand timeout="45">
+  <Parameters>
+    <Parameter name="@id" type="Int" isNullable="true"/>
+  </Parameters>
+  <CommandText>
+    <![CDATA[
+      /*
+      declare @id int
+      set @id = 0
+      */
+
+      if ( isnull(@id, 0) > 0 )
+      begin
+        -- when not found:
+        --    { "company": null }
+        -- when found:
+        --    { "company": { "id": number, "name": string } }
+        select
+          json_query((
+            select *
+            from Sandbox..Company
+            where id = @id
+            for json path, without_array_wrapper
+          )) as company
+        for json path, without_array_wrapper, include_null_values;
+
+        -- to return an empty result and trigger a NotFound() response
+        -- select *
+        -- from Sandbox..Company
+        -- where id = @id
+        -- for json path, without_array_wrapper
+      end
+      else
+      begin
+        -- to return an empty array in case of no rows, use the following
+        select
+          isnull((
+            select *
+            from Sandbox..Company
+            --where id < @id
+            for json path
+          ), '[]') as companies
+        for json path, without_array_wrapper
+      end
+    ]]>
+  </CommandText>
+</SqlCommand>

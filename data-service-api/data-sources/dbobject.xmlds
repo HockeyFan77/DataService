@@ -1,0 +1,577 @@
+<SqlCommand>
+  <Parameters>
+    <Parameter name="@objid" type="Int"/>
+    <Parameter name="@objsch" type="NVarChar" size="255"/>
+    <Parameter name="@objname" type="NVarChar" size="255"/>
+  </Parameters>
+  <CommandText>
+    <![CDATA[
+
+      /*
+                                            -- NOTE:  This query must be executed in the database that contains the object
+                                            --        specified by @objid or @objsch + @objname.
+                                            --        You must supply either @objid or (@objsch and @objname).
+      declare
+        @objid              int,            -- The ID of the object as found in [sys].[objects].
+        @objsch             varchar(255),   -- The schema name of the object.
+        @objname            varchar(255)    -- The name of the object.
+
+      --set @objid = 439984944 -- doc.document_variation
+      --set @objid = 1526504717 -- dbo.udf_Get_User_Document_Security
+      --set @objid = 722101613 -- obsolete.lps_document
+      --set @objid = 764126063 -- doc.ext_doc_data_document_field
+      --set @objid = 524125208 -- doc.ext_doc_data_field_group
+      set @objsch = 'dbo'
+      set @objname = 'borrower'
+      */
+
+      set arithabort on -- needed to prevent truncation error messages
+
+      declare @debug bit, @objdb varchar(255), @objtype varchar(2), @objcrdate datetime, @objmoddate datetime, @objfname sysname,
+        @baseobjdb sysname, @baseobjsch sysname, @baseobjname sysname, @objrowcnt int, @stmt nvarchar(max), @text varchar(max)
+
+      set @debug = 0
+
+      if ( isnull(@objid, 0) <= 0 ) set @objid = null
+      set @objsch = nullif(ltrim(rtrim(@objsch)), '')
+      set @objname = nullif(ltrim(rtrim(@objname)), '')
+
+      set @objdb = db_name()
+
+      declare @objcols table (
+        [objid]             int,
+        table_qualifier     sysname,
+        table_owner         sysname,
+        table_name          sysname,
+        column_name         sysname,
+        data_type           smallint,
+        [type_name]         sysname,
+        [precision]         int,
+        [length]            int,
+        scale               smallint,
+        radix               smallint,
+        nullable            smallint,
+        remarks             varchar(254),
+        column_def          nvarchar(4000),
+        sql_data_type       smallint,
+        sql_datetime_sub    smallint,
+        char_octet_length   int,
+        ordinal_position    int,
+        is_nullable         varchar(254),
+        ss_data_type        tinyint,
+        computed_definition nvarchar(max),
+        final_type          sysname null
+      )
+
+      declare @objpkeys table (
+        [objid]             int,
+        table_qualifier     sysname,
+        table_owner         sysname,
+        table_name          sysname,
+        column_name         sysname,
+        key_seq             smallint,
+        pk_name             sysname
+      )
+
+      declare @objfkeys table (
+        [objid]             int,
+        pktable_qualifier   sysname,
+        pktable_owner       sysname,
+        pktable_name        sysname,
+        pkcolumn_name       sysname,
+        fktable_qualifier   sysname,
+        fktable_owner       sysname,
+        fktable_name        sysname,
+        fkcolumn_name       sysname,
+        key_seq             smallint,
+        update_rule         smallint,
+        delete_rule         smallint,
+        fk_name             sysname,
+        pk_name             sysname,
+        deferrability       smallint
+      )
+
+      declare @objidxs table (
+        [objid]             int,
+        index_name          sysname,
+        index_description   varchar(255),
+        index_keys          nvarchar(2078)
+      )
+
+      declare @objcsts table (
+        [objid]             int,
+        c_name              sysname,
+        c_column_name       sysname,
+        c_definition        varchar(max)
+      )
+
+      declare @objtrigs table (
+        [objid]             int,
+        t_objid             int,
+        t_schema            sysname,
+        t_name              sysname,
+        t_owner             sysname,
+        t_isdisabled        int,
+        t_isafter           int,
+        t_isinsteadof       int,
+        t_isinsert          int,
+        t_isinsertfirst     int,
+        t_isinsertlast      int,
+        t_isupdate          int,
+        t_isupdatefirst     int,
+        t_isupdatelast      int,
+        t_isdelete          int,
+        t_isdeletefirst     int,
+        t_isdeletelast      int
+      )
+
+      declare @objperms table (
+        [objid]             int,
+        p_owner             sysname,
+        p_object            sysname,
+        p_grantee           sysname,
+        p_grantor           sysname,
+        p_protecttype       nvarchar(10),
+        p_action            nvarchar(60),
+        p_column            sysname
+      )
+
+      declare @objrefs table (
+        [objid]             int,
+        refobjid            int,
+        refobjsch           sysname,
+        refobjname          sysname,
+        refobjtype          varchar(2),
+        reftype             varchar(5),
+        refbdb              sysname null,
+        refbsch             sysname null,
+        refbname            sysname null
+      )
+
+      declare @objtext table (
+        [objid]             int,
+        [text]              varchar(max)
+      )
+
+      declare @objerrs table (
+        [objid]             int,
+        errmsg              varchar(4000)
+      )
+
+      begin try
+
+        if ( @objid is null )
+        begin
+          select @objid = object_id
+          from sys.objects
+          where schema_id = schema_id(@objsch)
+          and [name] = @objname
+        end
+
+        select
+          @objsch = schema_name(schema_id),
+          @objname = [name],
+          @objtype = convert(varchar(2), rtrim([type])),
+          @objcrdate = create_date,
+          @objmoddate = modify_date
+        from sys.objects
+        where object_id = @objid
+
+        set @objfname = '[' + @objsch + '].[' + @objname + ']'
+
+        -- get details for synonym object
+        if ( @objtype = 'SN' )
+        begin
+          select
+            @baseobjdb = isnull(nullif(ltrim(rtrim(parsename(syn.base_object_name, 3))), ''''), db_name()),
+            @baseobjsch = parsename(syn.base_object_name, 2),
+            @baseobjname = parsename(syn.base_object_name, 1)
+          from sys.synonyms as syn
+          where syn.object_id = @objid
+        end
+
+        -- count rows for object
+        set @objrowcnt = 0
+        if ( @objtype in ('ET','U','V') )
+        begin
+          set @stmt = 'select @objrowcnt = count(*) from ' + @objfname
+          exec sp_executesql @stmt = @stmt, @parameters = N'@objrowcnt int output', @objrowcnt = @objrowcnt output
+          set @objrowcnt = isnull(@objrowcnt, 0)
+        end
+
+        if ( @debug = 1 )
+        begin
+          print '@objid = ' + isnull(convert(varchar, @objid), 'null')
+          print '@objdb = ' + isnull(@objdb, 'null')
+          print '@objsch = ' + isnull(@objsch, 'null')
+          print '@objname = ' + isnull(@objname, 'null')
+          print '@objtype = ' + isnull(convert(varchar, @objtype), 'null')
+          print '@objcrdate = ' + isnull(convert(varchar, @objcrdate), 'null')
+          print '@objmoddate = ' + isnull(convert(varchar, @objmoddate), 'null')
+          print '@objfname = ' + isnull(@objfname, 'null')
+          print '@baseobjdb = ' + isnull(@baseobjdb, 'null')
+          print '@baseobjsch = ' + isnull(@baseobjsch, 'null')
+          print '@baseobjname = ' + isnull(@baseobjname, 'null')
+          print '@objrowcnt = ' + isnull(convert(varchar, @objrowcnt), 'null')
+        end
+
+        -- load columns for object
+        if ( @objtype in ('ET','FT','IF','TF','U','V') )
+        begin
+          insert into @objcols
+            ( table_qualifier, table_owner, table_name, column_name, data_type, [type_name],
+              [precision], [length], scale, radix, nullable, remarks, column_def, sql_data_type,
+              sql_datetime_sub, char_octet_length, ordinal_position, is_nullable, ss_data_type
+            )
+          exec sp_columns @table_name = @objname, @table_owner = @objsch
+          update @objcols set [objid] = @objid where [objid] is null
+
+          -- grab computed column definitions
+          update oc
+          set computed_definition = cc.[definition]
+          from @objcols as oc
+          join sys.computed_columns as cc on cc.object_id = oc.[objid] and cc.[name] = oc.column_name
+
+          -- update mislabeled "text" columns
+          update oc
+          set final_type = 'varchar(max)'
+          from @objcols as oc
+          join sys.columns as c on c.object_id = oc.[objid] and c.[name] = oc.column_name
+          join sys.systypes as st on st.[type] = oc.ss_data_type and st.[length] = 8000
+          where oc.type_name = 'text'
+          and oc.[length] = 2147483647
+
+          -- calculate the final type for display
+          update oc
+          set final_type = convert(sysname, rtrim(replace(
+            case
+              when patindex('%()%', type_name) > 0 then replace(type_name, '()', '(' + convert(varchar, [precision]) + ',' + convert(varchar, scale) + ')')
+              when patindex('%char%', type_name) > 0 then type_name + '(' + convert(varchar, [length]) + ')'
+              else type_name
+            end,
+            'identity', '')))
+          from @objcols as oc
+          where final_type is null
+
+          if ( @debug = 1 )
+          begin
+            select '@objcols' as [@objcols], * from @objcols
+          end
+        end
+
+        -- load primary and foreign keys, indexes and triggers for object
+        if ( @objtype in ('ET','U','V') )
+        begin
+          insert into @objpkeys (table_qualifier, table_owner, table_name, column_name, key_seq, pk_name)
+          exec sp_pkeys @table_name = @objname, @table_owner = @objsch
+          update @objpkeys set [objid] = @objid where [objid] is null
+
+          insert into @objfkeys
+            ( pktable_qualifier, pktable_owner, pktable_name, pkcolumn_name,
+              fktable_qualifier, fktable_owner, fktable_name, fkcolumn_name,
+              key_seq, update_rule, delete_rule, fk_name, pk_name, deferrability
+            )
+          exec sp_fkeys @pktable_name = @objname, @pktable_owner = @objsch
+          update @objfkeys set [objid] = @objid where [objid] is null
+
+          insert into @objidxs (index_name, index_description, index_keys)
+          exec sp_helpindex @objname = @objfname
+          update @objidxs set [objid] = @objid where [objid] is null
+
+          -- add XML indexes
+          insert into @objidxs ([objid], index_name, index_description, index_keys)
+          select distinct
+            ox.[objid],
+            xi.[name],
+            xi.[type_desc],
+            ( select _c.[name]
+              from sys.xml_indexes as _xi
+              join sys.index_columns as _xc on _xc.object_id = _xi.object_id and _xc.index_id = _xi.index_id
+              join sys.columns as _c on _c.object_id = _xc.object_id and _c.column_id = _xc.column_id
+              where _xi.object_id = xi.object_id
+              and _xi.index_id = xi.index_id
+            )
+          from @objidxs as ox
+          join sys.xml_indexes as xi on xi.object_id = ox.[objid]
+          where ox.[objid] = @objid
+          and xi.[name] not in (select index_name from @objidxs where ox.[objid] = ox.[objid])
+
+          insert into @objtrigs (t_name, t_owner, t_isupdate, t_isdelete, t_isinsert, t_isafter, t_isinsteadof, t_schema)
+          exec sp_helptrigger @tabname = @objfname
+          update @objtrigs set [objid] = @objid where [objid] is null
+
+          update ot
+          set t_objid = o.object_id,
+              t_isdisabled = isnull(convert(int, objectproperty(o.object_id, 'ExecIsTriggerDisabled')), 0),
+              t_isinsertfirst = isnull(convert(int, objectproperty(o.object_id, 'ExecIsFirstInsertTrigger')), 0),
+              t_isinsertlast = isnull(convert(int, objectproperty(o.object_id, 'ExecIsLastInsertTrigger')), 0),
+              t_isupdatefirst = isnull(convert(int, objectproperty(o.object_id, 'ExecIsFirstUpdateTrigger')), 0),
+              t_isupdatelast = isnull(convert(int, objectproperty(o.object_id, 'ExecIsLastUpdateTrigger')), 0),
+              t_isdeletefirst = isnull(convert(int, objectproperty(o.object_id, 'ExecIsFirstDeleteTrigger')), 0),
+              t_isdeletelast = isnull(convert(int, objectproperty(o.object_id, 'ExecIsLastDeleteTrigger')), 0)
+          from @objtrigs as ot
+          join sys.objects as o on o.parent_object_id = ot.[objid] and o.[name] = ot.t_name
+
+          if ( @debug = 1 )
+          begin
+            select '@objpkeys' as [@objpkeys], * from @objpkeys
+            select '@objfkeys' as [@objfkeys], * from @objfkeys
+            select '@objidxs' as [@objidxs], * from @objidxs
+            select '@objtrigs' as [@objtrigs], * from @objtrigs
+          end
+        end
+
+        -- load constraints for object
+        if ( @objtype in ('ET','U') )
+        begin
+          insert into @objcsts ([objid], c_name, c_column_name, c_definition)
+          select so.object_id, stc.[name], isnull(sc.[name], ''), scc.[definition]
+          from sys.objects as so
+          join sys.objects as stc on stc.parent_object_id = so.object_id and stc.[type] in ('C')
+          join sys.check_constraints as scc on scc.object_id = stc.object_id
+          left outer join sys.columns as sc on sc.object_id = so.object_id and sc.column_id = scc.parent_column_id
+          where so.object_id = @objid
+          order by isnull(sc.column_id, 0), stc.[name]
+
+          if ( @debug = 1 )
+          begin
+            select '@objcsts' as [@objcsts], * from @objcsts
+          end
+        end
+
+        -- load permissions for object
+        if ( @objtype in ('ET','FN','FS','FT','IF','P','PC','TF','U','V','X') )
+        begin
+          -- wrap in a try-catch since the procedure will throw an error when there are no rows
+          begin try
+            insert into @objperms (p_owner, p_object, p_grantee, p_grantor, p_protecttype, p_action, p_column)
+            exec sp_helprotect @name = @objfname
+            update @objperms set [objid] = @objid, p_protecttype = ltrim(rtrim(p_protecttype)) where [objid] is null
+          end try
+          begin catch
+            set @debug = @debug
+          end catch
+        end
+
+        -- load dependencies for object
+        if ( @objtype in ('AF','ET','FN','FS','FT','IF','P','PC','TA','TF','TR','U','V','X') )
+        begin
+          insert into @objrefs ([objid], refobjid, refobjsch, refobjname, refobjtype, reftype, refbdb, refbsch, refbname)
+          select distinct
+            d.referenced_major_id as [objid],
+            o.object_id as refobjid,
+            schema_name(o.schema_id) as refobjsch,
+            o.[name] as refobjname,
+            convert(varchar(2), rtrim(o.[type])) as refobjtype,
+            convert(varchar(5), 'refby') as reftype,
+            isnull(nullif(ltrim(rtrim(parsename(syn.base_object_name, 3))), ''''), db_name()) as refbdb,
+            parsename(syn.base_object_name, 2) as refbsch,
+            parsename(syn.base_object_name, 1) as refbname
+          from sys.sql_dependencies as d
+          join sys.objects as o on o.object_id = d.object_id
+          left outer join sys.synonyms as syn on syn.object_id = o.object_id
+          where d.referenced_major_id = @objid
+          union
+          select distinct
+            d.object_id as [objid],
+            o.object_id as refobjid,
+            schema_name(o.schema_id) as refobjsch,
+            o.[name] as refobjname,
+            convert(varchar(2), rtrim(o.[type])) as refobjtype,
+            convert(varchar(5), 'refto') as reftype,
+            isnull(nullif(ltrim(rtrim(parsename(syn.base_object_name, 3))), ''''), db_name()) as refbdb,
+            parsename(syn.base_object_name, 2) as refbsch,
+            parsename(syn.base_object_name, 1) as refbname
+          from sys.sql_dependencies as d
+          join sys.objects as o on o.object_id = d.referenced_major_id
+          left outer join sys.synonyms as syn on syn.object_id = o.object_id
+          where d.object_id = @objid
+
+          if ( @debug = 1 )
+          begin
+            select '@objrefs' as [@objrefs], * from @objrefs
+          end
+        end
+
+        -- load text for object
+        if ( @objtype in ('C','D','FN','IF','P','R','TF','TR','V') )
+        begin
+          insert into @objtext ([objid], [text])
+          select object_id, [definition]
+          from sys.sql_modules
+          where object_id = @objid
+        end
+
+      end try
+      begin catch
+
+        insert into @objerrs ([objid], errmsg)
+          select
+            @objid,
+            convert(varchar(4000),
+              'error_number: ' + convert(varchar, error_number())
+              + ', error_severity: ' + convert(varchar, error_severity())
+              + ', error_state: ' + convert(varchar, error_state())
+              + ', error_procedure: ' + isnull(error_procedure(), 'none')
+              + ', error_line: ' + convert(varchar, error_line())
+              + ', error_message: ' + error_message()
+            )
+
+      end catch
+
+      select
+        ( select
+            @objdb as [@db],
+            @objid as [@id],
+            @objsch as [@sch],
+            @objname as [@name],
+            @objtype as [@type],
+            convert(varchar(19), @objcrdate, 120) as [@crdate],
+            convert(varchar(19), @objmoddate, 120) as [@moddate],
+            @objrowcnt as [@rowcnt],
+            @baseobjdb as [@basedb],
+            @baseobjsch as [@basesch],
+            @baseobjname as [@basename],
+            ( select
+                ordinal_position as [@id],
+                column_name as [@name],
+                final_type as [@type],
+                convert(varchar(8), case when nullable = 0 then 'not ' else '' end + 'null') as [@nullable],
+                convert(varchar(8000),
+                    case when patindex('%identity%', type_name) > 0 then 'identity' else '' end
+                  + case when column_def is not null then 'default: ' + substring(column_def, 2, len(column_def) - 2) else '' end
+                  + case when computed_definition is not null then 'computed: ' + computed_definition else '' end
+                ) as [@comment]
+              from @objcols
+              where [objid] = @objid
+              order by [@id]
+              for xml path('column'), root('columns'), type
+            ),
+            ( select
+                pk_name as [@pkname],
+                ( select column_name as [@pkcolname]
+                  from @objpkeys
+                  where pk_name = pk.pk_name
+                  order by table_qualifier, table_owner, table_name, key_seq
+                  for xml path('key'), type
+                )
+              from @objpkeys as pk
+              where [objid] = @objid
+              group by pk_name
+              order by [@pkname]
+              for xml path('pkey'), root('pkeys'), type
+            ),
+            ( select
+                pk_name as [@pkname],
+                fk_name as [@fkname],
+                convert(varchar(20),
+                  case update_rule
+                    when 0 then 'cascade'
+                    when 1 then 'no action'
+                    when 2 then 'set null'
+                    else ''
+                  end
+                ) as [@updrule],
+                convert(varchar(20),
+                  case delete_rule
+                    when 0 then 'cascade'
+                    when 1 then 'no action'
+                    when 2 then 'set null'
+                    else ''
+                  end
+                ) as [@delrule],
+                ( select
+                    pktable_owner as [@pktblsch],
+                    pktable_name as [@pktblname],
+                    pkcolumn_name as [@pkcolname],
+                    fktable_owner as [@fktblsch],
+                    fktable_name as [@fktblname],
+                    fkcolumn_name as [@fkcolname]
+                  from @objfkeys
+                  where fk_name = fk.fk_name
+                  order by fktable_qualifier, fktable_owner, fktable_name, key_seq
+                  for xml path('key'), type
+                )
+              from @objfkeys as fk
+              where [objid] = @objid
+              group by pk_name, fk_name, update_rule, delete_rule
+              order by fk_name
+              for xml path('fkey'), root('fkeys'), type
+            ),
+            ( select
+                index_name as [@ixname],
+                index_description as [@ixdesc],
+                index_keys as [@ixkeys]
+              from @objidxs
+              where [objid] = @objid
+              for xml path('index'), root('indexes'), type
+            ),
+            ( select
+                c_name as [@name],
+                c_column_name as [@colname],
+                c_definition as [@definition]
+              from @objcsts
+              where [objid] = @objid
+              for xml path('constraint'), root('constraints'), type
+            ),
+            ( select
+                t_objid as [@trgobjid],
+                t_schema as [@sch],
+                t_name as [@name],
+                t_isdisabled as [@isdisabled],
+                t_isafter as [@isafter],
+                t_isinsteadof as [@isinsteadof],
+                t_isinsert as [@isinsert],
+                t_isinsertfirst as [@isinsertfirst],
+                t_isinsertlast as [@isinsertlast],
+                t_isupdate as [@isupdate],
+                t_isupdatefirst as [@isupdatefirst],
+                t_isupdatelast as [@isupdatelast],
+                t_isdelete as [@isdelete],
+                t_isdeletefirst as [@isdeletefirst],
+                t_isdeletelast as [@isdeletelast]
+              from @objtrigs
+              where [objid] = @objid
+              for xml path('trigger'), root('triggers'), type
+            ),
+            ( select
+                p_owner as [@owner],
+                p_object as [@object],
+                p_grantee as [@grantee],
+                p_grantor as [@grantor],
+                p_protecttype as [@protecttype],
+                p_action as [@action],
+                p_column as [@column]
+              from @objperms
+              where [objid] = @objid
+              for xml path('permission'), root('permissions'), type
+            ),
+            ( select
+                refobjid as [@refobjid],
+                refobjsch as [@refobjsch],
+                refobjname as [@refobjname],
+                refobjtype as [@refobjtype],
+                reftype as [@reftype],
+                refbdb as [@refbdb],
+                refbsch as [@refbsch],
+                refbname as [@refbname]
+              from @objrefs
+              for xml path('ref'), root('refs'), type
+            ),
+            ( select [text] as [text()]
+              from @objtext
+              where [objid] = @objid
+              for xml path('text'), type
+            ),
+            ( select errmsg as [@error]
+              from @objerrs
+              where [objid] = @objid
+              for xml path('error'), root('errors'), type
+            )
+          for xml path('object'), type
+        )
+      for xml path('objects'), type
+
+    ]]>
+  </CommandText>
+</SqlCommand>

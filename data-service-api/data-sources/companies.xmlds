@@ -1,0 +1,31 @@
+<SqlCommand timeout="45">
+  <Parameters>
+    <Parameter name="@id" type="Int" isNullable="true"/>
+  </Parameters>
+  <CommandText>
+    <![CDATA[
+
+      if ( isnull(@id, 0) > 0 )
+      begin
+        select
+          id as [@id],
+          name as [@name]
+        from
+          Sandbox..Company
+        where
+          id = @id
+        for xml path('Company'), type
+      end
+      else
+      begin
+        select
+          id as [@id],
+          name as [@name]
+        from
+          Sandbox..Company
+        for xml path('Company'), root('Companies'), type
+      end
+
+    ]]>
+  </CommandText>
+</SqlCommand>

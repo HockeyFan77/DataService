@@ -1,0 +1,14 @@
+@layer tailwind-base, primereact, tailwind-utilities;
+
+@import 'tailwindcss' layer(tailwind-base);
+/* @import 'primereact/resources/themes/mdc-dark-deeppurple/theme.css' layer(primereact); */
+/* @import 'primereact/resources/themes/mdc-light-deeppurple/theme.css' layer(primereact); */
+@import 'primereact/resources/themes/lara-dark-cyan/theme.css' layer(primereact);
+@import 'primereact/resources/primereact.min.css' layer(primereact);
+@import 'primeicons/primeicons.css';
+
+@import 'tailwindcss/utilities' layer(tailwind-utilities);
+
+html {
+  font-size: 14px;
+}

@@ -1,0 +1,7 @@
+{
+  "companies": [
+    { "id": 552, "name": "ABC Company" },
+    { "id": 7231, "name": "Triton Finance", "earnings": 5735420.00 },
+    { "id": 243213, "name": "A Very Very Old Company" }
+  ]
+}
