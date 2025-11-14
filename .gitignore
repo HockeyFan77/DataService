@@ -168,7 +168,10 @@ coverage/
 # ASP.NET Core generated files
 #######################################
 appsettings.Development.json
+appsettings.UAT.json
+appsettings.Production.json
 appsettings.*.json
+!appsettings.*.example.json
 Properties/launchSettings.json
 
 # Blazor / WebAssembly build artifacts
