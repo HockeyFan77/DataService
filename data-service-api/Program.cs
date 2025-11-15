@@ -3,12 +3,27 @@ const bool logMatchedEndpoints = true;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// manual configuration
+// builder.Configuration
+//   .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+//   .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: false, reloadOnChange: true);
+
+// debug configuration!
+// Console.WriteLine($"Current directory: {Directory.GetCurrentDirectory()}");
+// Console.WriteLine($"Environment: {builder.Environment.EnvironmentName}");
+// foreach (var kv in builder.Configuration.AsEnumerable())
+// {
+//   Console.WriteLine($"{kv.Key} = {kv.Value}");
+// }
+// var connectionString = builder.Configuration.GetConnectionString("integration");
+// Console.WriteLine($"Integration connection string: {connectionString ?? "null"}");
+
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-if ( useOpenApi )
-{
-  builder.Services.AddOpenApi();
-}
+// if ( useOpenApi )
+// {
+//   builder.Services.AddOpenApi();
+// }
 builder.Services.AddControllers();
 // uncomment to enable CORS (if needed)
 // builder.Services.AddCors(options =>

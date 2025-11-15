@@ -7,7 +7,7 @@
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/data-service-api/data-service-api.csproj",
+        "${workspaceFolder}/data-service-api.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary;ForceNoAlign"
       ],
@@ -19,7 +19,7 @@
       "type": "process",
       "args": [
         "publish",
-        "${workspaceFolder}/data-service-api/data-service-api.csproj",
+        "${workspaceFolder}/data-service-api.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary;ForceNoAlign"
       ],
@@ -33,7 +33,7 @@
         "watch",
         "run",
         "--project",
-        "${workspaceFolder}/data-service-api/data-service-api.csproj"
+        "${workspaceFolder}/data-service-api.csproj"
       ],
       "problemMatcher": "$msCompile"
     }

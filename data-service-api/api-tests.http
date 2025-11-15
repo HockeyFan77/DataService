@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:5253/api
-@context = qa
+@context = int
 
 ### Get a list of databases
 GET {{baseUrl}}/dbdatabases?ctx={{context}}
@@ -11,7 +11,7 @@ GET {{baseUrl}}/companies
 GET {{baseUrl}}/companies?ctx={{context}}
 
 ### Get list of database objects
-GET {{baseUrl}}/dbobjects?ctx={{context}}&searchdbs=s;a&objnamesearch=pers&objtypes=p;t
+GET {{baseUrl}}/dbobjects?ctx={{context}}&searchdbs=prs&objnamesearch=loc&objtypes=p;t
 
 ### Get database object details [AdventureWorks].[HumanResources].[uspUpdateEmployeePersonalInfo]
 GET {{baseUrl}}/dbobject?ctx={{context}}&objdb=a&objid=663673412
