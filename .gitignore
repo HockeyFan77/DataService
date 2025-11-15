@@ -188,3 +188,5 @@ wwwroot/*.map
 !.vscode/settings.json   # Optional: keep shared settings
 !.vscode/extensions.json
 !.vscode/tasks.json
+!.vscode/launch.Production.json
+!.vscode/launch.*.example.json
