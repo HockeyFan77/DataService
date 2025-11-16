@@ -1,0 +1,19 @@
+{
+  "folders": [
+    {
+      "name": "API",
+      "path": "data-service-api"
+    },
+    {
+      "name": "React",
+      "path": "data-service-react"
+    },
+    {
+      "name": "Blazor",
+      "path": "data-service-blazor"
+    }
+  ],
+  "settings": {
+    "terminal.integrated.cwd": "${workspaceFolder}"
+  }
+}
