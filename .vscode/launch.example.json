@@ -1,0 +1,47 @@
+{
+  "version": "0.2.0",
+  "compounds": [
+    {
+      "name": "API + Blazor",
+      "configurations": ["API", "Blazor"],
+      "stopAll": true
+    }
+  ],
+  "configurations": [
+    {
+      "name": "API",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-api",
+      "program": "${workspaceFolder}/data-service-api/bin/Debug/net9.0/data-service-api.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/data-service-api",
+      "stopAtEntry": false,
+      "console": "integratedTerminal",
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    {
+      "name": "Blazor",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-blazor",
+      "program": "${workspaceFolder}/data-service-blazor/bin/Debug/net9.0/data-service-blazor.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/data-service-blazor",
+      "stopAtEntry": false,
+      "console": "integratedTerminal",
+      //"serverReadyAction": {
+      //  "action": "openExternally",
+      //  "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+      //},
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "sourceFileMap": {
+        "/Views": "${workspaceFolder}/Views"
+      }
+    }
+  ]
+}

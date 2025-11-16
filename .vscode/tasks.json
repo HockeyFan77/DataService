@@ -5,14 +5,22 @@
       "label": "build-api",
       "command": "dotnet",
       "type": "process",
-      "args": ["build", "${workspaceFolder}/data-service-api"],
+      "args": [
+        "build",
+        "${workspaceFolder}/data-service-api"
+      ],
       "problemMatcher": "$msCompile"
     },
     {
       "label": "build-blazor",
       "command": "dotnet",
       "type": "process",
-      "args": ["build", "${workspaceFolder}/data-service-blazor"],
+      "args": [
+        "build",
+        "${workspaceFolder}/data-service-blazor/data-service-blazor.csproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary;ForceNoAlign"
+      ],
       "problemMatcher": "$msCompile"
     }
   ]
