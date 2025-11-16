@@ -19,7 +19,6 @@
       //  "action": "openExternally",
       //  "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
       //},
-      //"serverReadyAction": {},
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_URLS": "http://localhost:5253"
