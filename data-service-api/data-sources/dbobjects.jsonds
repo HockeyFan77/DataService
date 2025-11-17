@@ -6,6 +6,8 @@
     <Parameter name="@objcolumnsearch" type="VarChar" size="900"/>
     <Parameter name="@objtextsearch" type="VarChar" size="900"/>
     <Parameter name="@objexactsearch" type="Bit"/>
+    <Parameter name="@pagesize" type="Int"/>
+    <Parameter name="@pagenum" type="Int"/>
   </Parameters>
   <CommandText>
     <![CDATA[
@@ -70,39 +72,30 @@
                                             --    TR - SQL DML trigger
                                             --    V  - View
                                             --    X  - Extended stored procedure
-        @objexactsearch     bit             -- ** Force "exact" search for @objnameSearch, @objcolumnsearch and @objtextsearch.
+        @objexactsearch     bit,            -- ** Force "exact" search for @objnameSearch, @objcolumnsearch and @objtextsearch.
                                             -- When set to 1, prevents the automatic wrapping of search terms with '%'.
                                             -- Default is 0.
+        @pagesize           int = -1,       -- When -1, return "all" rows (max 5000)
+        @pagenum            int = 1
 
       set @searchdbs = 'sandbox;adventureworks'
-      set @objnamesearch = 'co'
+      set @objnamesearch = '%'
       set @objtypes = 't;v;p;g;f'
       --set @objcolumnsearch = 'note_type'
       --set @objtextsearch = 'note_type'
       set @objexactsearch = 0
+      --set @pagesize = 5
+      --set @pagenum = 3
       */
 
       set arithabort on -- needed to prevent truncation error messages
 
       declare
         @debug bit = 0,
-        @inputsjson varchar(max),
         @dbname sysname,
         @sql varchar(8000)
 
       --set @debug = 1
-      set @inputsjson = (
-        select
-          ( select
-              @objnamesearch as [objnamesearch],
-              @objtypes as [objtypes],
-              @objcolumnsearch as [objcolumnsearch],
-              @objtextsearch as [objtextsearch],
-              @objexactsearch as [objexactsearch],
-              @searchdbs as [searchdbs]
-            for json path, without_array_wrapper
-          ) as [inputs]
-      )
 
       set @objnamesearch = nullif(replace(ltrim(rtrim(@objnamesearch)), '''', ''''''), '')
 
@@ -135,6 +128,14 @@
       set @objnamesearch = '''' + @objnamesearch + ''''
       set @objcolumnsearch = '''' + @objcolumnsearch + ''''
       set @objtextsearch = '''' + @objtextsearch + ''''
+
+      if ( isnull(@pagesize, -1) <= 0 )
+      begin
+        set @pagesize = 5000
+        set @pagenum = 1
+      end
+      if ( @pagesize > 5000 ) set @pagesize = 5000
+      if ( isnull(@pagenum, 0) <= 0 ) set @pagenum = 1
 
       set @searchdbs = nullif(nullif(ltrim(rtrim(@searchdbs)), '*'), '')
 
@@ -278,31 +279,20 @@
         delete from #dbsrchres where [keep] != 1
       end
 
-      --select
-      --  json_query(@inputsjson) as [inputs],
-      --  ( select distinct
-      --      objs.db,
-      --      objs.sch,
-      --      objs.id,
-      --      objs.[type],
-      --      objs.[name],
-      --      objs.crdate,
-      --      objs.moddate,
-      --      objs.bdb,
-      --      objs.bsch,
-      --      objs.bname
-      --    from
-      --      #dbsrchres as objs
-      --    order by
-      --      db,
-      --      sch,
-      --      [type],
-      --      [name]
-      --    for json path
-      --  ) as [dbobjects]
-      --for json path, without_array_wrapper
-
       select
+        json_query((
+          select
+            @objnamesearch as [objnamesearch],
+            @objtypes as [objtypes],
+            @objcolumnsearch as [objcolumnsearch],
+            @objtextsearch as [objtextsearch],
+            @objexactsearch as [objexactsearch],
+            @searchdbs as [searchdbs],
+            @pagesize as [pagesize],
+            @pagenum as [pagenum],
+            (select count(*) from #dbsrchres) as [totalrows]
+          for json path, without_array_wrapper
+        )) as [inputs],
         isnull((
           select distinct
             objs.db,
@@ -322,6 +312,8 @@
             sch,
             [type],
             [name]
+          offset (@pagenum -1) * @pagesize rows
+          fetch next @pagesize rows only
           for json path
         ), '[]') as dbobjects
       for json path, without_array_wrapper
