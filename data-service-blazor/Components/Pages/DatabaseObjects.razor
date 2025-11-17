@@ -1,0 +1,51 @@
+@page "/database-objects"
+@inject IDataService Api
+
+<MudPaper Class="pa-4">
+  <MudText Typo="Typo.h5">Database Objects</MudText>
+
+  <MudTextField @bind-Value="SearchTerm" Label="Search..." Immediate="true"/>
+
+  <MudTable Items="serverData"
+            ServerData="LoadServerData"
+            Dense="true"
+            Hover="true"
+            Bordered="true"
+            Elevation="1">
+
+    <HeaderContent>
+      <MudTh>Name</MudTh>
+      <MudTh>Type</MudTh>
+      <MudTh>Schema</MudTh>
+    </HeaderContent>
+
+    <RowTemplate>
+      <MudTd>@context.Name</MudTd>
+      <MudTd>@context.Type</MudTd>
+      <MudTd>@context.Schema</MudTd>
+    </RowTemplate>
+
+  </MudTable>
+</MudPaper>
+
+@code {
+  private string? SearchTerm;
+  private IEnumerable<DatabaseObjectDto> serverData = [];
+
+  private async Task<TableData<DatabaseObjectDto>> LoadServerData(TableState state, CancellationToken token)
+  {
+    var result = await Api.GetDatabaseObjectsAsync(
+        SearchTerm,
+        null,
+        page: state.Page + 1,
+        pageSize: state.PageSize);
+
+    serverData = result.Items;
+
+    return new TableData<DatabaseObjectDto>()
+    {
+      Items = result.Items,
+      TotalItems = result.TotalCount
+    };
+  }
+}
