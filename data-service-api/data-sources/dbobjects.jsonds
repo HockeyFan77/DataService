@@ -189,8 +189,8 @@
         [name]  sysname       not null,
         id      int           not null,
         [type]  nvarchar(2)   not null,
-        crdate  nvarchar(16)  not null,
-        moddate nvarchar(16)  not null,
+        crdate  datetime      not null,
+        moddate datetime      not null,
         bdb     sysname           null,
         bsch    sysname           null,
         bname   sysname           null
@@ -209,14 +209,14 @@
             o.[name],
             o.[object_id] as id,
             convert(varchar(2), rtrim(o.[type])) as [type],
-            convert(varchar(16), o.create_date, 120) as crdate,
-            convert(varchar(16), o.modify_date, 120) as moddate,
+            convert(varchar, o.create_date, 126) as crdate,
+            convert(varchar, o.modify_date, 126) as moddate,
             isnull(nullif(ltrim(rtrim(parsename(syn.base_object_name, 3))), ''''), db_name()) as bdb,
             parsename(syn.base_object_name, 2) as bsch,
             parsename(syn.base_object_name, 1) as bname
           from sys.objects as o
           join sys.schemas as s on s.schema_id = o.schema_id
-          left outer join .sys.synonyms as syn on syn.[object_id] = o.[object_id]
+          left outer join sys.synonyms as syn on syn.[object_id] = o.[object_id]
           where o.is_ms_shipped = 0
           and o.[type] COLLATE DATABASE_DEFAULT in (
             iif(@_objcolumnsearch is null and @_objtextsearch is null, ''SN'', ''--''),'
@@ -293,12 +293,12 @@
       select
         json_query((
           select
+            @searchdbs as [searchdbs],
             @objnamesearch as [objnamesearch],
             @objtypes as [objtypes],
             @objcolumnsearch as [objcolumnsearch],
             @objtextsearch as [objtextsearch],
             @objexactsearch as [objexactsearch],
-            @searchdbs as [searchdbs],
             @pagesize as [pagesize],
             @pagenum as [pagenum],
             (select count(*) from #dbsrchres) as [totalrows]

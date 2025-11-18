@@ -5,5 +5,14 @@ public interface IDataService
   Task<T?> PostAsync<T>(string url, object payload);
 
   // Page-specific calls
-  Task<PagedResult<DatabaseObjectDto>> GetDatabaseObjectsAsync(string? name, string? type, int page, int pageSize);
+  Task<DatabaseObjectsListResponseDto?> GetDatabaseObjectsAsync(
+    string? databaseSearch = null,
+    string? nameSearch = null,
+    string? typeSearch = null,
+    string? columnSearch = null,
+    string? textSearch = null,
+    bool? exactSearch = null,
+    int? pageSize = null,
+    int? pageNum = null,
+    CancellationToken cancellationToken = default);
 }

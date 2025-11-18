@@ -1,5 +1,6 @@
-public class DataService
+public class DataService : IDataService
 {
+
   private readonly HttpClient _http;
 
   public DataService(HttpClient http) => _http = http;
@@ -16,13 +17,44 @@ public class DataService
     return await response.Content.ReadFromJsonAsync<T>();
   }
 
-  public Task<PagedResult<DatabaseObjectDto>> GetDatabaseObjectsAsync(
-    string? name,
-    string? type,
-    int page,
-    int pageSize)
+  public async Task<DatabaseObjectsListResponseDto?> GetDatabaseObjectsAsync(
+    string? databaseSearch = null,
+    string? nameSearch = null,
+    string? typeSearch = null,
+    string? columnSearch = null,
+    string? textSearch = null,
+    bool? exactSearch = null,
+    int? pageSize = null,
+    int? pageNum = null,
+    CancellationToken cancellationToken = default)
   {
-    string url = $"dbobjects?ctx={{dev}}&searchdbs=a&objnamesearch=person&objtypes=p;t";
-    return GetAsync<PagedResult<DatabaseObjectDto>>(url);
+
+    // Build query parameters (omit null/empty)
+    var query = new Dictionary<string, string?>()
+    {
+      ["ctx"] = "int",                  // per your example
+      ["searchdbs"] = databaseSearch,
+      ["objnamesearch"] = nameSearch,
+      ["objtypes"] = typeSearch,
+      ["objcolumnsearch"] = columnSearch,
+      ["objtextsearch"] = textSearch,
+      ["objexactsearch"] = exactSearch.HasValue ? (exactSearch.Value ? "1" : "0") : null,
+      ["pagesize"] = pageSize?.ToString(),
+      ["pagenum"] = pageNum?.ToString()
+    };
+
+    // Build query string
+    var pairs = query
+      .Where(kv => !string.IsNullOrWhiteSpace(kv.Value))
+      .Select(kv => $"{Uri.EscapeDataString(kv.Key)}={Uri.EscapeDataString(kv.Value!)}");
+
+    var qs = pairs.Any() ? "?" + string.Join("&", pairs) : string.Empty;
+
+    var url = $"dbobjects{qs}"; // relative to BaseAddress registered in Program.cs
+
+    url = "dbobjects?ctx=int&searchdbs=prs&objnamesearch=loc&objtypes=p;t";
+    //return GetAsync<DatabaseObjectsListResponseDto>(url);
+    return await _http.GetFromJsonAsync<DatabaseObjectsListResponseDto?>(url, cancellationToken: cancellationToken);
   }
+
 }
