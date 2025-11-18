@@ -14,10 +14,10 @@
 
       /*
       declare
-        @searchdbs          varchar(8000),  -- The semi-colon-separated list of databases to search in.
+        @searchdbs          nvarchar(1000), -- The semi-colon-separated list of databases to search in.
                                             -- Example: 'master;adventureworks;sandbox'
-        @objnamesearch      varchar(900),   -- The partial name of the objects you want to search for (** automatically wrapped in '%').
-        @objtypes           varchar(900),   -- The semi-colon-separated list of (abbreviated) object types you want to search for.
+        @objnamesearch      nvarchar(900),  -- The partial name of the objects you want to search for (** automatically wrapped in '%').
+        @objtypes           nvarchar(900),  -- The semi-colon-separated list of (abbreviated) object types you want to search for.
                                             -- The possible abbreviations are:
                                             --    F = function
                                             --        expands to: AF - Aggregate function (CLR)
@@ -38,7 +38,7 @@
                                             --                    U  - Table (user-defined)
                                             --    V = view
                                             --        expands to: V  - View
-        @objcolumnsearch    varchar(900),   -- Filter the results by additionally searching for matches in the object's column names
+        @objcolumnsearch    nvarchar(900),  -- Filter the results by additionally searching for matches in the object's column names
                                             -- or the object's parameter names (** automatically wrapped in '%').
                                             -- Column names are searched for the following object types:
                                             --    FT - Assembly (CLR) table-valued function
@@ -57,7 +57,7 @@
                                             --    PC - Assembly (CLR) stored-procedure
                                             --    TF - SQL table-valued-function
                                             --    X  - Extended stored procedure
-        @objtextsearch      varchar(900),   -- Filter the results by additionally searching for the specified text in the object's text
+        @objtextsearch      nvarchar(900),  -- Filter the results by additionally searching for the specified text in the object's text
                                             -- (for views, stored procedures, etc., ** automatically wrapped in '%').
                                             -- Object text is searched for the following object types:
                                             --    AF - Aggregate function (CLR)
@@ -79,10 +79,10 @@
         @pagenum            int = 1
 
       set @searchdbs = 'sandbox;adventureworks'
-      set @objnamesearch = '%'
-      set @objtypes = 't;v;p;g;f'
-      --set @objcolumnsearch = 'note_type'
-      --set @objtextsearch = 'note_type'
+      set @objnamesearch = 'p'
+      set @objtypes = 't;v;p;g;f;dropit'
+      -- set @objcolumnsearch = 'per'
+      set @objtextsearch = 'person'
       set @objexactsearch = 0
       --set @pagesize = 5
       --set @pagenum = 3
@@ -92,42 +92,57 @@
 
       declare
         @debug bit = 0,
+        @_searchdbs nvarchar(1000),
+        @_objnamesearch nvarchar(900),
+        @_objtypes nvarchar(900),
+        @_objcolumnsearch nvarchar(900),
+        @_objtextsearch nvarchar(900),
         @dbname sysname,
-        @sql varchar(8000)
+        @crlf varchar(2) = char(13)+char(10),
+        @sql nvarchar(4000)
 
       --set @debug = 1
 
-      set @objnamesearch = nullif(replace(ltrim(rtrim(@objnamesearch)), '''', ''''''), '')
-
+      set @_objnamesearch = nullif(replace(ltrim(rtrim(@objnamesearch)), '''', ''''''), '')
       -- load search object types into table
-      set @objtypes = nullif(ltrim(rtrim(@objtypes)), '')
-      set @objtypes = isnull(nullif(@objtypes, '*'), 'F;G;P;T;V')
-      set @objtypes =
-          iif(charindex('F', @objtypes) >= 1, 'AF;FN;FS;FT;IF;TF;', '')
-        + iif(charindex('G', @objtypes) >= 1, 'TA;TR;', '')
-        + iif(charindex('P', @objtypes) >= 1, 'P;PC;X;', '')
-        + iif(charindex('T', @objtypes) >= 1, 'ET;U;', '')
-        + iif(charindex('V', @objtypes) >= 1, 'V;', '')
-      set @objtypes = replace(replace(replace(@objtypes, ';;;;', ';'), ';;;', ';'), ';;', ';')
-      if ( isnull(ltrim(rtrim(@objtypes)), '') = '' ) set @objtypes = 'AF;FN;FS;FT;IF;TF;TA;TR;P;PC;X;ET;U;V'
-      if ( right(@objtypes, 1) = ';' ) set @objtypes = left(@objtypes, len(@objtypes) - 1)
+      set @_objtypes = nullif(ltrim(rtrim(@objtypes)), '')
+      set @_objtypes = isnull(nullif(@_objtypes, '*'), 'F;G;P;T;V;')
+      -- sanitize object types
+      set @_objtypes = (
+        select
+          string_agg(upper(quotename(objtype, '''')), ';') as objtypes
+        from (
+          select ltrim(rtrim(value)) as objtype
+          from string_split(@_objtypes, ';')
+          where value != ''
+          and value in ('F','G','P','T','V')
+        ) as objtypes
+      )
+      set @_objtypes =
+          iif(charindex('F', @_objtypes) >= 1, 'AF;FN;FS;FT;IF;TF;', '')
+        + iif(charindex('G', @_objtypes) >= 1, 'TA;TR;', '')
+        + iif(charindex('P', @_objtypes) >= 1, 'P;PC;X;', '')
+        + iif(charindex('T', @_objtypes) >= 1, 'ET;U;', '')
+        + iif(charindex('V', @_objtypes) >= 1, 'V;', '')
+      if ( isnull(ltrim(rtrim(@_objtypes)), '') = '' ) set @_objtypes = 'AF;FN;FS;FT;IF;TF;TA;TR;P;PC;X;ET;U;V;'
+      if ( right(@_objtypes, 1) = ';' ) set @_objtypes = left(@_objtypes, len(@_objtypes) - 1)
 
-      declare @dbsrchtyps table ([type] varchar(2))
-      insert into @dbsrchtyps ([type])
+      declare @dbsrchtypes table ([type] nvarchar(2))
+      insert into @dbsrchtypes ([type])
       select [value]
-      from string_split(@objtypes, ';')
+      from string_split(@_objtypes, ';')
 
-      set @objcolumnsearch = nullif(replace(ltrim(rtrim(@objcolumnsearch)), '''', ''''''), '')
-      set @objtextsearch = nullif(replace(ltrim(rtrim(@objtextsearch)), '''', ''''''), '')
+      set @_objcolumnsearch = nullif(replace(ltrim(rtrim(@objcolumnsearch)), '''', ''''''), '')
+      set @_objtextsearch = nullif(replace(ltrim(rtrim(@objtextsearch)), '''', ''''''), '')
       if ( isnull(@objexactsearch, 0) != 1 )
       begin
-        set @objnamesearch = '%' + @objnamesearch + '%'
-        set @objcolumnsearch = '%' + @objcolumnsearch + '%'
-        set @objtextsearch = '%' + @objtextsearch + '%'
+        set @_objnamesearch = '%' + @_objnamesearch + '%'
+        set @_objcolumnsearch = '%' + @_objcolumnsearch + '%'
+        set @_objtextsearch = '%' + @_objtextsearch + '%'
       end
-      set @objnamesearch = '''' + @objnamesearch + ''''
-      set @objcolumnsearch = '''' + @objcolumnsearch + ''''
-      set @objtextsearch = '''' + @objtextsearch + ''''
+      set @_objnamesearch = replace(replace(@_objnamesearch, '%%%', '%'), '%%', '%')
+      set @_objcolumnsearch = replace(replace(@_objcolumnsearch, '%%%', '%'), '%%', '%')
+      set @_objtextsearch = replace(replace(@_objtextsearch, '%%%', '%'), '%%', '%')
 
       if ( isnull(@pagesize, -1) <= 0 )
       begin
@@ -137,14 +152,14 @@
       if ( @pagesize > 5000 ) set @pagesize = 5000
       if ( isnull(@pagenum, 0) <= 0 ) set @pagenum = 1
 
-      set @searchdbs = nullif(nullif(ltrim(rtrim(@searchdbs)), '*'), '')
+      set @_searchdbs = nullif(nullif(ltrim(rtrim(@searchdbs)), '*'), '')
 
       -- for an additional safety check, match the supplied database names with
       -- those from master.sys.databases
       declare @dbnames table ([name] sysname)
       insert into @dbnames ([name])
       select mdbs.[name]
-      from string_split(isnull(@searchdbs, 'master'), ';') as dbs
+      from string_split(isnull(@_searchdbs, 'master'), ';') as dbs
       join [master].sys.databases as mdbs
         on mdbs.[name] = dbs.[value]
        and mdbs.[name] not in (/*'master',*/ 'tempdb', 'model', 'msdb')
@@ -152,14 +167,17 @@
 
       if ( @debug = 1 )
       begin
-        print '@objnamesearch = ' + isnull('"' + @objnamesearch + '"', 'null')
-        print '@objtypes = ' + isnull('"' + @objtypes + '"', 'null')
-        print '@objcolumnsearch = ' + isnull('"' + @objcolumnsearch + '"', 'null')
-        print '@objtextsearch = ' + isnull('"' + @objtextsearch + '"', 'null')
-        print '@objexactsearch = ' + isnull(convert(varchar, @objexactsearch), 'null')
-        print '@searchdbs = ' + isnull('"' + @searchdbs + '"', 'null')
+        select
+          @searchdbs as [@searchdbs],
+          @objnamesearch as [@objnamesearch],
+          @objtypes as [@objtypes],
+          @objcolumnsearch as [@objcolumnsearch],
+          @objtextsearch as [@objtextsearch],
+          @objexactsearch as [@objexactsearch],
+          @pagesize as [@pagesize],
+          @pagenum as [@pagenum]
 
-        select '[@dbsrchtyps]' as [@dbsrchtyps], * from @dbsrchtyps
+        select '[@dbsrchtypes]' as [@dbsrchtypes], * from @dbsrchtypes
         select '[@dbnames]' as [@dbnames], * from @dbnames
       end
 
@@ -170,9 +188,9 @@
         sch     sysname       not null,
         [name]  sysname       not null,
         id      int           not null,
-        [type]  varchar(2)    not null,
-        crdate  varchar(16)   not null,
-        moddate varchar(16)   not null,
+        [type]  nvarchar(2)   not null,
+        crdate  nvarchar(16)  not null,
+        moddate nvarchar(16)  not null,
         bdb     sysname           null,
         bsch    sysname           null,
         bname   sysname           null
@@ -182,10 +200,11 @@
       while ( @dbname is not null )
       begin
         set @sql = '
+          use ' + quotename(@dbname) + ';' + @crlf + '
           insert into #dbsrchres ([keep], db, sch, [name], id, [type], crdate, moddate, bdb, bsch, bname)
           select
             iif(o.[type] = ''SN'', 1, 0) as [keep],
-            ''' + @dbname + ''' as db,
+            db_name() as db,
             s.[name] as sch,
             o.[name],
             o.[object_id] as id,
@@ -195,76 +214,68 @@
             isnull(nullif(ltrim(rtrim(parsename(syn.base_object_name, 3))), ''''), db_name()) as bdb,
             parsename(syn.base_object_name, 2) as bsch,
             parsename(syn.base_object_name, 1) as bname
-          from [' + @dbname + '].sys.objects as o
-          join [' + @dbname + '].sys.schemas as s on s.schema_id = o.schema_id
-          left outer join [' + @dbname + '].sys.synonyms as syn on syn.[object_id] = o.[object_id]
+          from sys.objects as o
+          join sys.schemas as s on s.schema_id = o.schema_id
+          left outer join .sys.synonyms as syn on syn.[object_id] = o.[object_id]
           where o.is_ms_shipped = 0
-          and o.[type] COLLATE DATABASE_DEFAULT in ('
-            + iif(@objcolumnsearch is null and @objtextsearch is null, '''SN'',', '')
-            + '''' + replace(@objtypes, ';', ''',''') + ''')
-          and o.[name] COLLATE DATABASE_DEFAULT like ' + @objnamesearch
+          and o.[type] COLLATE DATABASE_DEFAULT in (
+            iif(@_objcolumnsearch is null and @_objtextsearch is null, ''SN'', ''--''),'
+            + '''' + replace(@_objtypes, ';', ''',''') + ''')
+          and o.[name] COLLATE DATABASE_DEFAULT like @_objnamesearch'
+
+        if ( @_objcolumnsearch is not null and exists (select 1 from @dbsrchtypes where [type] in ('AF','ET','FN','FS','FT','IF','P','PC','TF','U','V','X')) )
+        begin
+          set @sql = @sql + @crlf + '
+            update sr
+            set [keep] = 1
+            from #dbsrchres as sr
+            join sys.objects as o on o.[object_id] = sr.id
+            join sys.columns as c on c.[object_id] = o.[object_id]
+            where sr.db COLLATE DATABASE_DEFAULT = @dbname
+            and o.is_ms_shipped = 0
+            and o.type COLLATE DATABASE_DEFAULT in (''ET'',''FT'',''IF'',''TF'',''U'',''V'')
+            and c.name COLLATE DATABASE_DEFAULT like @_objcolumnsearch
+
+            update sr
+            set [keep] = 1
+            from #dbsrchres as sr
+            join sys.objects as o on o.[object_id] = sr.id
+            join sys.all_parameters as p on p.[object_id] = o.[object_id]
+            where sr.db COLLATE DATABASE_DEFAULT = @dbname
+            and o.is_ms_shipped = 0
+            and o.type COLLATE DATABASE_DEFAULT in (''AF'',''FN'',''FS'',''FT'',''IF'',''P'',''PC'',''TF'',''X'')
+            and p.name COLLATE DATABASE_DEFAULT like @_objcolumnsearch'
+        end
+
+        if ( @_objtextsearch is not null and exists (select 1 from @dbsrchtypes where [type] in ('AF','FN','FS','FT','IF','P','PC','TA','TF','TR','V','X')) )
+        begin
+          set @sql = @sql + @crlf + '
+            update sr
+            set [keep] = 1
+            from #dbsrchres as sr
+            join sys.objects as o on o.[object_id] = sr.id
+            join sys.sql_modules as m on m.[object_id] = o.[object_id]
+            where sr.db COLLATE DATABASE_DEFAULT = @dbname
+            and o.is_ms_shipped = 0
+            and o.type COLLATE DATABASE_DEFAULT in (''AF'',''FN'',''FS'',''FT'',''IF'',''P'',''PC'',''TA'',''TF'',''TR'',''V'',''X'')
+            and m.definition COLLATE DATABASE_DEFAULT like @_objtextsearch'
+        end
+
+        set @sql = @sql + @crlf
 
         if ( @debug = 1 )
         begin
-          print '-- searching [' + @dbname + '].sys.objects'
+          print '-- searching ' + quotename(@dbname) + '.sys.objects'
           print '@sql = ' + @sql
         end
 
-        exec (@sql)
-
-        if ( @objcolumnsearch is not null and exists (select 1 from @dbsrchtyps where [type] in ('AF','ET','FN','FS','FT','IF','P','PC','TF','U','V','X')) )
-        begin
-          set @sql = '
-            update sr
-            set [keep] = 1
-            from #dbsrchres as sr
-            join [' + @dbname + '].sys.objects as o on o.[object_id] = sr.id
-            join [' + @dbname + '].sys.columns as c on c.[object_id] = o.[object_id]
-            where sr.db COLLATE DATABASE_DEFAULT = ''' + @dbname + '''
-            and o.is_ms_shipped = 0
-            and o.type COLLATE DATABASE_DEFAULT in (''ET'',''FT'',''IF'',''TF'',''U'',''V'')
-            and c.name COLLATE DATABASE_DEFAULT like ' + @objcolumnsearch
-            + '
-            update sr
-            set [keep] = 1
-            from #dbsrchres as sr
-            join [' + @dbname + '].sys.objects as o on o.[object_id] = sr.id
-            join [' + @dbname + '].sys.all_parameters as p on p.[object_id] = o.[object_id]
-            where sr.db COLLATE DATABASE_DEFAULT = ''' + @dbname + '''
-            and o.is_ms_shipped = 0
-            and o.type COLLATE DATABASE_DEFAULT in (''AF'',''FN'',''FS'',''FT'',''IF'',''P'',''PC'',''TF'',''X'')
-            and p.name COLLATE DATABASE_DEFAULT like ' + @objcolumnsearch
-
-          if ( @debug = 1 )
-          begin
-            print '-- searching [' + @dbname + '].sys.columns and [' + @dbname + '].sys.all_parameters'
-            print '@sql = ' + @sql
-          end
-
-          exec (@sql)
-        end
-
-        if ( @objtextsearch is not null and exists (select 1 from @dbsrchtyps where [type] in ('AF','FN','FS','FT','IF','P','PC','TA','TF','TR','V','X')) )
-        begin
-          set @sql = '
-            update sr
-            set [keep] = 1
-            from #dbsrchres as sr
-            join [' + @dbname + '].sys.objects as o on o.[object_id] = sr.id
-            join [' + @dbname + '].sys.sql_modules as m on m.[object_id] = o.[object_id]
-            where sr.db COLLATE DATABASE_DEFAULT = ''' + @dbname + '''
-            and o.is_ms_shipped = 0
-            and o.type COLLATE DATABASE_DEFAULT in (''AF'',''FN'',''FS'',''FT'',''IF'',''P'',''PC'',''TA'',''TF'',''TR'',''V'',''X'')
-            and m.definition COLLATE DATABASE_DEFAULT like ' + @objtextsearch
-
-          if ( @debug = 1 )
-          begin
-            print '-- searching [' + @dbname + '].sys.sql_modules'
-            print '@sql = ' + @sql
-          end
-
-          exec (@sql)
-        end
+        exec sp_executesql
+          @stmt = @sql,
+          @params = N'@dbname sysname, @_objnamesearch nvarchar(900), @_objcolumnsearch nvarchar(900), @_objtextsearch nvarchar(900)',
+          @dbname = @dbname,
+          @_objnamesearch = @_objnamesearch,
+          @_objcolumnsearch = @_objcolumnsearch,
+          @_objtextsearch = @_objtextsearch
 
         select @dbname = min([name]) from @dbnames where [name] > @dbname
       end
@@ -274,7 +285,7 @@
         select '#dbsrchres' as [#dbsrchres], * from #dbsrchres
       end
 
-      if ( @objcolumnsearch is not null or @objtextsearch is not null )
+      if ( @_objcolumnsearch is not null or @_objtextsearch is not null )
       begin
         delete from #dbsrchres where [keep] != 1
       end
@@ -291,7 +302,7 @@
             @pagesize as [pagesize],
             @pagenum as [pagenum],
             (select count(*) from #dbsrchres) as [totalrows]
-          for json path, without_array_wrapper
+          for json path, include_null_values, without_array_wrapper
         )) as [inputs],
         isnull((
           select distinct
