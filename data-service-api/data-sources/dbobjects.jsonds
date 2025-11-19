@@ -1,112 +1,130 @@
 <SqlCommand timeout="300">
   <Parameters>
-    <Parameter name="@searchdbs" type="VarChar" size="900"/>
-    <Parameter name="@objnamesearch" type="VarChar" size="900"/>
+    <Parameter name="@dbnames" type="VarChar" size="900"/>
+    <Parameter name="@objsch" type="VarChar" size="900"/>
+    <Parameter name="@objname" type="VarChar" size="900"/>
     <Parameter name="@objtypes" type="VarChar" size="900"/>
-    <Parameter name="@objcolumnsearch" type="VarChar" size="900"/>
-    <Parameter name="@objtextsearch" type="VarChar" size="900"/>
-    <Parameter name="@objexactsearch" type="Bit"/>
+    <Parameter name="@colname" type="VarChar" size="900"/>
+    <Parameter name="@text" type="VarChar" size="900"/>
+    <Parameter name="@exact" type="Bit"/>
+    <Parameter name="@page" type="Int"/>
     <Parameter name="@pagesize" type="Int"/>
-    <Parameter name="@pagenum" type="Int"/>
   </Parameters>
   <CommandText>
     <![CDATA[
 
       /*
       declare
-        @searchdbs          nvarchar(1000), -- The semi-colon-separated list of databases to search in.
-                                            -- Example: 'master;adventureworks;sandbox'
-        @objnamesearch      nvarchar(900),  -- The partial name of the objects you want to search for (** automatically wrapped in '%').
-        @objtypes           nvarchar(900),  -- The semi-colon-separated list of (abbreviated) object types you want to search for.
-                                            -- The possible abbreviations are:
-                                            --    F = function
-                                            --        expands to: AF - Aggregate function (CLR)
-                                            --                    FN - SQL scalar function
-                                            --                    FS - Assembly (CLR) scalar-function
-                                            --                    FT - Assembly (CLR) table-valued function
-                                            --                    IF - SQL inline table-valued function
-                                            --                    TF - SQL table-valued-function
-                                            --    G = trigger
-                                            --        expands to: TA - Assembly (CLR) DML trigger
-                                            --                    TR - SQL DML trigger
-                                            --    P = procedure
-                                            --        expands to: P  - SQL Stored Procedure
-                                            --                    PC - Assembly (CLR) stored-procedure
-                                            --                    X  - Extended stored procedure
-                                            --    T = table
-                                            --        expands to: ET - External Table
-                                            --                    U  - Table (user-defined)
-                                            --    V = view
-                                            --        expands to: V  - View
-        @objcolumnsearch    nvarchar(900),  -- Filter the results by additionally searching for matches in the object's column names
-                                            -- or the object's parameter names (** automatically wrapped in '%').
-                                            -- Column names are searched for the following object types:
-                                            --    FT - Assembly (CLR) table-valued function
-                                            --    IF - SQL inline table-valued function
-                                            --    TF - SQL table-valued-function
-                                            --    TR - SQL DML trigger
-                                            --    U  - Table (user-defined)
-                                            --    V  - View
-                                            -- Parameter names are searched for the following object types:
-                                            --    AF - Aggregate function (CLR)
-                                            --    FN - SQL scalar function
-                                            --    FS - Assembly (CLR) scalar-function
-                                            --    FT - Assembly (CLR) table-valued function
-                                            --    IF - SQL inline table-valued function
-                                            --    P  - SQL Stored Procedure
-                                            --    PC - Assembly (CLR) stored-procedure
-                                            --    TF - SQL table-valued-function
-                                            --    X  - Extended stored procedure
-        @objtextsearch      nvarchar(900),  -- Filter the results by additionally searching for the specified text in the object's text
-                                            -- (for views, stored procedures, etc., ** automatically wrapped in '%').
-                                            -- Object text is searched for the following object types:
-                                            --    AF - Aggregate function (CLR)
-                                            --    FN - SQL scalar function
-                                            --    FS - Assembly (CLR) scalar-function
-                                            --    FT - Assembly (CLR) table-valued function
-                                            --    IF - SQL inline table-valued function
-                                            --    P  - SQL Stored Procedure
-                                            --    PC - Assembly (CLR) stored-procedure
-                                            --    TA - Assembly (CLR) DML trigger
-                                            --    TF - SQL table-valued-function
-                                            --    TR - SQL DML trigger
-                                            --    V  - View
-                                            --    X  - Extended stored procedure
-        @objexactsearch     bit,            -- ** Force "exact" search for @objnameSearch, @objcolumnsearch and @objtextsearch.
-                                            -- When set to 1, prevents the automatic wrapping of search terms with '%'.
-                                            -- Default is 0.
-        @pagesize           int = -1,       -- When -1, return "all" rows (max 5000)
-        @pagenum            int = 1
+        @dbnames      nvarchar(1000), -- The semi-colon-separated list of databases to search in.
+                                      -- Example: 'master;adventureworks;sandbox'
+        @objsch       nvarchar(900),  -- The partial name of the schemas you want to search for (** automatically wrapped in '%').
+        @objname      nvarchar(900),  -- The partial name of the objects you want to search for (** automatically wrapped in '%').
+        @objtypes     nvarchar(900),  -- The semi-colon-separated list of (abbreviated) object types you want to search for.
+                                      -- The possible abbreviations are:
+                                      --    F = function
+                                      --        expands to: AF - Aggregate function (CLR)
+                                      --                    FN - SQL scalar function
+                                      --                    FS - Assembly (CLR) scalar-function
+                                      --                    FT - Assembly (CLR) table-valued function
+                                      --                    IF - SQL inline table-valued function
+                                      --                    TF - SQL table-valued-function
+                                      --    G = trigger
+                                      --        expands to: TA - Assembly (CLR) DML trigger
+                                      --                    TR - SQL DML trigger
+                                      --    P = procedure
+                                      --        expands to: P  - SQL Stored Procedure
+                                      --                    PC - Assembly (CLR) stored-procedure
+                                      --                    X  - Extended stored procedure
+                                      --    T = table
+                                      --        expands to: ET - External Table
+                                      --                    U  - Table (user-defined)
+                                      --    V = view
+                                      --        expands to: V  - View
+        @colname      nvarchar(900),  -- Filter the results by additionally searching for matches in the object's column names
+                                      -- or the object's parameter names (** automatically wrapped in '%').
+                                      -- Column names are searched for the following object types:
+                                      --    FT - Assembly (CLR) table-valued function
+                                      --    IF - SQL inline table-valued function
+                                      --    TF - SQL table-valued-function
+                                      --    TR - SQL DML trigger
+                                      --    U  - Table (user-defined)
+                                      --    V  - View
+                                      -- Parameter names are searched for the following object types:
+                                      --    AF - Aggregate function (CLR)
+                                      --    FN - SQL scalar function
+                                      --    FS - Assembly (CLR) scalar-function
+                                      --    FT - Assembly (CLR) table-valued function
+                                      --    IF - SQL inline table-valued function
+                                      --    P  - SQL Stored Procedure
+                                      --    PC - Assembly (CLR) stored-procedure
+                                      --    TF - SQL table-valued-function
+                                      --    X  - Extended stored procedure
+        @text         nvarchar(900),  -- Filter the results by additionally searching for the specified text in the object's text
+                                      -- (for views, stored procedures, etc., ** automatically wrapped in '%').
+                                      -- Object text is searched for the following object types:
+                                      --    AF - Aggregate function (CLR)
+                                      --    FN - SQL scalar function
+                                      --    FS - Assembly (CLR) scalar-function
+                                      --    FT - Assembly (CLR) table-valued function
+                                      --    IF - SQL inline table-valued function
+                                      --    P  - SQL Stored Procedure
+                                      --    PC - Assembly (CLR) stored-procedure
+                                      --    TA - Assembly (CLR) DML trigger
+                                      --    TF - SQL table-valued-function
+                                      --    TR - SQL DML trigger
+                                      --    V  - View
+                                      --    X  - Extended stored procedure
+        @exact        bit,            -- ** Force "exact" search for @objname, @objsch, @colname and @text.
+                                      -- When set to 1, prevents the automatic wrapping of search terms with '%'.
+                                      -- Default is 0.
+        @page         int = 1,        --
+        @pagesize     int = -1        -- When <= 0, return "all" rows (max 5000)
 
-      set @searchdbs = 'sandbox;adventureworks'
-      set @objnamesearch = 'p'
+      set @dbnames = 'sandbox;adventureworks'
+      --set @objsch = 'prc'
+      set @objname = 'p'
       set @objtypes = 't;v;p;g;f;dropit'
-      -- set @objcolumnsearch = 'per'
-      set @objtextsearch = 'person'
-      set @objexactsearch = 0
+      -- set @colname = 'per'
+      --set @text = 'person'
+      set @exact = 0
+      --set @page = 3
       --set @pagesize = 5
-      --set @pagenum = 3
       */
 
       set arithabort on -- needed to prevent truncation error messages
 
       declare
         @debug bit = 0,
-        @_searchdbs nvarchar(1000),
-        @_objnamesearch nvarchar(900),
+        @_dbnames nvarchar(1000),
+        @_objname nvarchar(900),
+        @_objsch nvarchar(900),
         @_objtypes nvarchar(900),
-        @_objcolumnsearch nvarchar(900),
-        @_objtextsearch nvarchar(900),
-        @dbname sysname,
+        @_colname nvarchar(900),
+        @_text nvarchar(900),
         @crlf varchar(2) = char(13)+char(10),
+        @dbname sysname,
         @sql nvarchar(4000)
 
       --set @debug = 1
 
-      set @_objnamesearch = nullif(replace(ltrim(rtrim(@objnamesearch)), '''', ''''''), '')
+      -- sanitize inputs!
+
+      -- for an additional safety check, match the supplied database names with
+      -- those from master.sys.databases
+      set @_dbnames = isnull(nullif(ltrim(rtrim(@dbnames)), ''), '')
+      declare @_dbnamesclean table ([name] sysname)
+      insert into @_dbnamesclean ([name])
+      select mdbs.[name]
+      from string_split(@_dbnames, ';') as dbnames
+      join [master].sys.databases as mdbs
+        on mdbs.[name] = dbnames.[value]
+       and mdbs.[name] not in ('master', 'model', 'msdb', 'tempdb')
+       and mdbs.[state] = 0
+
+      set @_objsch = isnull(nullif(replace(ltrim(rtrim(@objsch)), '''', ''''''), ''), '%')
+      set @_objname = isnull(nullif(replace(ltrim(rtrim(@objname)), '''', ''''''), ''), '%')
       -- load search object types into table
-      set @_objtypes = nullif(ltrim(rtrim(@objtypes)), '')
-      set @_objtypes = isnull(nullif(@_objtypes, '*'), 'F;G;P;T;V;')
+      set @_objtypes = isnull(nullif(nullif(ltrim(rtrim(@objtypes)), ''), '*'), 'F;G;P;T;V;')
       -- sanitize object types
       set @_objtypes = (
         select
@@ -127,62 +145,58 @@
       if ( isnull(ltrim(rtrim(@_objtypes)), '') = '' ) set @_objtypes = 'AF;FN;FS;FT;IF;TF;TA;TR;P;PC;X;ET;U;V;'
       if ( right(@_objtypes, 1) = ';' ) set @_objtypes = left(@_objtypes, len(@_objtypes) - 1)
 
-      declare @dbsrchtypes table ([type] nvarchar(2))
-      insert into @dbsrchtypes ([type])
+      declare @_objtypesclean table ([type] nvarchar(2))
+      insert into @_objtypesclean ([type])
       select [value]
       from string_split(@_objtypes, ';')
 
-      set @_objcolumnsearch = nullif(replace(ltrim(rtrim(@objcolumnsearch)), '''', ''''''), '')
-      set @_objtextsearch = nullif(replace(ltrim(rtrim(@objtextsearch)), '''', ''''''), '')
-      if ( isnull(@objexactsearch, 0) != 1 )
-      begin
-        set @_objnamesearch = '%' + @_objnamesearch + '%'
-        set @_objcolumnsearch = '%' + @_objcolumnsearch + '%'
-        set @_objtextsearch = '%' + @_objtextsearch + '%'
-      end
-      set @_objnamesearch = replace(replace(@_objnamesearch, '%%%', '%'), '%%', '%')
-      set @_objcolumnsearch = replace(replace(@_objcolumnsearch, '%%%', '%'), '%%', '%')
-      set @_objtextsearch = replace(replace(@_objtextsearch, '%%%', '%'), '%%', '%')
+      set @_objtypes = replace(@_objtypes, ';', ''',''')
 
+      set @_colname = nullif(replace(ltrim(rtrim(@colname)), '''', ''''''), '')
+      set @_text = nullif(replace(ltrim(rtrim(@text)), '''', ''''''), '')
+      if ( isnull(@exact, 0) != 1 )
+      begin
+        set @_objsch = '%' + @_objsch + '%'
+        set @_objname = '%' + @_objname + '%'
+        set @_colname = '%' + @_colname + '%'
+        set @_text = '%' + @_text + '%'
+      end
+      set @_objsch = replace(replace(@_objsch, '%%%', '%'), '%%', '%')
+      set @_objname = replace(replace(@_objname, '%%%', '%'), '%%', '%')
+      set @_colname = replace(replace(@_colname, '%%%', '%'), '%%', '%')
+      set @_text = replace(replace(@_text, '%%%', '%'), '%%', '%')
+
+      if ( isnull(@page, 0) <= 0 ) set @page = 1
       if ( isnull(@pagesize, -1) <= 0 )
       begin
         set @pagesize = 5000
-        set @pagenum = 1
+        set @page = 1
       end
       if ( @pagesize > 5000 ) set @pagesize = 5000
-      if ( isnull(@pagenum, 0) <= 0 ) set @pagenum = 1
-
-      set @_searchdbs = nullif(nullif(ltrim(rtrim(@searchdbs)), '*'), '')
-
-      -- for an additional safety check, match the supplied database names with
-      -- those from master.sys.databases
-      declare @dbnames table ([name] sysname)
-      insert into @dbnames ([name])
-      select mdbs.[name]
-      from string_split(isnull(@_searchdbs, 'master'), ';') as dbs
-      join [master].sys.databases as mdbs
-        on mdbs.[name] = dbs.[value]
-       and mdbs.[name] not in (/*'master',*/ 'tempdb', 'model', 'msdb')
-       and mdbs.[state] = 0
 
       if ( @debug = 1 )
       begin
         select
-          @searchdbs as [@searchdbs],
-          @objnamesearch as [@objnamesearch],
+          @dbnames as [@dbnames],
+          @objsch as [@objsch],
+          @objname as [@objname],
           @objtypes as [@objtypes],
-          @objcolumnsearch as [@objcolumnsearch],
-          @objtextsearch as [@objtextsearch],
-          @objexactsearch as [@objexactsearch],
+          @colname as [@colname],
+          @text as [@text],
+          @exact as [@exact],
+          @page as [@page],
           @pagesize as [@pagesize],
-          @pagenum as [@pagenum]
+          @_objsch as [@_objsch],
+          @_objname as [@_objname],
+          @_colname as [@_colname],
+          @_text as [@_text]
 
-        select '[@dbsrchtypes]' as [@dbsrchtypes], * from @dbsrchtypes
-        select '[@dbnames]' as [@dbnames], * from @dbnames
+        select '[@_dbnamesclean]' as [@_dbnamesclean], * from @_dbnamesclean
+        select '[@_objtypesclean]' as [@_objtypesclean], * from @_objtypesclean
       end
 
-      drop table if exists #dbsrchres;
-      create table #dbsrchres (
+      drop table if exists #objsrchres;
+      create table #objsrchres (
         [keep]  bit           not null,
         db      sysname       not null,
         sch     sysname       not null,
@@ -196,12 +210,12 @@
         bname   sysname           null
       )
 
-      select @dbname = min([name]) from @dbnames
+      select @dbname = min([name]) from @_dbnamesclean
       while ( @dbname is not null )
       begin
         set @sql = '
           use ' + quotename(@dbname) + ';' + @crlf + '
-          insert into #dbsrchres ([keep], db, sch, [name], id, [type], crdate, moddate, bdb, bsch, bname)
+          insert into #objsrchres ([keep], db, sch, [name], id, [type], crdate, moddate, bdb, bsch, bname)
           select
             iif(o.[type] = ''SN'', 1, 0) as [keep],
             db_name() as db,
@@ -218,47 +232,46 @@
           join sys.schemas as s on s.schema_id = o.schema_id
           left outer join sys.synonyms as syn on syn.[object_id] = o.[object_id]
           where o.is_ms_shipped = 0
-          and o.[type] COLLATE DATABASE_DEFAULT in (
-            iif(@_objcolumnsearch is null and @_objtextsearch is null, ''SN'', ''--''),'
-            + '''' + replace(@_objtypes, ';', ''',''') + ''')
-          and o.[name] COLLATE DATABASE_DEFAULT like @_objnamesearch'
+          and o.[type] COLLATE DATABASE_DEFAULT in (iif(@_colname is null and @_text is null, ''SN'', ''--''),''' + @_objtypes + ''')
+          and o.[name] COLLATE DATABASE_DEFAULT like @_objname
+          and s.[name] COLLATE DATABASE_DEFAULT like @_objsch'
 
-        if ( @_objcolumnsearch is not null and exists (select 1 from @dbsrchtypes where [type] in ('AF','ET','FN','FS','FT','IF','P','PC','TF','U','V','X')) )
+        if ( @_colname is not null and exists (select 1 from @_objtypesclean where [type] in ('AF','ET','FN','FS','FT','IF','P','PC','TF','U','V','X')) )
         begin
           set @sql = @sql + @crlf + '
             update sr
             set [keep] = 1
-            from #dbsrchres as sr
+            from #objsrchres as sr
             join sys.objects as o on o.[object_id] = sr.id
             join sys.columns as c on c.[object_id] = o.[object_id]
             where sr.db COLLATE DATABASE_DEFAULT = @dbname
             and o.is_ms_shipped = 0
             and o.type COLLATE DATABASE_DEFAULT in (''ET'',''FT'',''IF'',''TF'',''U'',''V'')
-            and c.name COLLATE DATABASE_DEFAULT like @_objcolumnsearch
+            and c.name COLLATE DATABASE_DEFAULT like @_colname
 
             update sr
             set [keep] = 1
-            from #dbsrchres as sr
+            from #objsrchres as sr
             join sys.objects as o on o.[object_id] = sr.id
             join sys.all_parameters as p on p.[object_id] = o.[object_id]
             where sr.db COLLATE DATABASE_DEFAULT = @dbname
             and o.is_ms_shipped = 0
             and o.type COLLATE DATABASE_DEFAULT in (''AF'',''FN'',''FS'',''FT'',''IF'',''P'',''PC'',''TF'',''X'')
-            and p.name COLLATE DATABASE_DEFAULT like @_objcolumnsearch'
+            and p.name COLLATE DATABASE_DEFAULT like @_colname'
         end
 
-        if ( @_objtextsearch is not null and exists (select 1 from @dbsrchtypes where [type] in ('AF','FN','FS','FT','IF','P','PC','TA','TF','TR','V','X')) )
+        if ( @_text is not null and exists (select 1 from @_objtypesclean where [type] in ('AF','FN','FS','FT','IF','P','PC','TA','TF','TR','V','X')) )
         begin
           set @sql = @sql + @crlf + '
             update sr
             set [keep] = 1
-            from #dbsrchres as sr
+            from #objsrchres as sr
             join sys.objects as o on o.[object_id] = sr.id
             join sys.sql_modules as m on m.[object_id] = o.[object_id]
             where sr.db COLLATE DATABASE_DEFAULT = @dbname
             and o.is_ms_shipped = 0
             and o.type COLLATE DATABASE_DEFAULT in (''AF'',''FN'',''FS'',''FT'',''IF'',''P'',''PC'',''TA'',''TF'',''TR'',''V'',''X'')
-            and m.definition COLLATE DATABASE_DEFAULT like @_objtextsearch'
+            and m.definition COLLATE DATABASE_DEFAULT like @_text'
         end
 
         set @sql = @sql + @crlf
@@ -271,37 +284,38 @@
 
         exec sp_executesql
           @stmt = @sql,
-          @params = N'@dbname sysname, @_objnamesearch nvarchar(900), @_objcolumnsearch nvarchar(900), @_objtextsearch nvarchar(900)',
+          @params = N'@dbname sysname, @_objsch nvarchar(900), @_objname nvarchar(900), @_colname nvarchar(900), @_text nvarchar(900)',
           @dbname = @dbname,
-          @_objnamesearch = @_objnamesearch,
-          @_objcolumnsearch = @_objcolumnsearch,
-          @_objtextsearch = @_objtextsearch
+          @_objsch = @_objsch,
+          @_objname = @_objname,
+          @_colname = @_colname,
+          @_text = @_text
 
-        select @dbname = min([name]) from @dbnames where [name] > @dbname
+        select @dbname = min([name]) from @_dbnamesclean where [name] > @dbname
       end
 
       if ( @debug = 1 )
       begin
-        select '#dbsrchres' as [#dbsrchres], * from #dbsrchres
+        select '#objsrchres' as [#objsrchres], * from #objsrchres
       end
 
-      if ( @_objcolumnsearch is not null or @_objtextsearch is not null )
+      if ( @_colname is not null or @_text is not null )
       begin
-        delete from #dbsrchres where [keep] != 1
+        delete from #objsrchres where [keep] != 1
       end
 
       select
         json_query((
           select
-            @searchdbs as [searchdbs],
-            @objnamesearch as [objnamesearch],
+            @dbnames as [dbnames],
+            @objname as [objname],
             @objtypes as [objtypes],
-            @objcolumnsearch as [objcolumnsearch],
-            @objtextsearch as [objtextsearch],
-            @objexactsearch as [objexactsearch],
+            @colname as [colname],
+            @text as [text],
+            @exact as [exact],
             @pagesize as [pagesize],
-            @pagenum as [pagenum],
-            (select count(*) from #dbsrchres) as [totalrows]
+            @page as [page],
+            (select count(*) from #objsrchres) as [totalrows]
           for json path, include_null_values, without_array_wrapper
         )) as [inputs],
         isnull((
@@ -317,19 +331,19 @@
             objs.bsch,
             objs.bname
           from
-            #dbsrchres as objs
+            #objsrchres as objs
           order by
             db,
             sch,
             [type],
             [name]
-          offset (@pagenum -1) * @pagesize rows
+          offset (@page -1) * @pagesize rows
           fetch next @pagesize rows only
           for json path
         ), '[]') as dbobjects
       for json path, without_array_wrapper
 
-      drop table if exists #dbsrchres;
+      drop table if exists #objsrchres;
 
     ]]>
   </CommandText>

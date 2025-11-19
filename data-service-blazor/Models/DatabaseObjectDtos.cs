@@ -2,22 +2,24 @@ using System.Text.Json.Serialization;
 
 public class DatabaseObjectsListInputsDto
 {
-  [JsonPropertyName("searchdbs")]
+  [JsonPropertyName("dbnames")]
   public string? DatabaseSearch { get; set; } = "";
-  [JsonPropertyName("objnamesearch")]
+  [JsonPropertyName("objsch")]
+  public string? SchemaSearch { get; set; } = "";
+  [JsonPropertyName("objname")]
   public string? NameSearch { get; set; } = "";
   [JsonPropertyName("objtypes")]
   public string? TypeSearch { get; set; } = "";
-  [JsonPropertyName("objcolumnsearch")]
+  [JsonPropertyName("colname")]
   public string? ColumnSearch { get; set; } = "";
-  [JsonPropertyName("objtextsearch")]
+  [JsonPropertyName("text")]
   public string? TextSearch { get; set; } = "";
-  [JsonPropertyName("objexactsearch")]
+  [JsonPropertyName("exact")]
   public bool? UseExactSearch { get; set; }
+  [JsonPropertyName("page")]
+  public int? Page { get; set; }
   [JsonPropertyName("pagesize")]
   public int? PageSize { get; set; }
-  [JsonPropertyName("pagenum")]
-  public int? Page { get; set; }
   [JsonPropertyName("totalrows")]
   public int? TotalRows { get; set; }
 }
