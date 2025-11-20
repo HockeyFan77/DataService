@@ -13,6 +13,9 @@ GET {{baseUrl}}/companies?ctx={{context}}
 ### Get list of database objects from "int"
 GET {{baseUrl}}/dbobjects?ctx=int&dbaliases=prs&objnamesearch=loc&objtypes=p;t
 
+### Get object details from "int"
+GET {{baseUrl}}/dbobject?ctx=int&dbname=prs&objid=1986106116
+
 ### Get list of database objects (from context)
 GET {{baseUrl}}/dbobjects?ctx={{context}}&dbaliases=a;s&objname=person&objtypes=p;t
 

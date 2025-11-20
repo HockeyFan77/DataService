@@ -1,0 +1,142 @@
+@page "/dbobject"
+@using System.Threading
+@using System.Web
+@inject IDataService Api
+@inject NavigationManager Nav
+
+@using MudBlazor
+
+<MudPaper Class="pa-4">
+
+  <MudText Typo="Typo.h5" Class="mb-2">Database Object</MudText>
+
+<!--
+  <MudGrid>
+    <MudItem xs="12" sm="1">
+      <MudTextField Label="Search Context" @bind-Value="SearchContext" Placeholder="e.g., dev, int, prod" />
+    </MudItem>
+
+    <MudItem xs="12" sm="1">
+      <MudTextField Label="Databases (Aliases)" @bind-Value="DatabaseSearch" Placeholder="e.g., prs;d;il" />
+    </MudItem>
+
+    <MudItem xs="12" sm="1">
+      <MudTextField Label="Schema" @bind-Value="SchemaSearch" Immediate="false" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" />
+    </MudItem>
+
+    <MudItem xs="12" sm="4">
+      <MudTextField Label="Name" @bind-Value="NameSearch" Immediate="false" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" />
+    </MudItem>
+
+    <MudItem xs="12" sm="1">
+      <MudTextField Label="Object Types" @bind-Value="TypeSearch" Placeholder="e.g., F;G;P;T;V" />
+    </MudItem>
+
+    <MudItem xs="12" sm="4" Class="d-flex align-center">
+      <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!HasSearchParameters)" OnClick="ApplyFilters">Search</MudButton>
+      <MudSpacer />
+      <MudButton Variant="Variant.Outlined" Color="Color.Default" OnClick="ClearFilters">Clear</MudButton>
+    </MudItem>
+  </MudGrid>
+
+  <MudDivider Class="my-3" />
+-->
+
+  @if (isLoading)
+  {
+    <MudProgressLinear Indeterminate="true" />
+  }
+
+<!--
+  <MudTable Items="displayItems" Dense="true" Hover="true" Bordered="true"
+    RowsPerPage="rowsPerPage" RowsPerPageOptions="rowsPerPageOptions">
+
+    <HeaderContent>
+      <MudTh SortBy="(Func<DatabaseObjectsListItemDto, object>)(x => x.Database)">Database</MudTh>
+      <MudTh SortBy="(Func<DatabaseObjectsListItemDto, object>)(x => x.Schema)">Schema</MudTh>
+      <MudTh SortBy="(Func<DatabaseObjectsListItemDto, object>)(x => x.Name)">Name</MudTh>
+      <MudTh SortBy="(Func<DatabaseObjectsListItemDto, object>)(x => x.Type)">Type</MudTh>
+      <MudTh>Created</MudTh>
+      <MudTh>Modified</MudTh>
+    </HeaderContent>
+
+    <RowTemplate>
+      <MudTd>@context.Database</MudTd>
+      <MudTd>@context.Schema</MudTd>
+      <MudTd>@context.Name</MudTd>
+      <MudTd>@context.Type</MudTd>
+      <MudTd>@context.Created?.ToString("yyyy-MM-dd HH:mm")</MudTd>
+      <MudTd>@context.Modified?.ToString("yyyy-MM-dd HH:mm")</MudTd>
+    </RowTemplate>
+
+    <PagerContent>
+      <MudTablePager />
+    </PagerContent>
+  </MudTable>
+-->
+
+</MudPaper>
+
+@code {
+
+  // Query-bound parameters stored in URL
+  [Parameter]
+  [SupplyParameterFromQuery(Name = "ctx")]
+  public string? Context { get; set; }
+
+  [Parameter]
+  [SupplyParameterFromQuery(Name = "dbname")]
+  public string? DatabaseName { get; set; }
+
+  [Parameter]
+  [SupplyParameterFromQuery(Name = "objid")]
+  public int? ObjectId { get; set; }
+
+  private bool HasLoadParameters =>
+    !string.IsNullOrWhiteSpace(Context) ||
+    !string.IsNullOrEmpty(DatabaseName) ||
+    !ObjectId.HasValue;
+  private bool isLoading;
+  private DatabaseObjectResponseDto rawItems = new();
+
+  protected override async Task OnInitializedAsync()
+  {
+    // Load initial state from URL automatically when component is navigated to
+    await LoadDataAsync();
+  }
+
+  // When URL query params changed (e.g., user pasted link), ensure we reload
+  protected override async Task OnParametersSetAsync()
+  {
+    // If filter parameters changed externally, reload
+    await LoadDataAsync();
+  }
+
+  private async Task LoadDataAsync()
+  {
+    if ( !HasLoadParameters )
+    {
+      rawItems = new();
+      return;
+    }
+
+    isLoading = true;
+    try
+    {
+      // For now request a large pagesize to get all rows in a single call
+      // (alternatively, make pagesize == the page size returned by your API)
+      var resp = await Api.GetDatabaseObjectAsync(
+        Context!,
+        DatabaseName!,
+        ObjectId!.Value);
+
+      rawItems = resp ?? new();
+    }
+    finally
+    {
+      isLoading = false;
+      StateHasChanged();
+    }
+  }
+
+}

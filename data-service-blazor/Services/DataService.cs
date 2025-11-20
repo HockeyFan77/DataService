@@ -18,30 +18,23 @@ public class DataService : IDataService
   }
 
   public async Task<DatabaseObjectsListResponseDto?> GetDatabaseObjectsAsync(
-    string? databaseSearch = null,
-    string? nameSearch = null,
-    string? typeSearch = null,
-    string? columnSearch = null,
-    string? textSearch = null,
-    bool? exactSearch = null,
-    int? pageSize = null,
-    int? pageNum = null,
+    string context,
+    DatabaseObjectsListRequestDto request,
     CancellationToken cancellationToken = default)
   {
-
     // Build query parameters (omit null/empty)
     var query = new Dictionary<string, string?>()
     {
-      ["ctx"] = "dev",                  // per your example
-      ["dbnames"] = databaseSearch,
-      ["objsch"] = "%",
-      ["objname"] = nameSearch,
-      ["objtypes"] = typeSearch,
-      ["colname"] = columnSearch,
-      ["text"] = textSearch,
-      ["exact"] = exactSearch.HasValue ? (exactSearch.Value ? "1" : "0") : null,
-      ["page"] = pageNum?.ToString(),
-      ["pagesize"] = pageSize?.ToString()
+      ["ctx"] = context,
+      ["dbaliases"] = request.DatabaseSearch,
+      ["objsch"] = request.SchemaSearch,
+      ["objname"] = request.NameSearch,
+      ["objtypes"] = request.TypeSearch,
+      ["colname"] = request.ColumnSearch,
+      ["objtext"] = request.TextSearch,
+      ["exact"] = (request.UseExactSearch ?? false) ? "1" : "0",
+      ["page"] = request.Page?.ToString(),
+      ["pagesize"] = request.PageSize?.ToString()
     };
 
     // Build query string
@@ -53,9 +46,33 @@ public class DataService : IDataService
 
     var url = $"dbobjects{qs}"; // relative to BaseAddress registered in Program.cs
 
-    //url = "dbobjects?ctx=int&searchdbs=prs&objnamesearch=loc&objtypes=p;t";
-    //return GetAsync<DatabaseObjectsListResponseDto>(url);
     return await _http.GetFromJsonAsync<DatabaseObjectsListResponseDto?>(url, cancellationToken: cancellationToken);
+  }
+
+  public async Task<DatabaseObjectResponseDto?> GetDatabaseObjectAsync(
+    string context,
+    string databaseName,
+    int objectId,
+    CancellationToken cancellationToken = default)
+  {
+    // Build query parameters (omit null/empty)
+    var query = new Dictionary<string, string?>()
+    {
+      ["ctx"] = context,
+      ["dbname"] = databaseName,
+      ["objid"] = objectId.ToString()
+    };
+
+    // Build query string
+    var pairs = query
+      .Where(kv => !string.IsNullOrWhiteSpace(kv.Value))
+      .Select(kv => $"{Uri.EscapeDataString(kv.Key)}={Uri.EscapeDataString(kv.Value!)}");
+
+    var qs = pairs.Any() ? "?" + string.Join("&", pairs) : string.Empty;
+
+    var url = $"dbobject{qs}";
+
+    return await _http.GetFromJsonAsync<DatabaseObjectResponseDto?>(url, cancellationToken: cancellationToken);
   }
 
 }

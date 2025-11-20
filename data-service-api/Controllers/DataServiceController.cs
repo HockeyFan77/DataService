@@ -66,21 +66,41 @@ namespace DataServiceApi.Controllers
       return Content(content!, MEDIA_TYPE_JSON);
     }
     [HttpGet("dbobject")]
-    public async Task<IActionResult> GetDbObject([FromQuery(Name = "dbalias")] string qpDbAlias = "", [FromQuery(Name = "dbname")] string qpDbName = "")
+    public async Task<IActionResult> GetDbObject(
+      [FromQuery(Name = "dbname")] string qpDbName = "",
+      [FromQuery(Name = "dbalias")] string qpDbAlias = "")
     {
       var contextConfig = GetContextConfig(GetRequestContext());
       if ( contextConfig == null )
+      {
         return BadRequest("Missing or invalid context. Use ?ctx=... or 'X-API-Context' header.");
+      }
 
       string? connectionString;
       if ( (connectionString = GetConnectionString(contextConfig!)).IsBlank() )
+      {
         return BadRequest();
+      }
 
-      // convert "dbalias" parameter to its actual database name
       var databases = await GetDatabasesFromContextConfigAsync(contextConfig).ConfigureAwait(false);
-      string? dbName = databases.FirstOrDefault(ctxdb => ctxdb.Alias.EqualsAnyOrdinalNoCase(qpDbAlias))?.Name;
+      string? dbName = null;
+
+      // if we have the db name, try to use it directly (after sanitizing/looking up)
+      if ( !qpDbName.IsBlank() )
+      {
+        dbName = databases.FirstOrDefault(ctxdb => ctxdb.Name.EqualsAnyOrdinalNoCase(qpDbName))?.Name;
+      }
+
+      // if no match on db name, convert "dbalias" parameter to its actual database name
       if ( dbName.IsBlank() )
+      {
+        dbName = databases.FirstOrDefault(ctxdb => ctxdb.Alias.EqualsAnyOrdinalNoCase(qpDbAlias))?.Name;
+      }
+
+      if ( dbName.IsBlank() )
+      {
         return BadRequest("Missing or invalid dbalias or dbname.");
+      }
 
       var builder = new SqlConnectionStringBuilder(connectionString)
       {
@@ -89,8 +109,8 @@ namespace DataServiceApi.Controllers
       connectionString = builder.ConnectionString;
 
       var dataSourceParameters = CreateSqlParametersDictionary(Request.Query);
-      dataSourceParameters.Remove("dbalias");
       dataSourceParameters.Remove("dbname");
+      dataSourceParameters.Remove("dbalias");
 
       string? content = null, dataSourceFileName = GetContentFileName("dbobject.jsonds");
       if ( dataSourceFileName != null )
@@ -99,7 +119,9 @@ namespace DataServiceApi.Controllers
       }
 
       if ( content.IsBlank() )
+      {
         return NotFound();
+      }
 
       return Content(content!, MEDIA_TYPE_JSON);
     }

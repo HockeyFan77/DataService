@@ -6,13 +6,13 @@ public interface IDataService
 
   // Page-specific calls
   Task<DatabaseObjectsListResponseDto?> GetDatabaseObjectsAsync(
-    string? databaseSearch = null,
-    string? nameSearch = null,
-    string? typeSearch = null,
-    string? columnSearch = null,
-    string? textSearch = null,
-    bool? exactSearch = null,
-    int? pageSize = null,
-    int? pageNum = null,
+    string context,
+    DatabaseObjectsListRequestDto request,
+    CancellationToken cancellationToken = default);
+
+  Task<DatabaseObjectResponseDto?> GetDatabaseObjectAsync(
+    string context,
+    string databaseName,
+    int objectId,
     CancellationToken cancellationToken = default);
 }
