@@ -5,7 +5,7 @@
     <Parameter name="@objname" type="VarChar" size="900"/>
     <Parameter name="@objtypes" type="VarChar" size="900"/>
     <Parameter name="@colname" type="VarChar" size="900"/>
-    <Parameter name="@text" type="VarChar" size="900"/>
+    <Parameter name="@objtext" type="VarChar" size="900"/>
     <Parameter name="@exact" type="Bit"/>
     <Parameter name="@page" type="Int"/>
     <Parameter name="@pagesize" type="Int"/>
@@ -59,7 +59,7 @@
                                       --    PC - Assembly (CLR) stored-procedure
                                       --    TF - SQL table-valued-function
                                       --    X  - Extended stored procedure
-        @text         nvarchar(900),  -- Filter the results by additionally searching for the specified text in the object's text
+        @objtext      nvarchar(900),  -- Filter the results by additionally searching for the specified text in the object's text
                                       -- (for views, stored procedures, etc., ** automatically wrapped in '%').
                                       -- Object text is searched for the following object types:
                                       --    AF - Aggregate function (CLR)
@@ -74,7 +74,7 @@
                                       --    TR - SQL DML trigger
                                       --    V  - View
                                       --    X  - Extended stored procedure
-        @exact        bit,            -- ** Force "exact" search for @objname, @objsch, @colname and @text.
+        @exact        bit,            -- ** Force "exact" search for @objname, @objsch, @colname and @objtext.
                                       -- When set to 1, prevents the automatic wrapping of search terms with '%'.
                                       -- Default is 0.
         @page         int = 1,        --
@@ -85,7 +85,7 @@
       set @objname = 'p'
       set @objtypes = 't;v;p;g;f;dropit'
       -- set @colname = 'per'
-      --set @text = 'person'
+      --set @objtext = 'person'
       set @exact = 0
       --set @page = 3
       --set @pagesize = 5
@@ -100,7 +100,7 @@
         @_objsch nvarchar(900),
         @_objtypes nvarchar(900),
         @_colname nvarchar(900),
-        @_text nvarchar(900),
+        @_objtext nvarchar(900),
         @crlf varchar(2) = char(13)+char(10),
         @dbname sysname,
         @sql nvarchar(4000)
@@ -153,18 +153,18 @@
       set @_objtypes = replace(@_objtypes, ';', ''',''')
 
       set @_colname = nullif(replace(ltrim(rtrim(@colname)), '''', ''''''), '')
-      set @_text = nullif(replace(ltrim(rtrim(@text)), '''', ''''''), '')
+      set @_objtext = nullif(replace(ltrim(rtrim(@objtext)), '''', ''''''), '')
       if ( isnull(@exact, 0) != 1 )
       begin
         set @_objsch = '%' + @_objsch + '%'
         set @_objname = '%' + @_objname + '%'
         set @_colname = '%' + @_colname + '%'
-        set @_text = '%' + @_text + '%'
+        set @_objtext = '%' + @_objtext + '%'
       end
       set @_objsch = replace(replace(@_objsch, '%%%', '%'), '%%', '%')
       set @_objname = replace(replace(@_objname, '%%%', '%'), '%%', '%')
       set @_colname = replace(replace(@_colname, '%%%', '%'), '%%', '%')
-      set @_text = replace(replace(@_text, '%%%', '%'), '%%', '%')
+      set @_objtext = replace(replace(@_objtext, '%%%', '%'), '%%', '%')
 
       if ( isnull(@page, 0) <= 0 ) set @page = 1
       if ( isnull(@pagesize, -1) <= 0 )
@@ -182,14 +182,14 @@
           @objname as [@objname],
           @objtypes as [@objtypes],
           @colname as [@colname],
-          @text as [@text],
+          @objtext as [@objtext],
           @exact as [@exact],
           @page as [@page],
           @pagesize as [@pagesize],
           @_objsch as [@_objsch],
           @_objname as [@_objname],
           @_colname as [@_colname],
-          @_text as [@_text]
+          @_objtext as [@_objtext]
 
         select '[@_dbnamesclean]' as [@_dbnamesclean], * from @_dbnamesclean
         select '[@_objtypesclean]' as [@_objtypesclean], * from @_objtypesclean
@@ -232,7 +232,7 @@
           join sys.schemas as s on s.schema_id = o.schema_id
           left outer join sys.synonyms as syn on syn.[object_id] = o.[object_id]
           where o.is_ms_shipped = 0
-          and o.[type] COLLATE DATABASE_DEFAULT in (iif(@_colname is null and @_text is null, ''SN'', ''--''),''' + @_objtypes + ''')
+          and o.[type] COLLATE DATABASE_DEFAULT in (iif(@_colname is null and @_objtext is null, ''SN'', ''--''),''' + @_objtypes + ''')
           and o.[name] COLLATE DATABASE_DEFAULT like @_objname
           and s.[name] COLLATE DATABASE_DEFAULT like @_objsch'
 
@@ -260,7 +260,7 @@
             and p.name COLLATE DATABASE_DEFAULT like @_colname'
         end
 
-        if ( @_text is not null and exists (select 1 from @_objtypesclean where [type] in ('AF','FN','FS','FT','IF','P','PC','TA','TF','TR','V','X')) )
+        if ( @_objtext is not null and exists (select 1 from @_objtypesclean where [type] in ('AF','FN','FS','FT','IF','P','PC','TA','TF','TR','V','X')) )
         begin
           set @sql = @sql + @crlf + '
             update sr
@@ -271,7 +271,7 @@
             where sr.db COLLATE DATABASE_DEFAULT = @dbname
             and o.is_ms_shipped = 0
             and o.type COLLATE DATABASE_DEFAULT in (''AF'',''FN'',''FS'',''FT'',''IF'',''P'',''PC'',''TA'',''TF'',''TR'',''V'',''X'')
-            and m.definition COLLATE DATABASE_DEFAULT like @_text'
+            and m.definition COLLATE DATABASE_DEFAULT like @_objtext'
         end
 
         set @sql = @sql + @crlf
@@ -284,12 +284,12 @@
 
         exec sp_executesql
           @stmt = @sql,
-          @params = N'@dbname sysname, @_objsch nvarchar(900), @_objname nvarchar(900), @_colname nvarchar(900), @_text nvarchar(900)',
+          @params = N'@dbname sysname, @_objsch nvarchar(900), @_objname nvarchar(900), @_colname nvarchar(900), @_objtext nvarchar(900)',
           @dbname = @dbname,
           @_objsch = @_objsch,
           @_objname = @_objname,
           @_colname = @_colname,
-          @_text = @_text
+          @_objtext = @_objtext
 
         select @dbname = min([name]) from @_dbnamesclean where [name] > @dbname
       end
@@ -299,7 +299,7 @@
         select '#objsrchres' as [#objsrchres], * from #objsrchres
       end
 
-      if ( @_colname is not null or @_text is not null )
+      if ( @_colname is not null or @_objtext is not null )
       begin
         delete from #objsrchres where [keep] != 1
       end
@@ -311,7 +311,7 @@
             @objname as [objname],
             @objtypes as [objtypes],
             @colname as [colname],
-            @text as [text],
+            @objtext as [objtext],
             @exact as [exact],
             @pagesize as [pagesize],
             @page as [page],

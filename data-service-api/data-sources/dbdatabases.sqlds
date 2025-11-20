@@ -12,7 +12,7 @@
 
       ; with dbmap as (
         select
-          left([value], charindex('=', [value]) - 1) as abbr,
+          left([value], charindex('=', [value]) - 1) as alias,
           right([value], len([value]) - charindex('=', [value])) as [name]
         from
           string_split(@dbmappings, ';')
@@ -21,7 +21,7 @@
       )
       select
         msd.database_id as ID,
-        dbmap.abbr as Abbr,
+        dbmap.alias as Alias,
         msd.[name] as [Name],
         convert(varchar(16), msd.create_date, 120) as CreateDate,
         convert(int, compatibility_level) as CompatLevel

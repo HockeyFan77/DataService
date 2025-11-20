@@ -11,19 +11,19 @@ GET {{baseUrl}}/companies
 GET {{baseUrl}}/companies?ctx={{context}}
 
 ### Get list of database objects from "int"
-GET {{baseUrl}}/dbobjects?ctx=int&searchdbs=prs&objnamesearch=loc&objtypes=p;t
+GET {{baseUrl}}/dbobjects?ctx=int&dbaliases=prs&objnamesearch=loc&objtypes=p;t
 
 ### Get list of database objects (from context)
-GET {{baseUrl}}/dbobjects?ctx={{context}}&searchdbs=a;s&objnamesearch=person&objtypes=p;t
+GET {{baseUrl}}/dbobjects?ctx={{context}}&dbaliases=a;s&objname=person&objtypes=p;t
 
 ###
-GET {{baseUrl}}/dbobjects?ctx=dev&dbnames=a&objsch=%25&objname=%25&objtypes=T&page=1&pagesize=5000
+GET {{baseUrl}}/dbobjects?ctx=dev&dbaliases=a&objsch=%25&objname=%25&objtypes=T&page=1&pagesize=5000
 
 ### Get database object details [AdventureWorks].[HumanResources].[uspUpdateEmployeePersonalInfo]
-GET {{baseUrl}}/dbobject?ctx={{context}}&objdb=a&objid=663673412
+GET {{baseUrl}}/dbobject?ctx={{context}}&dbalias=a&objid=663673412
 
 ### Get database object details [AdventureWorks].[HumanResources].[Person]
-GET {{baseUrl}}/dbobject?ctx={{context}}&objdb=a&objid=2101582525
+GET {{baseUrl}}/dbobject?ctx={{context}}&dbalias=a&objid=2101582525
 
 ### Get database object details [Sandbox].[dbo].[AWPerson]
-GET {{baseUrl}}/dbobject?ctx={{context}}&objdb=s&objsch=dbo&objname=awperson
+GET {{baseUrl}}/dbobject?ctx={{context}}&dbalias=s&objsch=dbo&objname=awperson

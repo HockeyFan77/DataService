@@ -3,8 +3,8 @@ public class DatabaseInfo
 {
   [JsonPropertyName("id")]
   public int ID { get; set; } = default!;
-  [JsonPropertyName("abbr")]
-  public string Abbr { get; set; } = default!;
+  [JsonPropertyName("alias")]
+  public string Alias { get; set; } = default!;
   [JsonPropertyName("name")]
   public string Name { get; set; } = default!;
   [JsonPropertyName("crdate")]

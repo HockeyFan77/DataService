@@ -28,7 +28,7 @@ namespace DataServiceApi.Controllers
       return Ok(new { databases = databases });
     }
     [HttpGet("dbobjects")]
-    public async Task<IActionResult> GetDbObjects([FromQuery(Name = "dbnames")] string dbnames = "")
+    public async Task<IActionResult> GetDbObjects([FromQuery(Name = "dbaliases")] string qpDbAliases = "")
     {
       var contextConfig = GetContextConfig(GetRequestContext());
       if ( contextConfig == null )
@@ -38,14 +38,14 @@ namespace DataServiceApi.Controllers
       if ( (connectionString = GetConnectionString(contextConfig!)).IsBlank() )
         return BadRequest();
 
-      var dbAbbrs = dbnames.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-      if ( dbAbbrs.Length == 0 )
+      var dbAliases = qpDbAliases.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+      if ( dbAliases.Length == 0 )
         return BadRequest("Missing or invalid dbnames.");
 
-      // convert "dbnames" parameter as a list of database abbreviations to their actual database names
+      // convert "dbnames" parameter as a list of database aliases to their actual database names
       var databases = await GetDatabasesFromContextConfigAsync(contextConfig).ConfigureAwait(false);
       string dbNames = string.Join(";", databases
-        .Where(ctxdb => dbAbbrs.Contains(ctxdb.Abbr, StringComparer.OrdinalIgnoreCase))
+        .Where(ctxdb => dbAliases.Contains(ctxdb.Alias, StringComparer.OrdinalIgnoreCase))
         .Select(ctxdb => ctxdb.Name)
       );
       if ( dbNames.IsBlank() )
@@ -66,7 +66,7 @@ namespace DataServiceApi.Controllers
       return Content(content!, MEDIA_TYPE_JSON);
     }
     [HttpGet("dbobject")]
-    public async Task<IActionResult> GetDbObject([FromQuery(Name = "objdb")] string objdb = "")
+    public async Task<IActionResult> GetDbObject([FromQuery(Name = "dbalias")] string qpDbAlias = "", [FromQuery(Name = "dbname")] string qpDbName = "")
     {
       var contextConfig = GetContextConfig(GetRequestContext());
       if ( contextConfig == null )
@@ -76,11 +76,11 @@ namespace DataServiceApi.Controllers
       if ( (connectionString = GetConnectionString(contextConfig!)).IsBlank() )
         return BadRequest();
 
-      // convert "objdb" parameter as a database abbreviations to its actual database name
+      // convert "dbalias" parameter to its actual database name
       var databases = await GetDatabasesFromContextConfigAsync(contextConfig).ConfigureAwait(false);
-      string? dbName = databases.FirstOrDefault(ctxdb => ctxdb.Abbr.EqualsAnyOrdinalNoCase(objdb))?.Name;
+      string? dbName = databases.FirstOrDefault(ctxdb => ctxdb.Alias.EqualsAnyOrdinalNoCase(qpDbAlias))?.Name;
       if ( dbName.IsBlank() )
-        return BadRequest("Missing or invalid objdb.");
+        return BadRequest("Missing or invalid dbalias or dbname.");
 
       var builder = new SqlConnectionStringBuilder(connectionString)
       {
@@ -89,7 +89,8 @@ namespace DataServiceApi.Controllers
       connectionString = builder.ConnectionString;
 
       var dataSourceParameters = CreateSqlParametersDictionary(Request.Query);
-      dataSourceParameters.Remove("objdb"); // leave in place if dbabbr is needed
+      dataSourceParameters.Remove("dbalias");
+      dataSourceParameters.Remove("dbname");
 
       string? content = null, dataSourceFileName = GetContentFileName("dbobject.jsonds");
       if ( dataSourceFileName != null )
@@ -285,7 +286,7 @@ namespace DataServiceApi.Controllers
 
       var dataSourceParameters = new SqlParametersDictionary()
       {
-        ["dbmappings"] = string.Join(";", contextConfig.Databases.Select((db) => $"{db.Abbr}={db.Name}"))
+        ["dbmappings"] = string.Join(";", contextConfig.Databases.Select((db) => $"{db.Alias}={db.Name}"))
       };
 
       string? dataSourceFileName = GetContentFileName("dbdatabases.sqlds");
@@ -303,7 +304,7 @@ namespace DataServiceApi.Controllers
         result.Add(new DatabaseInfo
         {
           ID = reader.GetFieldValue<int>("ID"),
-          Abbr = reader.GetFieldValue<string>("Abbr"),
+          Alias = reader.GetFieldValue<string>("Alias"),
           Name = reader.GetFieldValue<string>("Name"),
           CreateDate = reader.GetFieldValue<string>("CreateDate"),
           CompatLevel = reader.GetFieldValue<int>("CompatLevel")
