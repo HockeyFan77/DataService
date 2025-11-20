@@ -16,6 +16,9 @@ GET {{baseUrl}}/dbobjects?ctx=int&searchdbs=prs&objnamesearch=loc&objtypes=p;t
 ### Get list of database objects (from context)
 GET {{baseUrl}}/dbobjects?ctx={{context}}&searchdbs=a;s&objnamesearch=person&objtypes=p;t
 
+###
+GET {{baseUrl}}/dbobjects?ctx=dev&dbnames=a&objsch=%25&objname=%25&objtypes=T&page=1&pagesize=5000
+
 ### Get database object details [AdventureWorks].[HumanResources].[uspUpdateEmployeePersonalInfo]
 GET {{baseUrl}}/dbobject?ctx={{context}}&objdb=a&objid=663673412
 

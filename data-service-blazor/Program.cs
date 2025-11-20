@@ -1,5 +1,6 @@
 using MudBlazor.Services;
 using DataServiceBlazor.Components;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,16 @@ builder.Services.AddMudServices();
 builder.Services.AddRazorComponents()
   .AddInteractiveServerComponents();
 
+builder.Services.Configure<ApiSettings>(
+  builder.Configuration.GetSection("Api")
+);
+
+builder.Services.AddHttpClient<IDataService, DataService>((sp, http) =>
+{
+  var api = sp.GetRequiredService<IOptions<ApiSettings>>().Value;
+  http.BaseAddress = new Uri(api.BaseUrl); // your API URL
+});
+
 // simpler for WebAssembly
 // builder.Services.AddHttpClient<DataService>("Api", client =>
 // {
@@ -17,17 +28,17 @@ builder.Services.AddRazorComponents()
 // });
 
 // Register HttpClient for server-side use
-builder.Services.AddScoped<HttpClient>(sp => new HttpClient()
-{
-  BaseAddress = new Uri("http://localhost:5253/api/")
-});
-// Now IDataService can use the registered HttpClient
-builder.Services.AddScoped<IDataService>(sp =>
-{
-  var http = sp.GetRequiredService<HttpClient>();
-  //http.BaseAddress = new Uri("http://localhost:5253/api/");
-  return new DataService(http);
-});
+// builder.Services.AddScoped<HttpClient>(sp => new HttpClient()
+// {
+//   BaseAddress = new Uri("http://localhost:5253/api/")
+// });
+// // Now IDataService can use the registered HttpClient
+// builder.Services.AddScoped<IDataService>(sp =>
+// {
+//   var http = sp.GetRequiredService<HttpClient>();
+//   //http.BaseAddress = new Uri("http://localhost:5253/api/");
+//   return new DataService(http);
+// });
 
 builder.Services.ConfigureHttpJsonOptions(options =>
 {

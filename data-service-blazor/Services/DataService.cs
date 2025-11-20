@@ -32,15 +32,16 @@ public class DataService : IDataService
     // Build query parameters (omit null/empty)
     var query = new Dictionary<string, string?>()
     {
-      ["ctx"] = "int",                  // per your example
-      ["searchdbs"] = databaseSearch,
-      ["objnamesearch"] = nameSearch,
+      ["ctx"] = "dev",                  // per your example
+      ["dbnames"] = databaseSearch,
+      ["objsch"] = "%",
+      ["objname"] = nameSearch,
       ["objtypes"] = typeSearch,
-      ["objcolumnsearch"] = columnSearch,
-      ["objtextsearch"] = textSearch,
-      ["objexactsearch"] = exactSearch.HasValue ? (exactSearch.Value ? "1" : "0") : null,
-      ["pagesize"] = pageSize?.ToString(),
-      ["pagenum"] = pageNum?.ToString()
+      ["colname"] = columnSearch,
+      ["text"] = textSearch,
+      ["exact"] = exactSearch.HasValue ? (exactSearch.Value ? "1" : "0") : null,
+      ["page"] = pageNum?.ToString(),
+      ["pagesize"] = pageSize?.ToString()
     };
 
     // Build query string
@@ -52,7 +53,7 @@ public class DataService : IDataService
 
     var url = $"dbobjects{qs}"; // relative to BaseAddress registered in Program.cs
 
-    url = "dbobjects?ctx=int&searchdbs=prs&objnamesearch=loc&objtypes=p;t";
+    //url = "dbobjects?ctx=int&searchdbs=prs&objnamesearch=loc&objtypes=p;t";
     //return GetAsync<DatabaseObjectsListResponseDto>(url);
     return await _http.GetFromJsonAsync<DatabaseObjectsListResponseDto?>(url, cancellationToken: cancellationToken);
   }

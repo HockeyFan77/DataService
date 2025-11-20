@@ -1,5 +1,0 @@
-# .editorconfig
-root = true
-
-[*.cs]
-csharp_space_between_parentheses = control_flow_statements

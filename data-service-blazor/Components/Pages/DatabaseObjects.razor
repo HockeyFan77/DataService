@@ -7,188 +7,200 @@
 @using MudBlazor
 
 <MudPaper Class="pa-4">
-    <MudText Typo="Typo.h5" Class="mb-2">Database Objects</MudText>
+  <MudText Typo="Typo.h5" Class="mb-2">Database Objects</MudText>
 
-    <MudGrid>
-        <MudItem xs="12" sm="4">
-            <MudTextField Label="Name" @bind-Value="NameSearch" Immediate="false" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" />
-        </MudItem>
+  <MudGrid>
+    <MudItem xs="12" sm="4">
+    <MudTextField Label="Name" @bind-Value="NameSearch" Immediate="false" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" />
+  </MudItem>
 
-        <MudItem xs="12" sm="3">
-<MudTextField Label="Object Type(s)" @bind-Value="TypeSearch" Placeholder="e.g., F;G;P;T;V" />
+  <MudItem xs="12" sm="3">
+    <MudTextField Label="Object Type(s)" @bind-Value="TypeSearch" Placeholder="e.g., F;G;P;T;V" />
 <!--
-            <MudSelect T="string" Label="Type" @bind-Value="TypeSearch" >
-                <MudSelectItem Value="X">(All)</MudSelectItem>
-                <MudSelectItem Value="T">Table</MudSelectItem>
-                <MudSelectItem Value="V">View</MudSelectItem>
-                <MudSelectItem Value="P">Procedure</MudSelectItem>
-            </MudSelect>
+    <MudSelect T="string" Label="Type" @bind-Value="TypeSearch" >
+      <MudSelectItem Value="X">(All)</MudSelectItem>
+      <MudSelectItem Value="T">Table</MudSelectItem>
+      <MudSelectItem Value="V">View</MudSelectItem>
+      <MudSelectItem Value="P">Procedure</MudSelectItem>
+    </MudSelect>
 -->
-        </MudItem>
+  </MudItem>
 
-        <MudItem xs="12" sm="3">
-<MudTextField Label="Database(s)" @bind-Value="DatabaseSearch" Placeholder="e.g., prs;d;il" />
+  <MudItem xs="12" sm="3">
+    <MudTextField Label="Database(s)" @bind-Value="DatabaseSearch" Placeholder="e.g., prs;d;il" />
 <!--
-            <MudSelect Label="Database" @bind-Value="DatabaseSearch">
-                <MudSelectItem Value="X">(All)</MudSelectItem>
-                <MudSelectItem Value="prs">frd</MudSelectItem>
-            </MudSelect>
+    <MudSelect Label="Database" @bind-Value="DatabaseSearch">
+      <MudSelectItem Value="X">(All)</MudSelectItem>
+      <MudSelectItem Value="prs">frd</MudSelectItem>
+    </MudSelect>
 -->
-        </MudItem>
+  </MudItem>
 
-        <MudItem xs="12" sm="2" Class="d-flex align-center">
-            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ApplyFilters">Search</MudButton>
-            <MudSpacer />
-            <MudButton Variant="Variant.Outlined" Color="Color.Default" OnClick="ClearFilters">Clear</MudButton>
-        </MudItem>
-    </MudGrid>
+  <MudItem xs="12" sm="2" Class="d-flex align-center">
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!HasSearchParameters)" OnClick="ApplyFilters">Search</MudButton>
+    <MudSpacer />
+    <MudButton Variant="Variant.Outlined" Color="Color.Default" OnClick="ClearFilters">Clear</MudButton>
+  </MudItem>
+</MudGrid>
 
-    <MudDivider Class="my-3" />
+<MudDivider Class="my-3" />
 
-    @if (isLoading)
-    {
-        <MudProgressLinear Indeterminate="true" />
-    }
+@if (isLoading)
+{
+  <MudProgressLinear Indeterminate="true" />
+}
 
-    <MudTable Items="displayItems" Dense="true" Hover="true" Bordered="true"
-              RowsPerPage="rowsPerPage" RowsPerPageOptions="rowsPerPageOptions">
+<MudTable Items="displayItems" Dense="true" Hover="true" Bordered="true"
+  RowsPerPage="rowsPerPage" RowsPerPageOptions="rowsPerPageOptions">
 
-        <HeaderContent>
-            <MudTh SortBy="(Func<DatabaseObjectsListItemDto, object>)(x => x.Name)">Name</MudTh>
-            <MudTh SortBy="(Func<DatabaseObjectsListItemDto, object>)(x => x.Type)">Type</MudTh>
-            <MudTh SortBy="(Func<DatabaseObjectsListItemDto, object>)(x => x.Schema)">Schema</MudTh>
-            <MudTh>Created</MudTh>
-            <MudTh>Modified</MudTh>
-            <MudTh>DB</MudTh>
-        </HeaderContent>
+  <HeaderContent>
+    <MudTh SortBy="(Func<DatabaseObjectsListItemDto, object>)(x => x.Name)">Name</MudTh>
+    <MudTh SortBy="(Func<DatabaseObjectsListItemDto, object>)(x => x.Type)">Type</MudTh>
+    <MudTh SortBy="(Func<DatabaseObjectsListItemDto, object>)(x => x.Schema)">Schema</MudTh>
+    <MudTh>Created</MudTh>
+    <MudTh>Modified</MudTh>
+    <MudTh>DB</MudTh>
+  </HeaderContent>
 
-        <RowTemplate>
-            <MudTd>@context.Name</MudTd>
-            <MudTd>@context.Type</MudTd>
-            <MudTd>@context.Schema</MudTd>
-            <MudTd>@context.Created?.ToString("yyyy-MM-dd HH:mm")</MudTd>
-            <MudTd>@context.Modified?.ToString("yyyy-MM-dd HH:mm")</MudTd>
-            <MudTd>@context.Database</MudTd>
-        </RowTemplate>
+  <RowTemplate>
+    <MudTd>@context.Name</MudTd>
+    <MudTd>@context.Type</MudTd>
+    <MudTd>@context.Schema</MudTd>
+    <MudTd>@context.Created?.ToString("yyyy-MM-dd HH:mm")</MudTd>
+    <MudTd>@context.Modified?.ToString("yyyy-MM-dd HH:mm")</MudTd>
+    <MudTd>@context.Database</MudTd>
+  </RowTemplate>
 
-        <PagerContent>
-            <MudTablePager />
-        </PagerContent>
-    </MudTable>
+  <PagerContent>
+    <MudTablePager />
+  </PagerContent>
+  </MudTable>
 </MudPaper>
 
 @code {
-    // Query-bound parameters stored in URL
-    [Parameter]
-    [SupplyParameterFromQuery(Name = "objnamesearch")]
-    public string? NameSearch { get; set; }
 
-    [Parameter]
-    [SupplyParameterFromQuery(Name = "objtypes")]
-    public string? TypeSearch { get; set; }
+  // Query-bound parameters stored in URL
+  [Parameter]
+  [SupplyParameterFromQuery(Name = "objname")]
+  public string? NameSearch { get; set; }
 
-    [Parameter]
-    [SupplyParameterFromQuery(Name = "searchdbs")]
-    public string? DatabaseSearch { get; set; }
+  [Parameter]
+  [SupplyParameterFromQuery(Name = "objtypes")]
+  public string? TypeSearch { get; set; }
 
-    private bool isLoading;
-    private List<DatabaseObjectsListItemDto> rawItems = new();
-    private IEnumerable<DatabaseObjectsListItemDto> displayItems => ApplyInMemorySortAndFilter();
+  [Parameter]
+  [SupplyParameterFromQuery(Name = "dbnames")]
+  public string? DatabaseSearch { get; set; }
 
-    // Paging (client-side)
-    private int rowsPerPage = 20;
-    private int[] rowsPerPageOptions = new int[] { 10, 20, 50, 100 };
+  private bool HasSearchParameters =>
+      !string.IsNullOrWhiteSpace(NameSearch)
+    || !string.IsNullOrWhiteSpace(TypeSearch)
+    || !string.IsNullOrWhiteSpace(DatabaseSearch);
+  private bool isLoading;
+  private List<DatabaseObjectsListItemDto> rawItems = new();
+  private IEnumerable<DatabaseObjectsListItemDto> displayItems => ApplyInMemorySortAndFilter();
 
-    protected override async Task OnInitializedAsync()
+  // Paging (client-side)
+  private int rowsPerPage = 20;
+  private int[] rowsPerPageOptions = new int[] { 10, 20, 50, 100 };
+
+  protected override async Task OnInitializedAsync()
+  {
+    // Load initial state from URL automatically when component is navigated to
+    await LoadDataAsync();
+  }
+
+  // When URL query params changed (e.g., user pasted link), ensure we reload
+  protected override async Task OnParametersSetAsync()
+  {
+    // If filter parameters changed externally, reload
+    await LoadDataAsync();
+  }
+
+  private void ApplyFilters()
+  {
+    // Update the URL with new query params (replace so back button behaviour is sane)
+    var uri = new Uri(Nav.Uri);
+    var baseUri = uri.GetLeftPart(UriPartial.Path);
+
+    var parameters = new Dictionary<string, string?>()
     {
-        // Load initial state from URL automatically when component is navigated to
-        await LoadDataAsync();
+      ["objname"] = string.IsNullOrWhiteSpace(NameSearch) ? null : NameSearch,
+      ["objtypes"] = string.IsNullOrWhiteSpace(TypeSearch) ? null : TypeSearch,
+      ["dbnames"] = string.IsNullOrWhiteSpace(DatabaseSearch) ? null : DatabaseSearch
+    };
+
+    var qs = string.Join("&", parameters
+      .Where(kv => !string.IsNullOrWhiteSpace(kv.Value))
+      .Select(kv => $"{Uri.EscapeDataString(kv.Key)}={Uri.EscapeDataString(kv.Value!)}"));
+
+    var newUrl = string.IsNullOrEmpty(qs) ? baseUri : $"{baseUri}?{qs}";
+    Nav.NavigateTo(newUrl, replace: true);
+    // OnParametersSetAsync will run and call LoadDataAsync
+  }
+
+  private void ClearFilters()
+  {
+    NameSearch = null;
+    TypeSearch = null;
+    DatabaseSearch = null;
+    ApplyFilters();
+  }
+
+  private async Task LoadDataAsync()
+  {
+    if ( !HasSearchParameters )
+    {
+      rawItems = new();
+      return;
     }
 
-    // When URL query params changed (e.g., user pasted link), ensure we reload
-    protected override async Task OnParametersSetAsync()
+    isLoading = true;
+    try
     {
-        // If filter parameters changed externally, reload
-        await LoadDataAsync();
+      // For now request a large pagesize to get all rows in a single call
+      // (alternatively, make pagesize == the page size returned by your API)
+      var resp = await Api.GetDatabaseObjectsAsync(
+        databaseSearch: string.IsNullOrEmpty(DatabaseSearch) ? "prs" : DatabaseSearch,
+        nameSearch: NameSearch,
+        typeSearch: TypeSearch,
+        pageSize: 5000,   // large value to get entire result set for client-side sorting
+        pageNum: 1);
+
+      rawItems = resp?.Objects ?? new();
+    }
+    finally
+    {
+      isLoading = false;
+      StateHasChanged();
+    }
+  }
+
+  // Apply client-side filtering (again) and sorting - used by the table Items
+  private IEnumerable<DatabaseObjectsListItemDto> ApplyInMemorySortAndFilter()
+  {
+    // Start with raw API results
+    IEnumerable<DatabaseObjectsListItemDto> q = rawItems;
+
+    // Additional client-side filter if desired (e.g., local text filter)
+    if ( !string.IsNullOrWhiteSpace(NameSearch) )
+    {
+      q = q.Where(x => x.Name?.Contains(NameSearch, StringComparison.OrdinalIgnoreCase) == true);
     }
 
-    private void ApplyFilters()
+    if ( !string.IsNullOrWhiteSpace(TypeSearch) )
     {
-        // Update the URL with new query params (replace so back button behaviour is sane)
-        var uri = new Uri(Nav.Uri);
-        var baseUri = uri.GetLeftPart(UriPartial.Path);
-
-        var parameters = new Dictionary<string, string?>()
-        {
-            ["objnamesearch"] = string.IsNullOrWhiteSpace(NameSearch) ? null : NameSearch,
-            ["objtypes"] = string.IsNullOrWhiteSpace(TypeSearch) ? null : TypeSearch,
-            ["searchdbs"] = string.IsNullOrWhiteSpace(DatabaseSearch) ? null : DatabaseSearch
-        };
-
-        var qs = string.Join("&", parameters.Where(kv => !string.IsNullOrWhiteSpace(kv.Value))
-                                           .Select(kv => $"{Uri.EscapeDataString(kv.Key)}={Uri.EscapeDataString(kv.Value!)}"));
-
-        var newUrl = string.IsNullOrEmpty(qs) ? baseUri : $"{baseUri}?{qs}";
-        Nav.NavigateTo(newUrl, replace: true);
-        // OnParametersSetAsync will run and call LoadDataAsync
+      q = q.Where(x => x.Type?.Contains(TypeSearch, StringComparison.OrdinalIgnoreCase) == true);
     }
 
-    private void ClearFilters()
+    if ( !string.IsNullOrWhiteSpace(DatabaseSearch) )
     {
-        NameSearch = null;
-        TypeSearch = null;
-        DatabaseSearch = null;
-        ApplyFilters();
+      q = q.Where(x => x.Database?.Contains(DatabaseSearch, StringComparison.OrdinalIgnoreCase) == true);
     }
 
-    private async Task LoadDataAsync()
-    {
-        isLoading = true;
-        try
-        {
-            // For now request a large pagesize to get all rows in a single call
-            // (alternatively, make pagesize == the page size returned by your API)
-            var resp = await Api.GetDatabaseObjectsAsync(
-                databaseSearch: string.IsNullOrEmpty(DatabaseSearch) ? "prs" : DatabaseSearch,
-                nameSearch: NameSearch,
-                typeSearch: TypeSearch,
-                pageSize: 5000,   // large value to get entire result set for client-side sorting
-                pageNum: 1);
+    // NOTE: Sorting by column is handled by MudTable automatically using the SortBy expressions on MudTh
+    // Because we pass Items (not ServerData) MudTable will sort/paginate the list client-side.
+    return q;
+  }
 
-            if (resp?.Objects != null)
-            {
-                rawItems = resp.Objects;
-            }
-            else
-            {
-                rawItems = new List<DatabaseObjectsListItemDto>();
-            }
-        }
-        finally
-        {
-            isLoading = false;
-            StateHasChanged();
-        }
-    }
-
-    // Apply client-side filtering (again) and sorting - used by the table Items
-    private IEnumerable<DatabaseObjectsListItemDto> ApplyInMemorySortAndFilter()
-    {
-        // Start with raw API results
-        IEnumerable<DatabaseObjectsListItemDto> q = rawItems;
-
-        // Additional client-side filter if desired (e.g., local text filter)
-        if (!string.IsNullOrWhiteSpace(NameSearch))
-            q = q.Where(x => x.Name?.Contains(NameSearch, StringComparison.OrdinalIgnoreCase) == true);
-
-        if (!string.IsNullOrWhiteSpace(TypeSearch))
-            q = q.Where(x => x.Type?.Contains(TypeSearch, StringComparison.OrdinalIgnoreCase) == true);
-
-        if (!string.IsNullOrWhiteSpace(DatabaseSearch))
-            q = q.Where(x => x.Database?.Contains(DatabaseSearch, StringComparison.OrdinalIgnoreCase) == true);
-
-        // NOTE: Sorting by column is handled by MudTable automatically using the SortBy expressions on MudTh
-        // Because we pass Items (not ServerData) MudTable will sort/paginate the list client-side.
-        return q;
-    }
 }

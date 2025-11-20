@@ -1,0 +1,16 @@
+# .editorconfig
+root = true
+
+[*]
+indent_size = 2
+indent_style = space
+
+[*.cs]
+csharp_prefer_braces = true:warning
+csharp_space_around_parentheses = control_flow_statements:true
+dotnet_indentation_size = 2
+dotnet_indent_preference = space
+
+[*.razor]
+csharp_prefer_braces = true:warning
+csharp_space_around_parentheses = control_flow_statements:true

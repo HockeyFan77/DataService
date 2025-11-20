@@ -28,7 +28,7 @@ namespace DataServiceApi.Controllers
       return Ok(new { databases = databases });
     }
     [HttpGet("dbobjects")]
-    public async Task<IActionResult> GetDbObjects([FromQuery(Name = "searchdbs")] string searchdbs = "")
+    public async Task<IActionResult> GetDbObjects([FromQuery(Name = "dbnames")] string dbnames = "")
     {
       var contextConfig = GetContextConfig(GetRequestContext());
       if ( contextConfig == null )
@@ -38,21 +38,21 @@ namespace DataServiceApi.Controllers
       if ( (connectionString = GetConnectionString(contextConfig!)).IsBlank() )
         return BadRequest();
 
-      var dbAbbrs = searchdbs.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+      var dbAbbrs = dbnames.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
       if ( dbAbbrs.Length == 0 )
-        return BadRequest("Missing or invalid searchdbs.");
+        return BadRequest("Missing or invalid dbnames.");
 
-      // convert "searchdbs" parameter as a list of database abbreviations to their actual database names
+      // convert "dbnames" parameter as a list of database abbreviations to their actual database names
       var databases = await GetDatabasesFromContextConfigAsync(contextConfig).ConfigureAwait(false);
       string dbNames = string.Join(";", databases
         .Where(ctxdb => dbAbbrs.Contains(ctxdb.Abbr, StringComparer.OrdinalIgnoreCase))
         .Select(ctxdb => ctxdb.Name)
       );
       if ( dbNames.IsBlank() )
-        return BadRequest("Missing or invalid searchdbs.");
+        return BadRequest("Missing or invalid dbnames.");
 
       var dataSourceParameters = CreateSqlParametersDictionary(Request.Query);
-      dataSourceParameters["searchdbs"] = dbNames;
+      dataSourceParameters["dbnames"] = dbNames;
 
       string? content = null, dataSourceFileName = GetContentFileName("dbobjects.jsonds");
       if ( dataSourceFileName != null )
