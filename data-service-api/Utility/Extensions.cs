@@ -1,4 +1,7 @@
+using System;
+using System.ComponentModel;
 using System.Data.Common;
+using System.Globalization;
 
 namespace DataServiceApi.Utility
 {
@@ -14,6 +17,7 @@ namespace DataServiceApi.Utility
 
   public static class StringExtensions
   {
+
     /// <summary>
     /// Returns <c>true</c> if <paramref name="s"/> is <c>null</c> or empty (via the
     /// <see cref="String.IsNullOrEmpty(string)"/> method).
@@ -26,6 +30,19 @@ namespace DataServiceApi.Utility
     /// </summary>
     public static bool IsBlank(this string? s)
       => string.IsNullOrWhiteSpace(s);
+
+    /// <summary>
+    /// Returns <c>true</c> if <paramref name="s1"/> equals <paramref name="s2"/> (via the
+    /// <see cref="String.Equals(string, string, StringComparison)"/> method) using the
+    /// <paramref name="comparisonType"/> comparison type.
+    /// Returns <c>false</c> if either string is <c>null</c>.
+    /// </summary>
+    public static bool StringsAreEqual(string? s1, string? s2, StringComparison comparisonType)
+    {
+      //if ( s1 is null && s2 is null ) return true;
+      if ( s1 is null || s2 is null ) return false;
+      return s1.Equals(s2, comparisonType);
+    }
 
     /// <summary>
     /// Returns <c>true</c> if <paramref name="s"/> equals <paramref name="other"/> (via the
@@ -47,18 +64,18 @@ namespace DataServiceApi.Utility
     /// <see cref="String.Equals(string, string, StringComparison)"/> method) using the given
     /// <paramref name="comparisonType"/>.
     /// </summary>
-    public static bool EqualsAny(this string? s, StringComparison comparisonType, params string[] strings)
-      => EqualsAny(s, comparisonType, strings as IEnumerable<string>);
+    public static bool EqualsAny(this string? s, StringComparison comparisonType, params string?[] strings)
+      => EqualsAny(s, comparisonType, (IEnumerable<string?>?) strings);
     /// <summary>
     /// Returns <c>true</c> if <paramref name="s"/> equals any string in <paramref name="strings"/> (via the
     /// <see cref="String.Equals(string, string, StringComparison)"/> method) using the given
     /// <paramref name="comparisonType"/>.
     /// </summary>
-    public static bool EqualsAny(this string? s, StringComparison comparisonType, IEnumerable<string> strings)
+    public static bool EqualsAny(this string? s, StringComparison comparisonType, IEnumerable<string?>? strings)
     {
       if ( strings != null )
       {
-        foreach ( string test in strings )
+        foreach ( string? test in strings )
         {
           if ( StringsAreEqual(s, test, comparisonType) )
             return true;
@@ -71,28 +88,28 @@ namespace DataServiceApi.Utility
     /// <see cref="String.Equals(string, string, StringComparison)"/> method) using the
     /// <see cref="StringComparison.Ordinal"/> comparison type.
     /// </summary>
-    public static bool EqualsAnyOrdinal(this string? s, params string[] strings)
-      => EqualsAny(s, StringComparison.Ordinal, strings as IEnumerable<string>);
+    public static bool EqualsAnyOrdinal(this string? s, params string?[] strings)
+      => EqualsAny(s, StringComparison.Ordinal, (IEnumerable<string?>?) strings);
     /// <summary>
     /// Returns <c>true</c> if <paramref name="s"/> equals any string in <paramref name="strings"/> (via the
     /// <see cref="String.Equals(string, string, StringComparison)"/> method) using the
     /// <see cref="StringComparison.Ordinal"/> comparison type.
     /// </summary>
-    public static bool EqualsAnyOrdinal(this string? s, IEnumerable<string> strings)
+    public static bool EqualsAnyOrdinal(this string? s, IEnumerable<string?>? strings)
       => EqualsAny(s, StringComparison.Ordinal, strings);
     /// <summary>
     /// Returns <c>true</c> if <paramref name="s"/> equals any string in <paramref name="strings"/> (via the
     /// <see cref="String.Equals(string, string, StringComparison)"/> method) using the
     /// <see cref="StringComparison.OrdinalIgnoreCase"/> comparison type.
     /// </summary>
-    public static bool EqualsAnyOrdinalNoCase(this string? s, params string[] strings)
-      => EqualsAny(s, StringComparison.OrdinalIgnoreCase, strings as IEnumerable<string>);
+    public static bool EqualsAnyOrdinalNoCase(this string? s, params string?[] strings)
+      => EqualsAny(s, StringComparison.OrdinalIgnoreCase, (IEnumerable<string?>?) strings);
     /// <summary>
     /// Returns <c>true</c> if <paramref name="s"/> equals any string in <paramref name="strings"/> (via the
     /// <see cref="String.Equals(string, string, StringComparison)"/> method) using the
     /// <see cref="StringComparison.OrdinalIgnoreCase"/> comparison type.
     /// </summary>
-    public static bool EqualsAnyOrdinalNoCase(this string? s, IEnumerable<string> strings)
+    public static bool EqualsAnyOrdinalNoCase(this string? s, IEnumerable<string?>? strings)
       => EqualsAny(s, StringComparison.OrdinalIgnoreCase, strings);
 
     /// <summary>
@@ -130,18 +147,18 @@ namespace DataServiceApi.Utility
     /// <see cref="String.Contains(string, StringComparison)"/> method) using the given
     /// <paramref name="comparisonType"/>.
     /// </summary>
-    public static bool ContainsAny(this string? s, StringComparison comparisonType, params string[] strings)
-      => ContainsAny(s, comparisonType, strings as IEnumerable<string>);
+    public static bool ContainsAny(this string? s, StringComparison comparisonType, params string?[] strings)
+      => ContainsAny(s, comparisonType, (IEnumerable<string?>?) strings);
     /// <summary>
     /// Returns <c>true</c> if <paramref name="s"/> is found in any string in <paramref name="strings"/> (via the
     /// <see cref="String.Contains(string, StringComparison)"/> method) using the given
     /// <paramref name="comparisonType"/>.
     /// </summary>
-    public static bool ContainsAny(this string? s, StringComparison comparisonType, IEnumerable<string> strings)
+    public static bool ContainsAny(this string? s, StringComparison comparisonType, IEnumerable<string?>? strings)
     {
       if ( s != null && strings != null )
       {
-        foreach ( string test in strings )
+        foreach ( string? test in strings )
         {
           if ( test != null && s.Contains(test, comparisonType) )
             return true;
@@ -154,28 +171,28 @@ namespace DataServiceApi.Utility
     /// <see cref="String.Contains(string, StringComparison)"/> method) using the
     /// <see cref="StringComparison.Ordinal"/> comparison type.
     /// </summary>
-    public static bool ContainsAnyOrdinal(this string? s, params string[] strings)
-      => ContainsAny(s, StringComparison.Ordinal, strings as IEnumerable<string>);
+    public static bool ContainsAnyOrdinal(this string? s, params string?[] strings)
+      => ContainsAny(s, StringComparison.Ordinal, (IEnumerable<string?>?) strings);
     /// <summary>
     /// Returns <c>true</c> if <paramref name="s"/> is found in any string in <paramref name="strings"/> (via the
     /// <see cref="String.Contains(string, StringComparison)"/> method) using the
     /// <see cref="StringComparison.Ordinal"/> comparison type.
     /// </summary>
-    public static bool ContainsAnyOrdinal(this string? s, IEnumerable<string> strings)
+    public static bool ContainsAnyOrdinal(this string? s, IEnumerable<string?>? strings)
       => ContainsAny(s, StringComparison.Ordinal, strings);
     /// <summary>
     /// Returns <c>true</c> if <paramref name="s"/> is found in any string in <paramref name="strings"/> (via the
     /// <see cref="String.Contains(string, StringComparison)"/> method) using the
     /// <see cref="StringComparison.OrdinalIgnoreCase"/> comparison type.
     /// </summary>
-    public static bool ContainsAnyOrdinalNoCase(this string? s, params string[] strings)
-      => ContainsAny(s, StringComparison.OrdinalIgnoreCase, strings as IEnumerable<string>);
+    public static bool ContainsAnyOrdinalNoCase(this string? s, params string?[] strings)
+      => ContainsAny(s, StringComparison.OrdinalIgnoreCase, (IEnumerable<string?>?) strings);
     /// <summary>
     /// Returns <c>true</c> if <paramref name="s"/> is found in any string in <paramref name="strings"/> (via the
     /// <see cref="String.Contains(string, StringComparison)"/> method) using the
     /// <see cref="StringComparison.OrdinalIgnoreCase"/> comparison type.
     /// </summary>
-    public static bool ContainsAnyOrdinalNoCase(this string? s, IEnumerable<string> strings)
+    public static bool ContainsAnyOrdinalNoCase(this string? s, IEnumerable<string?>? strings)
       => ContainsAny(s, StringComparison.OrdinalIgnoreCase, strings);
 
     /// <summary>
@@ -445,11 +462,68 @@ namespace DataServiceApi.Utility
     public static T? ConvertToDefault<T>(this string? s, T? defaultValue)
       => StringConverter.ConvertToDefault<T>(s, defaultValue);
 
-    private static bool StringsAreEqual(string? s1, string? s2, StringComparison comparisonType)
+  }
+
+  public static class ConversionExtensions
+  {
+    /// <summary>
+    /// Converts an object? to a target type T, handling nulls and falling back to string conversion.
+    /// </summary>
+    public static T? ConvertTo<T>(this object? input)
     {
-      if ( s1 is null && s2 is null ) return true;
-      if ( s1 is null || s2 is null ) return false;
-      return s1.Equals(s2, comparisonType);
+      if (input == null)
+      {
+        // If input is null, return default(T) (which is null for reference types/Nullables)
+        return default;
+      }
+
+      // Get the target type and its underlying type if it's Nullable<T> (e.g., gets 'long' from 'long?')
+      var targetType = typeof(T);
+      var underlyingType = Nullable.GetUnderlyingType(targetType) ?? targetType;
+
+      // --- Step 1 & 2: Handle Nulls and Direct Compatibility ---
+
+      // If the input is already the target type or directly compatible, return it immediately
+      if (underlyingType.IsInstanceOfType(input))
+      {
+        return (T)input;
+      }
+
+      // Handle null/empty strings gracefully if target is nullable
+      if (string.IsNullOrEmpty(input.ToString()) && Nullable.GetUnderlyingType(targetType) != null)
+      {
+        return default;
+      }
+
+      // --- Step 3 & 4: Use TypeConverter Fallback ---
+
+      try
+      {
+        // Get a TypeConverter for the target type
+        var converter = TypeDescriptor.GetConverter(underlyingType);
+
+        // Check if the converter can convert FROM the source type (or string representation)
+        if (converter.CanConvertFrom(input.GetType()))
+        {
+          return (T)converter.ConvertFrom(null, CultureInfo.InvariantCulture, input);
+        }
+
+        // Fallback to converting FROM a string representation of the object
+        var inputAsString = input.ToString();
+        if (converter.CanConvertFrom(typeof(string)))
+        {
+          // This uses the built-in StringConverter behavior for the fallback logic
+          return (T)converter.ConvertFrom(null, CultureInfo.InvariantCulture, inputAsString);
+        }
+      }
+      catch (Exception)
+      {
+        // Handle specific conversion errors here if necessary
+        // Console.WriteLine($"Could not convert '{input}' to {typeof(T).Name}: {ex.Message}");
+      }
+
+      // If all else fails, return the default value for the target type
+      return default;
     }
   }
 

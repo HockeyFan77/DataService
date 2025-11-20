@@ -32,9 +32,15 @@ namespace DataServiceApi.Utility
       if ( value == null )
       {
         if ( sqlParameter.IsNullable )
+        {
           sqlParameter.Value = DBNull.Value;
+        }
+
+        // not much else we can do
+        return;
       }
-      else if ( __SqlDbTypeValueTypeMap.TryGetValue(sqlParameter.SqlDbType, out var valueType) )
+
+      if ( __SqlDbTypeValueTypeMap.TryGetValue(sqlParameter.SqlDbType, out var valueType) )
       {
         string valueText = value.ToString() ?? "";
 
