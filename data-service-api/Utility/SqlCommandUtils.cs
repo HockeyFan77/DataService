@@ -1,6 +1,8 @@
 using System.Data;
-using Microsoft.Data.SqlClient;
+using System.Collections.Concurrent;
+using System.Reflection;
 using System.Xml.Linq;
+using Microsoft.Data.SqlClient;
 
 namespace DataServiceApi.Utility
 {
@@ -29,27 +31,52 @@ namespace DataServiceApi.Utility
   {
     public static void AssignParameterValue(SqlParameter sqlParameter, object? value)
     {
+      // --- Step 1: Handle Null to DBNull.Value ---
       if ( value == null )
       {
         if ( sqlParameter.IsNullable )
         {
           sqlParameter.Value = DBNull.Value;
+          return;
         }
 
-        // not much else we can do
-        return;
+        // If the value is null but IsNullable is false, we let the strict conversion
+        // logic below handle the error *if* the target type is a non-nullable value type.
+        // For reference types, leaving value as null will also be handled by the conversion.
       }
 
-      if ( __SqlDbTypeValueTypeMap.TryGetValue(sqlParameter.SqlDbType, out var valueType) )
-      {
-        string valueText = value.ToString() ?? "";
+      // --- Step 2: Determine Target CLR Type using the Map ---
+      Type targetType;
 
-        // when assigning to a SqlString parameter, do direct assignment
-        if ( valueType == typeof(string) )
-          sqlParameter.Value = valueText;
-        // otherwise, let the default conversion take place
-        else
-          sqlParameter.Value = valueText.ConvertToDefault(valueType);
+      // Use your static map lookup to get the target C# Type
+      if ( !__SqlDbTypeValueTypeMap.TryGetValue(sqlParameter.SqlDbType, out targetType!) )
+      {
+        // Throw if the SqlDbType is not found in your map, fulfilling your requirement
+        throw new InvalidOperationException($"SQL type '{sqlParameter.SqlDbType}' is not mapped to a CLR type.");
+      }
+
+      // --- Step 3: Get Cached Method and Invoke (Cacher code needed above) ---
+      try
+      {
+        // Fetch the MethodInfo from the cache (or create it once)
+        MethodInfo convertMethod = GetConverterMethodInfo(targetType);
+
+        // Invoke the cached, closed generic method
+        // This is the call to value.ConvertTo<T>() using reflection.
+        object? convertedValue = convertMethod.Invoke(null, new object?[] { value });
+
+        sqlParameter.Value = convertedValue;
+      }
+      catch ( TargetInvocationException ex ) when ( ex.InnerException != null )
+      {
+        // Unwrap and re-throw the inner exception from the conversion logic
+        // This handles all failed conversions (e.g., FormatException, ArgumentNullException from null to int).
+        throw ex.InnerException;
+      }
+      catch ( Exception ex )
+      {
+        // Handle other possible reflection errors or unexpected issues
+        throw new InvalidOperationException($"Error during value assignment for parameter '{sqlParameter.ParameterName}'.", ex);
       }
     }
 
@@ -106,8 +133,8 @@ namespace DataServiceApi.Utility
         </SqlCommand>
       */
 
-      var timeout = ((string?)element.Attribute("timeout")).ConvertToDefault(0);
-      var type = ((string?)element.Attribute("type")).ConvertToDefault(CommandType.Text);
+      var timeout = TypeConverter.ConvertToDefault((string?)element.Attribute("timeout"), 0);
+      var type = TypeConverter.ConvertToDefault((string?)element.Attribute("type"), CommandType.Text);
       var text = (string?)element.Element("CommandText") ?? "";
 
       var command = new SqlCommand
@@ -123,23 +150,31 @@ namespace DataServiceApi.Utility
         var sqlParameter = new SqlParameter()
         {
           ParameterName = (string?)parameterElement.Attribute("name") ?? "",
-          SqlDbType = ((string?)parameterElement.Attribute("type")).ConvertTo<SqlDbType>(),
-          Direction = ((string?)parameterElement.Attribute("direction")).ConvertToDefault(ParameterDirection.Input),
-          IsNullable = ((string?)parameterElement.Attribute("isNullable")).ConvertToDefault(true)
+          SqlDbType = TypeConverter.ConvertTo<SqlDbType>((string?)parameterElement.Attribute("type")),
+          Direction = TypeConverter.ConvertToDefault((string?)parameterElement.Attribute("direction"), ParameterDirection.Input),
+          IsNullable = TypeConverter.ConvertToDefault((string?)parameterElement.Attribute("isNullable"), true)
         };
 
         if ( sqlParameter.IsNullable )
+        {
           sqlParameter.Value = DBNull.Value;
+        }
 
-        var size = ((string?)parameterElement.Attribute("size")).ConvertToDefault(0);
+        var size = TypeConverter.ConvertToDefault((string?)parameterElement.Attribute("size"), 0);
         if ( size > 0 )
+        {
           sqlParameter.Size = size;
-        var precision = ((string?)parameterElement.Attribute("precision")).ConvertToDefault<byte>(0);
+        }
+        var precision = TypeConverter.ConvertToDefault<byte>((string?)parameterElement.Attribute("precision"), 0);
         if ( precision > 0 )
+        {
           sqlParameter.Precision = precision;
-        var scale = ((string?)parameterElement.Attribute("scale")).ConvertToDefault<byte>(0);
+        }
+        var scale = TypeConverter.ConvertToDefault<byte>((string?)parameterElement.Attribute("scale"), 0);
         if ( scale > 0 )
+        {
           sqlParameter.Scale = scale;
+        }
 
         command.Parameters.Add(sqlParameter);
       }
@@ -151,38 +186,58 @@ namespace DataServiceApi.Utility
 
     private static readonly Dictionary<SqlDbType, Type> __SqlDbTypeValueTypeMap = new()
     {
-      [SqlDbType.BigInt] = typeof(long),
-      //[SqlDbType.Binary] = typeof(byte[]),
-      [SqlDbType.Bit] = typeof(bool),
-      [SqlDbType.Char] = typeof(string),
-      [SqlDbType.Date] = typeof(DateTime),
-      [SqlDbType.DateTime] = typeof(DateTime),
-      [SqlDbType.DateTime2] = typeof(DateTime),
-      [SqlDbType.DateTimeOffset] = typeof(DateTimeOffset),
-      [SqlDbType.Decimal] = typeof(decimal),
-      [SqlDbType.Float] = typeof(double),
-      //[SqlDbType.Image] = typeof(byte[]),
-      [SqlDbType.Int] = typeof(int),
-      [SqlDbType.Money] = typeof(decimal),
-      [SqlDbType.NChar] = typeof(string),
-      [SqlDbType.NText] = typeof(string),
-      [SqlDbType.NVarChar] = typeof(string),
-      [SqlDbType.Real] = typeof(float),
-      [SqlDbType.SmallDateTime] = typeof(DateTime),
-      [SqlDbType.SmallInt] = typeof(short),
-      [SqlDbType.SmallMoney] = typeof(decimal),
-      //[SqlDbType.Structured] = typeof(object),
-      [SqlDbType.Text] = typeof(string),
-      [SqlDbType.Time] = typeof(TimeSpan),
-      //[SqlDbType.Timestamp] = typeof(byte[]),
-      [SqlDbType.TinyInt] = typeof(byte),
-      //[SqlDbType.Udt] = typeof(object),
-      [SqlDbType.UniqueIdentifier] = typeof(Guid),
-      //[SqlDbType.VarBinary] = typeof(byte[]),
-      [SqlDbType.VarChar] = typeof(string),
-      //[SqlDbType.Variant] = typeof(object),
-      [SqlDbType.Xml] = typeof(string)
+      { SqlDbType.BigInt, typeof(long) },
+      // { SqlDbType.Binary, typeof(byte { ]) },
+      { SqlDbType.Bit, typeof(bool) },
+      { SqlDbType.Char, typeof(string) },
+      { SqlDbType.Date, typeof(DateTime) },
+      { SqlDbType.DateTime, typeof(DateTime) },
+      { SqlDbType.DateTime2, typeof(DateTime) },
+      { SqlDbType.DateTimeOffset, typeof(DateTimeOffset) },
+      { SqlDbType.Decimal, typeof(decimal) },
+      { SqlDbType.Float, typeof(double) },
+      // { SqlDbType.Image, typeof(byte { ]) },
+      { SqlDbType.Int, typeof(int) },
+      { SqlDbType.Money, typeof(decimal) },
+      { SqlDbType.NChar, typeof(string) },
+      { SqlDbType.NText, typeof(string) },
+      { SqlDbType.NVarChar, typeof(string) },
+      { SqlDbType.Real, typeof(float) },
+      { SqlDbType.SmallDateTime, typeof(DateTime) },
+      { SqlDbType.SmallInt, typeof(short) },
+      { SqlDbType.SmallMoney, typeof(decimal) },
+      // { SqlDbType.Structured, typeof(object) },
+      { SqlDbType.Text, typeof(string) },
+      { SqlDbType.Time, typeof(TimeSpan) },
+      // { SqlDbType.Timestamp, typeof(byte { ]) },
+      { SqlDbType.TinyInt, typeof(byte) },
+      // { SqlDbType.Udt, typeof(object) },
+      { SqlDbType.UniqueIdentifier, typeof(Guid) },
+      // { SqlDbType.VarBinary, typeof(byte { ]) },
+      { SqlDbType.VarChar, typeof(string) },
+      // { SqlDbType.Variant, typeof(object) },
+      { SqlDbType.Xml, typeof(string) }
     };
+
+    // Caches the closed generic MethodInfo for ConversionExtensions.ConvertTo<T>
+    private static readonly ConcurrentDictionary<Type, MethodInfo> ConvertToMethodCache = new();
+
+    // Get the MethodInfo for the non-generic definition once
+    private static readonly MethodInfo GenericConvertToMethod = typeof(TypeConverter)
+      .GetMethod(nameof(TypeConverter.ConvertTo), new[] { typeof(object) })!;
+
+    /// <summary>
+    /// Gets or creates the closed generic MethodInfo for the specified target type T.
+    /// </summary>
+    private static MethodInfo GetConverterMethodInfo(Type targetType)
+    {
+      // Use GetOrAdd for thread-safe access and creation
+      return ConvertToMethodCache.GetOrAdd(targetType, t =>
+      {
+        // The slow reflection operation runs only once per Type
+        return GenericConvertToMethod.MakeGenericMethod(t);
+      });
+    }
   }
 
 }

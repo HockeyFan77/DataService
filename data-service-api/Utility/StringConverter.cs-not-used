@@ -2,7 +2,7 @@ using System.ComponentModel;
 
 namespace DataServiceApi.Utility
 {
-
+/*
   public static class StringConverter
   {
     public static object? ConvertTo(string? s, Type type)
@@ -91,5 +91,5 @@ namespace DataServiceApi.Utility
       }
     }
   }
-
+*/
 }

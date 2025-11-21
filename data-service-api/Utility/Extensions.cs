@@ -1,7 +1,4 @@
-using System;
-using System.ComponentModel;
 using System.Data.Common;
-using System.Globalization;
 
 namespace DataServiceApi.Utility
 {
@@ -76,10 +73,8 @@ namespace DataServiceApi.Utility
       if ( strings != null )
       {
         foreach ( string? test in strings )
-        {
           if ( StringsAreEqual(s, test, comparisonType) )
             return true;
-        }
       }
       return false;
     }
@@ -159,10 +154,8 @@ namespace DataServiceApi.Utility
       if ( s != null && strings != null )
       {
         foreach ( string? test in strings )
-        {
           if ( test != null && s.Contains(test, comparisonType) )
             return true;
-        }
       }
       return false;
     }
@@ -360,34 +353,6 @@ namespace DataServiceApi.Utility
       }
 
       return new string(buffer.Slice(0, index));
-
-      // don't mutate the removeChars array
-      // var charsToRemove = ignoreCase
-      //   ? Array.ConvertAll(removeChars, c => Char.ToLowerInvariant(c))
-      //   : (char[])removeChars.Clone();
-
-      // char[] buffer = new char[s.Length];
-      // int bufferLength = 0;
-      // for ( int sIndex = 0; sIndex < s.Length; sIndex++ )
-      // {
-      //   char originalChar = s[sIndex];
-      //   char compareChar = ignoreCase ? Char.ToLowerInvariant(originalChar) : originalChar;
-      //   bool foundRemoveChar = false;
-      //   for ( int removeCharIndex = 0; removeCharIndex < charsToRemove.Length; removeCharIndex++ )
-      //   {
-      //     if ( compareChar == charsToRemove[removeCharIndex] )
-      //     {
-      //       foundRemoveChar = true;
-      //       break;
-      //     }
-      //   }
-      //   if ( !foundRemoveChar )
-      //   {
-      //     buffer[bufferLength++] = originalChar;
-      //   }
-      // }
-      //
-      // return bufferLength > 0 ? new String(buffer, 0, bufferLength) : "";
     }
     public static string? RemoveAny(this string? s, bool ignoreCase, char[]? charsToRemove)
       => RemoveAny(s, ignoreCase, charsToRemove == null ? [] : new ReadOnlySpan<char>(charsToRemove));
@@ -449,82 +414,19 @@ namespace DataServiceApi.Utility
       return string.Join(" ", words);
     }
 
-    public static object? ConvertTo(this string? s, Type type)
-      => StringConverter.ConvertTo(s, type);
-    public static object? ConvertToDefault(this string? s, Type type)
-      => StringConverter.ConvertToDefault(s, type);
-    public static object? ConvertToDefault(this string? s, Type type, object? defaultValue)
-      => StringConverter.ConvertToDefault(s, type, defaultValue);
-    public static T? ConvertTo<T>(this string? s)
-      => StringConverter.ConvertTo<T>(s);
-    public static T? ConvertToDefault<T>(this string? s)
-      => StringConverter.ConvertToDefault<T>(s);
-    public static T? ConvertToDefault<T>(this string? s, T? defaultValue)
-      => StringConverter.ConvertToDefault<T>(s, defaultValue);
+    // public static object? ConvertTo(this string? s, Type type)
+    //   => StringConverter.ConvertTo(s, type);
+    // public static object? ConvertToDefault(this string? s, Type type)
+    //   => StringConverter.ConvertToDefault(s, type);
+    // public static object? ConvertToDefault(this string? s, Type type, object? defaultValue)
+    //   => StringConverter.ConvertToDefault(s, type, defaultValue);
+    // public static T? ConvertTo<T>(this string? s)
+    //   => StringConverter.ConvertTo<T>(s);
+    // public static T? ConvertToDefault<T>(this string? s)
+    //   => StringConverter.ConvertToDefault<T>(s);
+    // public static T? ConvertToDefault<T>(this string? s, T? defaultValue)
+    //   => StringConverter.ConvertToDefault<T>(s, defaultValue);
 
-  }
-
-  public static class ConversionExtensions
-  {
-    /// <summary>
-    /// Converts an object? to a target type T, handling nulls and falling back to string conversion.
-    /// </summary>
-    public static T? ConvertTo<T>(this object? input)
-    {
-      if (input == null)
-      {
-        // If input is null, return default(T) (which is null for reference types/Nullables)
-        return default;
-      }
-
-      // Get the target type and its underlying type if it's Nullable<T> (e.g., gets 'long' from 'long?')
-      var targetType = typeof(T);
-      var underlyingType = Nullable.GetUnderlyingType(targetType) ?? targetType;
-
-      // --- Step 1 & 2: Handle Nulls and Direct Compatibility ---
-
-      // If the input is already the target type or directly compatible, return it immediately
-      if (underlyingType.IsInstanceOfType(input))
-      {
-        return (T)input;
-      }
-
-      // Handle null/empty strings gracefully if target is nullable
-      if (string.IsNullOrEmpty(input.ToString()) && Nullable.GetUnderlyingType(targetType) != null)
-      {
-        return default;
-      }
-
-      // --- Step 3 & 4: Use TypeConverter Fallback ---
-
-      try
-      {
-        // Get a TypeConverter for the target type
-        var converter = TypeDescriptor.GetConverter(underlyingType);
-
-        // Check if the converter can convert FROM the source type (or string representation)
-        if (converter.CanConvertFrom(input.GetType()))
-        {
-          return (T)converter.ConvertFrom(null, CultureInfo.InvariantCulture, input);
-        }
-
-        // Fallback to converting FROM a string representation of the object
-        var inputAsString = input.ToString();
-        if (converter.CanConvertFrom(typeof(string)))
-        {
-          // This uses the built-in StringConverter behavior for the fallback logic
-          return (T)converter.ConvertFrom(null, CultureInfo.InvariantCulture, inputAsString);
-        }
-      }
-      catch (Exception)
-      {
-        // Handle specific conversion errors here if necessary
-        // Console.WriteLine($"Could not convert '{input}' to {typeof(T).Name}: {ex.Message}");
-      }
-
-      // If all else fails, return the default value for the target type
-      return default;
-    }
   }
 
 }
