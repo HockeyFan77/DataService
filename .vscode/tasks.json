@@ -24,7 +24,7 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "build-api-tests",
+      "label": "run-api-tests",
       "type": "process",
       "command": "dotnet",
       "args": [
@@ -40,8 +40,9 @@
         "isDefault": true
       },
       "presentation": {
+        "close": false,
         "reveal": "always",
-        "panel": "new"
+        "panel": "shared"
       },
       "detail": "Runs all MSTest unit tests in the dedicated test project."
     }

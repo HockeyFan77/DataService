@@ -47,7 +47,7 @@
       "name": "API Unit Tests",
       "type": "coreclr",
       "request": "launch",
-      "preLaunchTask": "build-api-tests",
+      //"preLaunchTask": "run-api-tests",
       "program": "dotnet",
       "args": [
         "test",
@@ -57,7 +57,8 @@
       ],
       "cwd": "${workspaceFolder}/data-service-api.tests",
       "console": "internalConsole",
-      "stopAtEntry": false
+      "stopAtEntry": false,
+      "justMyCode": false
     }
   ]
 }

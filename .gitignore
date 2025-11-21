@@ -196,3 +196,8 @@ wwwroot/*.map
 !**/.vscode/extensions.json
 !**/.vscode/tasks.json
 !**/.vscode/launch.*.example.json
+
+#######################################
+# MS Test
+#######################################
+*.trx

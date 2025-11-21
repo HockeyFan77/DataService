@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using DataServiceApi.Utility;
+﻿using DataServiceApi.Utility;
 
 namespace DataServiceApi.Tests;
 
@@ -114,14 +111,19 @@ public sealed class StringExtensionsTests
   }
 
   [DataTestMethod]
-  [DataRow("path/to/file.txt", '/', false, "path", DisplayName = "TakeLeft Char (Exclude)")]
-  [DataRow("path/to/file.txt", '/', true, "path/", DisplayName = "TakeLeft Char (Include)")]
-  [DataRow("name=value&other=...", "=", false, "name", StringComparison.Ordinal, DisplayName = "TakeLeft String (Exclude)")]
-  [DataRow("name=value&other=...", "=", true, "name=", StringComparison.Ordinal, DisplayName = "TakeLeft String (Include)")]
-  [DataRow("nodels", ':', false, "", DisplayName = "Delimiter Not Found")]
-  public void TakeLeft_Delimiter_ShouldWork(string? s, string delimiter, bool include, StringComparison comparisonType, string? expected)
+  [DataRow("path/to/file.txt", '/', false, StringComparison.OrdinalIgnoreCase, "path", DisplayName = "TakeLeft Char (Exclude)")]
+  [DataRow("path/to/file.txt", '/', true, StringComparison.OrdinalIgnoreCase, "path/", DisplayName = "TakeLeft Char (Include)")]
+  [DataRow("nodels", ':', false, StringComparison.OrdinalIgnoreCase, "", DisplayName = "TakeLeft Char (Delimiter Not Found)")]
+  public void TakeLeft_CharDelimiter_ShouldWork(string? s, char delimiter, bool include, StringComparison comparisonType, string? expected)
   {
-    // Use the string overload for simplicity in DataRow
+    Assert.AreEqual(expected, s.TakeLeft(delimiter, include, comparisonType));
+  }
+  [DataTestMethod]
+  [DataRow("name=value&other=...", "=value", false, StringComparison.OrdinalIgnoreCase, "name", DisplayName = "TakeLeft String (Exclude)")]
+  [DataRow("name=value&other=...", "=value", true, StringComparison.OrdinalIgnoreCase, "name=value", DisplayName = "TakeLeft String (Include)")]
+  [DataRow("nodels", ":fred:", false, StringComparison.OrdinalIgnoreCase, "", DisplayName = "TakeLeft String (Delimiter Not Found)")]
+  public void TakeLeft_StringDelimiter_ShouldWork(string? s, string delimiter, bool include, StringComparison comparisonType, string? expected)
+  {
     Assert.AreEqual(expected, s.TakeLeft(delimiter, include, comparisonType));
   }
 
@@ -135,15 +137,21 @@ public sealed class StringExtensionsTests
   }
 
   [DataTestMethod]
-  [DataRow("path.to.file", ".", false, "file", DisplayName = "TakeRight Last Delimiter (Exclude)")]
-  [DataRow("path.to.file", ".", true, ".file", DisplayName = "TakeRight Last Delimiter (Include)")]
-  [DataRow("path/to/file", "/", false, "file", DisplayName = "TakeRight Char (Exclude)")]
-  [DataRow("path/to/file", "/", true, "/file", DisplayName = "TakeRight Char (Include)")]
-  [DataRow("nodels", ':', false, "", DisplayName = "Delimiter Not Found")]
-  public void TakeRight_Delimiter_ShouldWork(string? s, string delimiter, bool include, string? expected)
+  [DataRow("path/to/file.txt", '/', false, StringComparison.OrdinalIgnoreCase, "file.txt", DisplayName = "TakeRight Char (Exclude)")]
+  [DataRow("path/to/file.txt", '/', true, StringComparison.OrdinalIgnoreCase, "/file.txt", DisplayName = "TakeRight Char (Include)")]
+  [DataRow("nodels", ':', false, StringComparison.OrdinalIgnoreCase, "", DisplayName = "TakeRight Char (Delimiter Not Found)")]
+  public void TakeRight_CharDelimiter_ShouldWork(string? s, char delimiter, bool include, StringComparison comparisonType, string? expected)
   {
-    // Note: Must use the string overload with last delimiter logic
-    Assert.AreEqual(expected, s.TakeRight(delimiter, include, StringComparison.Ordinal));
+    Assert.AreEqual(expected, s.TakeRight(delimiter, include, comparisonType));
+  }
+
+  [DataTestMethod]
+  [DataRow("name=value&other=...", "=value", false, StringComparison.OrdinalIgnoreCase, "&other=...", DisplayName = "TakeRight String (Exclude)")]
+  [DataRow("name=value&other=...", "=value", true, StringComparison.OrdinalIgnoreCase, "=value&other=...", DisplayName = "TakeRight String (Include)")]
+  [DataRow("nodels", ":fred:", false, StringComparison.OrdinalIgnoreCase, "", DisplayName = "TakeRight String (Delimiter Not Found)")]
+  public void TakeRight_StringDelimiter_ShouldWork(string? s, string delimiter, bool include, StringComparison comparisonType, string? expected)
+  {
+    Assert.AreEqual(expected, s.TakeRight(delimiter, include, comparisonType));
   }
 
   [DataTestMethod]

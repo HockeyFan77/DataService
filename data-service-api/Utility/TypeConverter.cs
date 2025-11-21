@@ -68,20 +68,20 @@ namespace DataServiceApi.Utility
       }
 
       // --- Step 4: Enhanced Boolean Handling for String Inputs ---
-      if ( effectiveTargetType == typeof(bool) && input is string stringValue )
+      if ( effectiveTargetType == typeof(bool) && input is string boolStringValue )
       {
         // Explicitly handle "1" and "0" strings for boolean conversion (common for XML/DB)
-        if ( stringValue.Equals("1", StringComparison.OrdinalIgnoreCase) )
+        if ( boolStringValue.Equals("1", StringComparison.OrdinalIgnoreCase) )
         {
           return (T)(object)true;
         }
-        if ( stringValue.Equals("0", StringComparison.OrdinalIgnoreCase) )
+        if ( boolStringValue.Equals("0", StringComparison.OrdinalIgnoreCase) )
         {
           return (T)(object)false;
         }
 
         // Also handle standard 'True'/'False' strings with TryParse
-        if ( bool.TryParse(stringValue, out bool result) )
+        if ( bool.TryParse(boolStringValue, out bool result) )
         {
           return (T)(object)result;
         }
@@ -112,7 +112,7 @@ namespace DataServiceApi.Utility
           return (T)converter.ConvertFrom(null, CultureInfo.InvariantCulture, inputAsString!)!;
         }
       }
-      catch ( Exception ex ) when ( !throwOnFail )
+      catch ( Exception ) when ( !throwOnFail )
       {
         // SAFE EXIT: If throwOnFail is FALSE, catch the conversion exception (e.g., FormatException)
         // and return the safe fallback value.
