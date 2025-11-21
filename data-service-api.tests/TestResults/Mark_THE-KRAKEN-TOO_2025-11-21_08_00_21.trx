@@ -1,0 +1,438 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="d15909c9-88c8-4ff4-bba9-8e7140934e1b" name="Mark@THE-KRAKEN-TOO 2025-11-21 08:00:21" runUser="THE-KRAKEN-TOO\Mark" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2025-11-21T08:00:21.5818815-05:00" queuing="2025-11-21T08:00:21.5818816-05:00" start="2025-11-21T08:00:20.6602722-05:00" finish="2025-11-21T08:00:21.6117519-05:00" />
+  <TestSettings name="default" id="21867fec-3a21-47a8-9abd-ba18626a2109">
+    <Deployment runDeploymentRoot="Mark_THE-KRAKEN-TOO_2025-11-21_08_00_21" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="3a3da089-7200-4e59-bf78-85186320e4eb" testId="1d04136c-e1bb-b4a3-5654-5307f0c374f9" testName="Complex Mixed Case" computerName="THE-KRAKEN-TOO" duration="00:00:00.0011634" startTime="2025-11-21T08:00:21.5772856-05:00" endTime="2025-11-21T08:00:21.5789038-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3a3da089-7200-4e59-bf78-85186320e4eb" />
+    <UnitTestResult executionId="81d4a405-ac7f-4208-aaca-777514425636" testId="6de90225-28ac-0eef-afee-2ab07730c12d" testName="IsEmpty_ShouldReturnTrueForNullAndEmpty" computerName="THE-KRAKEN-TOO" duration="00:00:00.0558601" startTime="2025-11-21T08:00:21.5006747-05:00" endTime="2025-11-21T08:00:21.5650025-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="81d4a405-ac7f-4208-aaca-777514425636" />
+    <UnitTestResult executionId="acccebbb-60d1-4b64-95b0-d0abe4e33c78" testId="1d3b405d-d008-b9fd-9c80-65f444b93e53" testName="Case-Sensitive Match" computerName="THE-KRAKEN-TOO" duration="00:00:00.0550116" startTime="2025-11-21T08:00:21.5007092-05:00" endTime="2025-11-21T08:00:21.5649998-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="acccebbb-60d1-4b64-95b0-d0abe4e33c78" />
+    <UnitTestResult executionId="bb558fb1-7d27-4a87-87e0-27ed26b1e287" testId="90795029-e901-1cde-0af2-46900afa462f" testName="Null Input" computerName="THE-KRAKEN-TOO" duration="00:00:00.0000045" startTime="2025-11-21T08:00:21.5778860-05:00" endTime="2025-11-21T08:00:21.5779481-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bb558fb1-7d27-4a87-87e0-27ed26b1e287" />
+    <UnitTestResult executionId="f4f88736-0c12-48e2-8802-f7cc2a87b3df" testId="4680c9c0-8229-4453-4fa5-25d94ffc36d9" testName="IsBlank_ShouldReturnTrueForNullEmptyAndWhitespace" computerName="THE-KRAKEN-TOO" duration="00:00:00.0558797" startTime="2025-11-21T08:00:21.5006977-05:00" endTime="2025-11-21T08:00:21.5650466-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f4f88736-0c12-48e2-8802-f7cc2a87b3df" />
+    <UnitTestResult executionId="cb21d7e9-6ab6-45c8-9f64-9744bbcf32ca" testId="bf3d94f6-ad85-690a-7910-350e6b4cc892" testName="TakeBetween Exclude" computerName="THE-KRAKEN-TOO" duration="00:00:00.0001495" startTime="2025-11-21T08:00:21.5753838-05:00" endTime="2025-11-21T08:00:21.5756202-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cb21d7e9-6ab6-45c8-9f64-9744bbcf32ca" />
+    <UnitTestResult executionId="b2b944ab-2b4a-4225-97c6-0e6dabf62e37" testId="b7d61634-98a5-3cd7-745c-0f166c5f6ff0" testName="Camel Case" computerName="THE-KRAKEN-TOO" duration="00:00:00.0014464" startTime="2025-11-21T08:00:21.5768020-05:00" endTime="2025-11-21T08:00:21.5783334-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b2b944ab-2b4a-4225-97c6-0e6dabf62e37" />
+    <UnitTestResult executionId="ec648dc2-70a2-4bc0-9bff-f6ca8a34d7b3" testId="e95c890c-5c4e-b8f7-bec9-d255888478a0" testName="Input Null (Returns Null)" computerName="THE-KRAKEN-TOO" duration="00:00:00.0000043" startTime="2025-11-21T08:00:21.5761055-05:00" endTime="2025-11-21T08:00:21.5762008-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ec648dc2-70a2-4bc0-9bff-f6ca8a34d7b3" />
+    <UnitTestResult executionId="d040d5c3-dd59-4fc9-a6cb-8bd3b62b5bb2" testId="d20151d8-b7c7-d33c-373a-f950a069cfdc" testName="TakeBetween with Prefix/Suffix" computerName="THE-KRAKEN-TOO" duration="00:00:00.0001443" startTime="2025-11-21T08:00:21.5755768-05:00" endTime="2025-11-21T08:00:21.5758536-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d040d5c3-dd59-4fc9-a6cb-8bd3b62b5bb2" />
+    <UnitTestResult executionId="5c1646fc-9493-4786-be0c-0e5fd387a184" testId="cfb3c54d-4d46-74e5-6c0c-5ee62a901966" testName="Normal Right" computerName="THE-KRAKEN-TOO" duration="00:00:00.0001071" startTime="2025-11-21T08:00:21.5742808-05:00" endTime="2025-11-21T08:00:21.5744769-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5c1646fc-9493-4786-be0c-0e5fd387a184" />
+    <UnitTestResult executionId="ac2e9b9b-5a79-4343-a15d-6d98c1ddc423" testId="2277aec3-015f-c5b0-b2a5-c5bc2516e5eb" testName="Delimiters Not Found" computerName="THE-KRAKEN-TOO" duration="00:00:00.0001690" startTime="2025-11-21T08:00:21.5755891-05:00" endTime="2025-11-21T08:00:21.5758628-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ac2e9b9b-5a79-4343-a15d-6d98c1ddc423" />
+    <UnitTestResult executionId="f96d3072-3eaa-43db-a133-4d476b3e06d8" testId="65d972a1-d2b6-38b8-bdd5-ac41614c9a5d" testName="Remove Any IgnoreCase" computerName="THE-KRAKEN-TOO" duration="00:00:00.0000088" startTime="2025-11-21T08:00:21.5767632-05:00" endTime="2025-11-21T08:00:21.5768731-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f96d3072-3eaa-43db-a133-4d476b3e06d8" />
+    <UnitTestResult executionId="dbb8b0ec-60b5-4d7f-9aaf-854e36155f5b" testId="3cf5ed77-feaf-1a6b-ff0a-fd07d4b93747" testName="Input Null" computerName="THE-KRAKEN-TOO" duration="00:00:00.0472960" startTime="2025-11-21T08:00:21.5143712-05:00" endTime="2025-11-21T08:00:21.5650216-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dbb8b0ec-60b5-4d7f-9aaf-854e36155f5b" />
+    <UnitTestResult executionId="97a58952-59d3-4523-94c7-cd7b4eff5ff1" testId="c4779c47-62ee-0185-d7bb-83549cb28801" testName="Numeric True" computerName="THE-KRAKEN-TOO" duration="00:00:00.0000964" startTime="2025-11-21T08:00:21.5761075-05:00" endTime="2025-11-21T08:00:21.5762709-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="97a58952-59d3-4523-94c7-cd7b4eff5ff1" />
+    <UnitTestResult executionId="24a0da4d-d370-4bb3-82c1-5d07075f56f0" testId="ea999f06-868b-4afe-d082-422e9dc75061" testName="Acronyms" computerName="THE-KRAKEN-TOO" duration="00:00:00.0001006" startTime="2025-11-21T08:00:21.5772689-05:00" endTime="2025-11-21T08:00:21.5774469-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="24a0da4d-d370-4bb3-82c1-5d07075f56f0" />
+    <UnitTestResult executionId="9ae7d034-84cc-4496-a61a-51fd1ef0cb4f" testId="3c093420-434e-b694-8d09-450eec80aa58" testName="Empty Chars To Remove" computerName="THE-KRAKEN-TOO" duration="00:00:00.0002941" startTime="2025-11-21T08:00:21.5760968-05:00" endTime="2025-11-21T08:00:21.5765061-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9ae7d034-84cc-4496-a61a-51fd1ef0cb4f" />
+    <UnitTestResult executionId="35cf5298-662f-4865-aa35-fb2dff3f7b38" testId="6b634461-c257-dfc4-5cd5-527eccaaab02" testName="Pascal Case" computerName="THE-KRAKEN-TOO" duration="00:00:00.0001180" startTime="2025-11-21T08:00:21.5772607-05:00" endTime="2025-11-21T08:00:21.5774668-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="35cf5298-662f-4865-aa35-fb2dff3f7b38" />
+    <UnitTestResult executionId="005ab3b1-6c48-4fb5-bbfc-c13a45e0ce52" testId="bd2bed95-6ce7-3f10-4b69-2672bc013c19" testName="Found Ordinal No Case" computerName="THE-KRAKEN-TOO" duration="00:00:00.0472848" startTime="2025-11-21T08:00:21.5143847-05:00" endTime="2025-11-21T08:00:21.5650545-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="005ab3b1-6c48-4fb5-bbfc-c13a45e0ce52" />
+    <UnitTestResult executionId="59b272e4-9c60-44f3-a628-b777502d9c71" testId="f6659b5e-9f87-334e-3620-e993336998f8" testName="TakeLeft String (Include)" computerName="THE-KRAKEN-TOO" duration="00:00:00.0006917" startTime="2025-11-21T08:00:21.5736066-05:00" endTime="2025-11-21T08:00:21.5746502-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="59b272e4-9c60-44f3-a628-b777502d9c71">
+      <Output>
+        <ErrorInfo>
+          <Message>Cannot run test method 'DataServiceApi.Tests.StringExtensionsTests.TakeLeft_Delimiter_ShouldWork': Test data doesn't match method parameters. Either the count or types are different.&#xD;
+Test expected 5 parameter(s), with types 'String, String, Boolean, StringComparison, String',&#xD;
+but received 5 argument(s), with types 'String, String, Boolean, String, StringComparison'.</Message>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="928d5399-c1a5-4613-b88b-b36895c40227" testId="45245c80-119f-6f18-d2ae-42f6db3ef626" testName="Not Found Ordinal Case" computerName="THE-KRAKEN-TOO" duration="00:00:00.0001570" startTime="2025-11-21T08:00:21.5676401-05:00" endTime="2025-11-21T08:00:21.5678887-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="928d5399-c1a5-4613-b88b-b36895c40227" />
+    <UnitTestResult executionId="3e602e4a-6077-45de-846e-c00f470df17d" testId="15f64061-4593-2c09-9918-6d3b6616087b" testName="Found Ordinal No Case" computerName="THE-KRAKEN-TOO" duration="00:00:00.0000910" startTime="2025-11-21T08:00:21.5676272-05:00" endTime="2025-11-21T08:00:21.5678185-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3e602e4a-6077-45de-846e-c00f470df17d" />
+    <UnitTestResult executionId="b8fcb309-f3da-47eb-bbf6-b05b503725d1" testId="551a014b-d91e-6d1c-4631-3666604b8342" testName="Search Null" computerName="THE-KRAKEN-TOO" duration="00:00:00.0000036" startTime="2025-11-21T08:00:21.5735842-05:00" endTime="2025-11-21T08:00:21.5736655-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b8fcb309-f3da-47eb-bbf6-b05b503725d1" />
+    <UnitTestResult executionId="b471a648-3c78-4368-b112-9d695890a091" testId="112f5627-8490-704d-eb31-bb94b63773d7" testName="Numeric False" computerName="THE-KRAKEN-TOO" duration="00:00:00.0000039" startTime="2025-11-21T08:00:21.5767548-05:00" endTime="2025-11-21T08:00:21.5768520-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b471a648-3c78-4368-b112-9d695890a091" />
+    <UnitTestResult executionId="858cdd63-cbd0-41d7-ab27-f15b1978a176" testId="7b1cbb15-10ce-916e-de5b-177eba2e62dd" testName="TakeRight Last Delimiter (Include)" computerName="THE-KRAKEN-TOO" duration="00:00:00.0001443" startTime="2025-11-21T08:00:21.5749306-05:00" endTime="2025-11-21T08:00:21.5751887-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="858cdd63-cbd0-41d7-ab27-f15b1978a176" />
+    <UnitTestResult executionId="b08d8338-164d-4f31-95da-e72a9109924b" testId="553f2454-cc10-4a33-0a8e-e188e76862d1" testName="Delimiter Not Found" computerName="THE-KRAKEN-TOO" duration="00:00:00.0000503" startTime="2025-11-21T08:00:21.5749544-05:00" endTime="2025-11-21T08:00:21.5750874-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b08d8338-164d-4f31-95da-e72a9109924b">
+      <Output>
+        <ErrorInfo>
+          <Message>Cannot run test method 'DataServiceApi.Tests.StringExtensionsTests.TakeRight_Delimiter_ShouldWork': Test data doesn't match method parameters. Either the count or types are different.&#xD;
+Test expected 4 parameter(s), with types 'String, String, Boolean, String',&#xD;
+but received 4 argument(s), with types 'String, Char, Boolean, String'.</Message>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="9a5e706f-cc37-45d0-af17-993b374d6d19" testId="fb7668d5-71bb-48ac-32e0-f1197b589f1a" testName="TakeRight Char (Exclude)" computerName="THE-KRAKEN-TOO" duration="00:00:00.0001478" startTime="2025-11-21T08:00:21.5749380-05:00" endTime="2025-11-21T08:00:21.5751795-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9a5e706f-cc37-45d0-af17-993b374d6d19" />
+    <UnitTestResult executionId="ed161b55-207c-4c5f-b601-f52cb4193cf7" testId="7dae1cd9-cef6-6af7-1aa2-5d1f6b503244" testName="Not Found Ordinal Case" computerName="THE-KRAKEN-TOO" duration="00:00:00.0473042" startTime="2025-11-21T08:00:21.5143546-05:00" endTime="2025-11-21T08:00:21.5650075-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ed161b55-207c-4c5f-b601-f52cb4193cf7" />
+    <UnitTestResult executionId="f652ba1e-fa55-4c16-830f-c37c3246adca" testId="81b53719-58aa-4154-68ab-0c5951496188" testName="TakeLeft String (Exclude)" computerName="THE-KRAKEN-TOO" duration="00:00:00.0006819" startTime="2025-11-21T08:00:21.5735972-05:00" endTime="2025-11-21T08:00:21.5746262-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f652ba1e-fa55-4c16-830f-c37c3246adca">
+      <Output>
+        <ErrorInfo>
+          <Message>Cannot run test method 'DataServiceApi.Tests.StringExtensionsTests.TakeLeft_Delimiter_ShouldWork': Test data doesn't match method parameters. Either the count or types are different.&#xD;
+Test expected 5 parameter(s), with types 'String, String, Boolean, StringComparison, String',&#xD;
+but received 5 argument(s), with types 'String, String, Boolean, String, StringComparison'.</Message>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="2c7660dc-e21a-4628-9ca7-6a1cb5affc0e" testId="56688b7c-7db8-b99e-e5cb-93cd4e5005a5" testName="Input Null" computerName="THE-KRAKEN-TOO" duration="00:00:00.0550081" startTime="2025-11-21T08:00:21.5007189-05:00" endTime="2025-11-21T08:00:21.5650011-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2c7660dc-e21a-4628-9ca7-6a1cb5affc0e" />
+    <UnitTestResult executionId="c6e3519e-bc7d-4678-84c5-f11c56c6ab99" testId="c71e0de3-6e02-83e9-657a-e64c066fda1b" testName="Both Null" computerName="THE-KRAKEN-TOO" duration="00:00:00.0488983" startTime="2025-11-21T08:00:21.5143148-05:00" endTime="2025-11-21T08:00:21.5650168-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c6e3519e-bc7d-4678-84c5-f11c56c6ab99" />
+    <UnitTestResult executionId="d2d87c13-f44f-48ee-bd57-e43aaaf99766" testId="9a731aed-9ff5-b7a4-4998-b600d21024e9" testName="Count Zero Right" computerName="THE-KRAKEN-TOO" duration="00:00:00.0001146" startTime="2025-11-21T08:00:21.5743125-05:00" endTime="2025-11-21T08:00:21.5745211-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d2d87c13-f44f-48ee-bd57-e43aaaf99766" />
+    <UnitTestResult executionId="412148de-da0e-4848-9027-14c681fe1ab3" testId="4067fbb3-9749-8fe2-88eb-dec3d469f1fa" testName="TakeRight Last Delimiter (Exclude)" computerName="THE-KRAKEN-TOO" duration="00:00:00.0001211" startTime="2025-11-21T08:00:21.5749654-05:00" endTime="2025-11-21T08:00:21.5751854-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="412148de-da0e-4848-9027-14c681fe1ab3" />
+    <UnitTestResult executionId="e8460187-1d85-48da-ac0d-8d807e1bde9f" testId="93aef83c-4a99-1964-5e63-2f875f6e697d" testName="Mixed Case Match" computerName="THE-KRAKEN-TOO" duration="00:00:00.0550228" startTime="2025-11-21T08:00:21.5006889-05:00" endTime="2025-11-21T08:00:21.5650366-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e8460187-1d85-48da-ac0d-8d807e1bde9f" />
+    <UnitTestResult executionId="07d415f0-bc8f-4263-b02d-03b5e5b44eed" testId="0c116d0e-e472-52ea-af93-4e3a5034c0b7" testName="Remove Any Ordinal" computerName="THE-KRAKEN-TOO" duration="00:00:00.0000103" startTime="2025-11-21T08:00:21.5767520-05:00" endTime="2025-11-21T08:00:21.5768707-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="07d415f0-bc8f-4263-b02d-03b5e5b44eed" />
+    <UnitTestResult executionId="0bd18cd1-cdfa-4744-b77e-9951a3dfb339" testId="38ea3dee-e55b-43c3-a771-ead18b6473fa" testName="Count Zero Left" computerName="THE-KRAKEN-TOO" duration="00:00:00.0002888" startTime="2025-11-21T08:00:21.5721645-05:00" endTime="2025-11-21T08:00:21.5726115-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0bd18cd1-cdfa-4744-b77e-9951a3dfb339" />
+    <UnitTestResult executionId="05f3aee0-bbea-408b-a4d0-e5d2c1416921" testId="4e30c772-a494-f9c3-ab7b-83f86e72212d" testName="Count &gt; Length Left" computerName="THE-KRAKEN-TOO" duration="00:00:00.0002970" startTime="2025-11-21T08:00:21.5721323-05:00" endTime="2025-11-21T08:00:21.5725677-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="05f3aee0-bbea-408b-a4d0-e5d2c1416921" />
+    <UnitTestResult executionId="cdc8f7bf-75a8-41dc-8e86-bda64467bfa1" testId="d463c576-f3c6-b7c5-b15e-b24642dc33c5" testName="Found Ordinal" computerName="THE-KRAKEN-TOO" duration="00:00:00.0001143" startTime="2025-11-21T08:00:21.5676110-05:00" endTime="2025-11-21T08:00:21.5678351-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cdc8f7bf-75a8-41dc-8e86-bda64467bfa1" />
+    <UnitTestResult executionId="c4550834-b6cb-48f7-9050-d4d7aea4ea98" testId="2ac0b579-0aac-5061-69c2-0ade12476f82" testName="Empty Input" computerName="THE-KRAKEN-TOO" duration="00:00:00.0000022" startTime="2025-11-21T08:00:21.5779007-05:00" endTime="2025-11-21T08:00:21.5779352-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c4550834-b6cb-48f7-9050-d4d7aea4ea98" />
+    <UnitTestResult executionId="c2590667-6fc6-4c46-a79d-64b99ae4bd42" testId="a9019275-bff0-24c7-1254-a9fa4aaae67a" testName="EqualsAny_ShouldReturnCorrectly" computerName="THE-KRAKEN-TOO" duration="00:00:00.0558351" startTime="2025-11-21T08:00:21.5007017-05:00" endTime="2025-11-21T08:00:21.5650001-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c2590667-6fc6-4c46-a79d-64b99ae4bd42" />
+    <UnitTestResult executionId="96206f3b-5ac2-4b0f-804b-32992b837264" testId="e1811724-a7ce-b59a-501f-05cf1d881c8a" testName="TakeBetween Include" computerName="THE-KRAKEN-TOO" duration="00:00:00.0001676" startTime="2025-11-21T08:00:21.5755655-05:00" endTime="2025-11-21T08:00:21.5759246-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="96206f3b-5ac2-4b0f-804b-32992b837264" />
+    <UnitTestResult executionId="6ed726a4-3cda-4aa0-9b6c-d75391bbc39a" testId="f74fcd65-3249-3b07-55af-bfbf9f8fe585" testName="Case-Insensitive Match" computerName="THE-KRAKEN-TOO" duration="00:00:00.0549981" startTime="2025-11-21T08:00:21.5006694-05:00" endTime="2025-11-21T08:00:21.5650504-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6ed726a4-3cda-4aa0-9b6c-d75391bbc39a" />
+    <UnitTestResult executionId="6166f141-e5e9-43ce-80ce-9baf729ecde3" testId="a7054d5f-6ca1-2bc6-a04f-abd00465410e" testName="Empty String Left" computerName="THE-KRAKEN-TOO" duration="00:00:00.0002659" startTime="2025-11-21T08:00:21.5721886-05:00" endTime="2025-11-21T08:00:21.5726195-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6166f141-e5e9-43ce-80ce-9baf729ecde3" />
+    <UnitTestResult executionId="b803753a-4f3e-482b-a5d0-47ff53374a56" testId="e2164b73-e1d4-ccf0-2221-a9f81ae42490" testName="Search Null" computerName="THE-KRAKEN-TOO" duration="00:00:00.0000025" startTime="2025-11-21T08:00:21.5736053-05:00" endTime="2025-11-21T08:00:21.5736604-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b803753a-4f3e-482b-a5d0-47ff53374a56" />
+    <UnitTestResult executionId="972e3d8b-d83b-4b2f-82e7-339dd1d31fd1" testId="bb0b7438-6907-46a5-2476-8d651d9c1627" testName="Normal Left" computerName="THE-KRAKEN-TOO" duration="00:00:00.0003646" startTime="2025-11-21T08:00:21.5721019-05:00" endTime="2025-11-21T08:00:21.5725728-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="972e3d8b-d83b-4b2f-82e7-339dd1d31fd1" />
+    <UnitTestResult executionId="d31878b6-faec-481e-9079-17cbcde150f0" testId="5d5c01e9-92fa-4ef4-54a6-6a05b4a0c8d5" testName="TakeLeft Char (Include)" computerName="THE-KRAKEN-TOO" duration="00:00:00.0007732" startTime="2025-11-21T08:00:21.5735750-05:00" endTime="2025-11-21T08:00:21.5746699-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d31878b6-faec-481e-9079-17cbcde150f0">
+      <Output>
+        <ErrorInfo>
+          <Message>Cannot run test method 'DataServiceApi.Tests.StringExtensionsTests.TakeLeft_Delimiter_ShouldWork': Test data doesn't match method parameters. Either the count or types are different.&#xD;
+Test expected 5 parameter(s), with types 'String, String, Boolean, StringComparison, String',&#xD;
+but received 4 argument(s), with types 'String, Char, Boolean, String'.</Message>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="4a042de6-792e-4a62-9bff-6ac02cad144d" testId="b855e85b-f7a6-71c0-f517-34f0563ea175" testName="Case-Insensitive Y" computerName="THE-KRAKEN-TOO" duration="00:00:00.0000865" startTime="2025-11-21T08:00:21.5761123-05:00" endTime="2025-11-21T08:00:21.5762402-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4a042de6-792e-4a62-9bff-6ac02cad144d" />
+    <UnitTestResult executionId="f116958f-bb61-4dfb-a0c1-a51884506c06" testId="5a445224-daa6-ff90-75e0-9b30e24323d7" testName="Null Input" computerName="THE-KRAKEN-TOO" duration="00:00:00.0000046" startTime="2025-11-21T08:00:21.5767903-05:00" endTime="2025-11-21T08:00:21.5768945-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f116958f-bb61-4dfb-a0c1-a51884506c06" />
+    <UnitTestResult executionId="598aeb80-eb56-4bc5-b658-1fec37a12016" testId="8fa8a433-dade-4aee-4c46-0b035b929b2a" testName="False Keyword" computerName="THE-KRAKEN-TOO" duration="00:00:00.0000049" startTime="2025-11-21T08:00:21.5767425-05:00" endTime="2025-11-21T08:00:21.5768617-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="598aeb80-eb56-4bc5-b658-1fec37a12016" />
+    <UnitTestResult executionId="fb77c610-65aa-42f8-9e6f-f24b136144c9" testId="ffa4817b-f590-0667-dcbc-84be2e43db9a" testName="TakeRight Char (Include)" computerName="THE-KRAKEN-TOO" duration="00:00:00.0001376" startTime="2025-11-21T08:00:21.5749444-05:00" endTime="2025-11-21T08:00:21.5751829-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fb77c610-65aa-42f8-9e6f-f24b136144c9" />
+    <UnitTestResult executionId="d3d4cd4c-8e25-44c7-94d2-b12d45f36b56" testId="00c4d78e-850e-6498-2c39-291ca51669fe" testName="TakeLeft Char (Exclude)" computerName="THE-KRAKEN-TOO" duration="00:00:00.0007686" startTime="2025-11-21T08:00:21.5735732-05:00" endTime="2025-11-21T08:00:21.5746375-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d3d4cd4c-8e25-44c7-94d2-b12d45f36b56">
+      <Output>
+        <ErrorInfo>
+          <Message>Cannot run test method 'DataServiceApi.Tests.StringExtensionsTests.TakeLeft_Delimiter_ShouldWork': Test data doesn't match method parameters. Either the count or types are different.&#xD;
+Test expected 5 parameter(s), with types 'String, String, Boolean, StringComparison, String',&#xD;
+but received 4 argument(s), with types 'String, Char, Boolean, String'.</Message>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="2ac87ee3-4518-4e74-b1be-98fe381cda9c" testId="bece4f03-412f-8ac0-a6ea-fdb74dac1b1d" testName="Null String Input" computerName="THE-KRAKEN-TOO" duration="00:00:00.0002986" startTime="2025-11-21T08:00:21.5760835-05:00" endTime="2025-11-21T08:00:21.5764961-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2ac87ee3-4518-4e74-b1be-98fe381cda9c" />
+    <UnitTestResult executionId="2c57fd8f-6a27-46b1-b74d-004e550899d5" testId="e09fe948-7d07-0645-3115-e98bf494c983" testName="Null String Left" computerName="THE-KRAKEN-TOO" duration="00:00:00.0000041" startTime="2025-11-21T08:00:21.5742681-05:00" endTime="2025-11-21T08:00:21.5743568-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2c57fd8f-6a27-46b1-b74d-004e550899d5" />
+    <UnitTestResult executionId="c518a94c-c3cd-4947-82b3-6d464619b715" testId="f29db220-616f-634e-8259-3bf965232f49" testName="Input Null" computerName="THE-KRAKEN-TOO" duration="00:00:00.0000037" startTime="2025-11-21T08:00:21.5720653-05:00" endTime="2025-11-21T08:00:21.5721445-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c518a94c-c3cd-4947-82b3-6d464619b715" />
+    <UnitTestResult executionId="a490260e-5ed7-497e-980b-fdb18ef9975c" testId="df4ea5cf-28a8-3751-9c0a-c3f0f009ccab" testName="Found Ordinal" computerName="THE-KRAKEN-TOO" duration="00:00:00.0473106" startTime="2025-11-21T08:00:21.5143327-05:00" endTime="2025-11-21T08:00:21.5650410-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a490260e-5ed7-497e-980b-fdb18ef9975c" />
+    <UnitTestResult executionId="3c733fa6-8ab9-4e3e-a7e8-16a53bb6b44a" testId="ca40de59-2e6a-0136-6bea-b0ecc1424eec" testName="Partial Spacing" computerName="THE-KRAKEN-TOO" duration="00:00:00.0010223" startTime="2025-11-21T08:00:21.5772875-05:00" endTime="2025-11-21T08:00:21.5783743-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3c733fa6-8ab9-4e3e-a7e8-16a53bb6b44a" />
+    <UnitTestResult executionId="a5208ecf-6f39-49b2-ab42-a78feb3beb31" testId="81d0a7e4-0156-9966-641f-de3a60f614bb" testName="Delimiter Not Found" computerName="THE-KRAKEN-TOO" duration="00:00:00.0001088" startTime="2025-11-21T08:00:21.5742690-05:00" endTime="2025-11-21T08:00:21.5746395-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a5208ecf-6f39-49b2-ab42-a78feb3beb31">
+      <Output>
+        <ErrorInfo>
+          <Message>Cannot run test method 'DataServiceApi.Tests.StringExtensionsTests.TakeLeft_Delimiter_ShouldWork': Test data doesn't match method parameters. Either the count or types are different.&#xD;
+Test expected 5 parameter(s), with types 'String, String, Boolean, StringComparison, String',&#xD;
+but received 4 argument(s), with types 'String, Char, Boolean, String'.</Message>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="782ede82-a3a7-4e35-9ade-0910069e26f9" testId="558fc647-9291-8f34-7847-4461bae046f7" testName="One Null" computerName="THE-KRAKEN-TOO" duration="00:00:00.0489329" startTime="2025-11-21T08:00:21.5143011-05:00" endTime="2025-11-21T08:00:21.5650117-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="782ede82-a3a7-4e35-9ade-0910069e26f9" />
+    <UnitTestResult executionId="8a077bc4-d4c3-4946-92a7-7d18a7695030" testId="f9e71608-10ba-6fff-58a4-e3d5353ac364" testName="Case-Sensitive Mismatch" computerName="THE-KRAKEN-TOO" duration="00:00:00.0550196" startTime="2025-11-21T08:00:21.5007061-05:00" endTime="2025-11-21T08:00:21.5650334-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8a077bc4-d4c3-4946-92a7-7d18a7695030" />
+    <UnitTestResult executionId="1c7252fe-4e12-4f27-af22-2a2e6a7c9503" testId="74991e12-0a95-aa4d-c38d-7de89d5e6074" testName="Count &gt; Length Right" computerName="THE-KRAKEN-TOO" duration="00:00:00.0001258" startTime="2025-11-21T08:00:21.5743024-05:00" endTime="2025-11-21T08:00:21.5745117-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1c7252fe-4e12-4f27-af22-2a2e6a7c9503" />
+    <UnitTestResult executionId="693d2139-6db2-4650-9a01-2906bae1c24a" testId="ac52f6fb-833d-47db-f266-6a017699ecad" testName="Both Null" computerName="THE-KRAKEN-TOO" duration="00:00:00.0549936" startTime="2025-11-21T08:00:21.5007381-05:00" endTime="2025-11-21T08:00:21.5650018-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="693d2139-6db2-4650-9a01-2906bae1c24a" />
+    <UnitTestResult executionId="7796be86-e9b8-45ca-a591-a8f045069f35" testId="ea28ed24-7103-fa10-57d3-b81e6ad7b62b" testName="Lowercase Yes" computerName="THE-KRAKEN-TOO" duration="00:00:00.0000047" startTime="2025-11-21T08:00:21.5772587-05:00" endTime="2025-11-21T08:00:21.5773475-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7796be86-e9b8-45ca-a591-a8f045069f35" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Pascal Case" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="6b634461-c257-dfc4-5cd5-527eccaaab02">
+      <Execution id="35cf5298-662f-4865-aa35-fb2dff3f7b38" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="ToProperCaseSpaced_ShouldFormatCorrectly" />
+    </UnitTest>
+    <UnitTest name="Camel Case" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="b7d61634-98a5-3cd7-745c-0f166c5f6ff0">
+      <Execution id="b2b944ab-2b4a-4225-97c6-0e6dabf62e37" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="ToProperCaseSpaced_ShouldFormatCorrectly" />
+    </UnitTest>
+    <UnitTest name="Delimiters Not Found" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="2277aec3-015f-c5b0-b2a5-c5bc2516e5eb">
+      <Execution id="ac2e9b9b-5a79-4343-a15d-6d98c1ddc423" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="TakeBetween_ShouldWork" />
+    </UnitTest>
+    <UnitTest name="Remove Any IgnoreCase" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="65d972a1-d2b6-38b8-bdd5-ac41614c9a5d">
+      <Execution id="f96d3072-3eaa-43db-a133-4d476b3e06d8" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="RemoveAny_ShouldRemoveCharacters" />
+    </UnitTest>
+    <UnitTest name="Found Ordinal No Case" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="15f64061-4593-2c09-9918-6d3b6616087b">
+      <Execution id="3e602e4a-6077-45de-846e-c00f470df17d" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="Contains_ShouldHandleCasesAndNulls" />
+    </UnitTest>
+    <UnitTest name="EqualsAny_ShouldReturnCorrectly" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="a9019275-bff0-24c7-1254-a9fa4aaae67a">
+      <Execution id="c2590667-6fc6-4c46-a79d-64b99ae4bd42" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="EqualsAny_ShouldReturnCorrectly" />
+    </UnitTest>
+    <UnitTest name="Search Null" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="e2164b73-e1d4-ccf0-2221-a9f81ae42490">
+      <Execution id="b803753a-4f3e-482b-a5d0-47ff53374a56" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="Contains_ShouldHandleCasesAndNulls" />
+    </UnitTest>
+    <UnitTest name="TakeRight Last Delimiter (Include)" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="7b1cbb15-10ce-916e-de5b-177eba2e62dd">
+      <Execution id="858cdd63-cbd0-41d7-ab27-f15b1978a176" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="TakeRight_Delimiter_ShouldWork" />
+    </UnitTest>
+    <UnitTest name="TakeRight Char (Include)" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="ffa4817b-f590-0667-dcbc-84be2e43db9a">
+      <Execution id="fb77c610-65aa-42f8-9e6f-f24b136144c9" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="TakeRight_Delimiter_ShouldWork" />
+    </UnitTest>
+    <UnitTest name="Case-Sensitive Match" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="1d3b405d-d008-b9fd-9c80-65f444b93e53">
+      <Execution id="acccebbb-60d1-4b64-95b0-d0abe4e33c78" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="EqualsOrdinal_ShouldBeCaseSensitiveAndHandleNulls" />
+    </UnitTest>
+    <UnitTest name="Case-Insensitive Match" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="f74fcd65-3249-3b07-55af-bfbf9f8fe585">
+      <Execution id="6ed726a4-3cda-4aa0-9b6c-d75391bbc39a" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="EqualsOrdinalNoCase_ShouldBeCaseInsensitiveAndHandleNulls" />
+    </UnitTest>
+    <UnitTest name="Both Null" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="c71e0de3-6e02-83e9-657a-e64c066fda1b">
+      <Execution id="c6e3519e-bc7d-4678-84c5-f11c56c6ab99" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="EqualsOrdinalNoCase_ShouldBeCaseInsensitiveAndHandleNulls" />
+    </UnitTest>
+    <UnitTest name="TakeRight Last Delimiter (Exclude)" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="4067fbb3-9749-8fe2-88eb-dec3d469f1fa">
+      <Execution id="412148de-da0e-4848-9027-14c681fe1ab3" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="TakeRight_Delimiter_ShouldWork" />
+    </UnitTest>
+    <UnitTest name="Case-Insensitive Y" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="b855e85b-f7a6-71c0-f517-34f0563ea175">
+      <Execution id="4a042de6-792e-4a62-9bff-6ac02cad144d" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="IsTruthy_ShouldUseOrdinalNoCase" />
+    </UnitTest>
+    <UnitTest name="Delimiter Not Found" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="553f2454-cc10-4a33-0a8e-e188e76862d1">
+      <Execution id="b08d8338-164d-4f31-95da-e72a9109924b" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="TakeRight_Delimiter_ShouldWork" />
+    </UnitTest>
+    <UnitTest name="Input Null (Returns Null)" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="e95c890c-5c4e-b8f7-bec9-d255888478a0">
+      <Execution id="ec648dc2-70a2-4bc0-9bff-f6ca8a34d7b3" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="TakeBetween_ShouldWork" />
+    </UnitTest>
+    <UnitTest name="Delimiter Not Found" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="81d0a7e4-0156-9966-641f-de3a60f614bb">
+      <Execution id="a5208ecf-6f39-49b2-ab42-a78feb3beb31" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="TakeLeft_Delimiter_ShouldWork" />
+    </UnitTest>
+    <UnitTest name="Normal Right" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="cfb3c54d-4d46-74e5-6c0c-5ee62a901966">
+      <Execution id="5c1646fc-9493-4786-be0c-0e5fd387a184" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="TakeRight_Count_ShouldHandleBoundaries" />
+    </UnitTest>
+    <UnitTest name="TakeLeft String (Include)" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="f6659b5e-9f87-334e-3620-e993336998f8">
+      <Execution id="59b272e4-9c60-44f3-a628-b777502d9c71" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="TakeLeft_Delimiter_ShouldWork" />
+    </UnitTest>
+    <UnitTest name="Null String Input" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="bece4f03-412f-8ac0-a6ea-fdb74dac1b1d">
+      <Execution id="2ac87ee3-4518-4e74-b1be-98fe381cda9c" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="RemoveAny_ShouldRemoveCharacters" />
+    </UnitTest>
+    <UnitTest name="Count Zero Right" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="9a731aed-9ff5-b7a4-4998-b600d21024e9">
+      <Execution id="d2d87c13-f44f-48ee-bd57-e43aaaf99766" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="TakeRight_Count_ShouldHandleBoundaries" />
+    </UnitTest>
+    <UnitTest name="IsBlank_ShouldReturnTrueForNullEmptyAndWhitespace" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="4680c9c0-8229-4453-4fa5-25d94ffc36d9">
+      <Execution id="f4f88736-0c12-48e2-8802-f7cc2a87b3df" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="IsBlank_ShouldReturnTrueForNullEmptyAndWhitespace" />
+    </UnitTest>
+    <UnitTest name="Null Input" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="90795029-e901-1cde-0af2-46900afa462f">
+      <Execution id="bb558fb1-7d27-4a87-87e0-27ed26b1e287" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="ToProperCaseSpaced_ShouldFormatCorrectly" />
+    </UnitTest>
+    <UnitTest name="Remove Any Ordinal" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="0c116d0e-e472-52ea-af93-4e3a5034c0b7">
+      <Execution id="07d415f0-bc8f-4263-b02d-03b5e5b44eed" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="RemoveAny_ShouldRemoveCharacters" />
+    </UnitTest>
+    <UnitTest name="Acronyms" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="ea999f06-868b-4afe-d082-422e9dc75061">
+      <Execution id="24a0da4d-d370-4bb3-82c1-5d07075f56f0" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="ToProperCaseSpaced_ShouldFormatCorrectly" />
+    </UnitTest>
+    <UnitTest name="Normal Left" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="bb0b7438-6907-46a5-2476-8d651d9c1627">
+      <Execution id="972e3d8b-d83b-4b2f-82e7-339dd1d31fd1" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="TakeLeft_Count_ShouldHandleBoundaries" />
+    </UnitTest>
+    <UnitTest name="One Null" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="558fc647-9291-8f34-7847-4461bae046f7">
+      <Execution id="782ede82-a3a7-4e35-9ade-0910069e26f9" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="EqualsOrdinal_ShouldBeCaseSensitiveAndHandleNulls" />
+    </UnitTest>
+    <UnitTest name="Null String Left" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="e09fe948-7d07-0645-3115-e98bf494c983">
+      <Execution id="2c57fd8f-6a27-46b1-b74d-004e550899d5" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="TakeLeft_Count_ShouldHandleBoundaries" />
+    </UnitTest>
+    <UnitTest name="False Keyword" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="8fa8a433-dade-4aee-4c46-0b035b929b2a">
+      <Execution id="598aeb80-eb56-4bc5-b658-1fec37a12016" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="IsTruthy_ShouldUseOrdinalNoCase" />
+    </UnitTest>
+    <UnitTest name="Input Null" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="f29db220-616f-634e-8259-3bf965232f49">
+      <Execution id="c518a94c-c3cd-4947-82b3-6d464619b715" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="Contains_ShouldHandleCasesAndNulls" />
+    </UnitTest>
+    <UnitTest name="TakeBetween with Prefix/Suffix" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="d20151d8-b7c7-d33c-373a-f950a069cfdc">
+      <Execution id="d040d5c3-dd59-4fc9-a6cb-8bd3b62b5bb2" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="TakeBetween_ShouldWork" />
+    </UnitTest>
+    <UnitTest name="Count &gt; Length Left" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="4e30c772-a494-f9c3-ab7b-83f86e72212d">
+      <Execution id="05f3aee0-bbea-408b-a4d0-e5d2c1416921" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="TakeLeft_Count_ShouldHandleBoundaries" />
+    </UnitTest>
+    <UnitTest name="Partial Spacing" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="ca40de59-2e6a-0136-6bea-b0ecc1424eec">
+      <Execution id="3c733fa6-8ab9-4e3e-a7e8-16a53bb6b44a" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="ToProperCaseSpaced_ShouldFormatCorrectly" />
+    </UnitTest>
+    <UnitTest name="Input Null" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="56688b7c-7db8-b99e-e5cb-93cd4e5005a5">
+      <Execution id="2c7660dc-e21a-4628-9ca7-6a1cb5affc0e" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="EqualsOrdinalNoCase_ShouldBeCaseInsensitiveAndHandleNulls" />
+    </UnitTest>
+    <UnitTest name="TakeLeft Char (Include)" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="5d5c01e9-92fa-4ef4-54a6-6a05b4a0c8d5">
+      <Execution id="d31878b6-faec-481e-9079-17cbcde150f0" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="TakeLeft_Delimiter_ShouldWork" />
+    </UnitTest>
+    <UnitTest name="Null Input" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="5a445224-daa6-ff90-75e0-9b30e24323d7">
+      <Execution id="f116958f-bb61-4dfb-a0c1-a51884506c06" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="IsTruthy_ShouldUseOrdinalNoCase" />
+    </UnitTest>
+    <UnitTest name="TakeBetween Exclude" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="bf3d94f6-ad85-690a-7910-350e6b4cc892">
+      <Execution id="cb21d7e9-6ab6-45c8-9f64-9744bbcf32ca" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="TakeBetween_ShouldWork" />
+    </UnitTest>
+    <UnitTest name="Mixed Case Match" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="93aef83c-4a99-1964-5e63-2f875f6e697d">
+      <Execution id="e8460187-1d85-48da-ac0d-8d807e1bde9f" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="EqualsOrdinalNoCase_ShouldBeCaseInsensitiveAndHandleNulls" />
+    </UnitTest>
+    <UnitTest name="Lowercase Yes" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="ea28ed24-7103-fa10-57d3-b81e6ad7b62b">
+      <Execution id="7796be86-e9b8-45ca-a591-a8f045069f35" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="IsTruthy_ShouldUseOrdinalNoCase" />
+    </UnitTest>
+    <UnitTest name="Both Null" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="ac52f6fb-833d-47db-f266-6a017699ecad">
+      <Execution id="693d2139-6db2-4650-9a01-2906bae1c24a" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="EqualsOrdinal_ShouldBeCaseSensitiveAndHandleNulls" />
+    </UnitTest>
+    <UnitTest name="Count &gt; Length Right" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="74991e12-0a95-aa4d-c38d-7de89d5e6074">
+      <Execution id="1c7252fe-4e12-4f27-af22-2a2e6a7c9503" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="TakeRight_Count_ShouldHandleBoundaries" />
+    </UnitTest>
+    <UnitTest name="TakeLeft Char (Exclude)" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="00c4d78e-850e-6498-2c39-291ca51669fe">
+      <Execution id="d3d4cd4c-8e25-44c7-94d2-b12d45f36b56" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="TakeLeft_Delimiter_ShouldWork" />
+    </UnitTest>
+    <UnitTest name="IsEmpty_ShouldReturnTrueForNullAndEmpty" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="6de90225-28ac-0eef-afee-2ab07730c12d">
+      <Execution id="81d4a405-ac7f-4208-aaca-777514425636" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="IsEmpty_ShouldReturnTrueForNullAndEmpty" />
+    </UnitTest>
+    <UnitTest name="Not Found Ordinal Case" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="45245c80-119f-6f18-d2ae-42f6db3ef626">
+      <Execution id="928d5399-c1a5-4613-b88b-b36895c40227" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="Contains_ShouldHandleCasesAndNulls" />
+    </UnitTest>
+    <UnitTest name="Numeric False" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="112f5627-8490-704d-eb31-bb94b63773d7">
+      <Execution id="b471a648-3c78-4368-b112-9d695890a091" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="IsTruthy_ShouldUseOrdinalNoCase" />
+    </UnitTest>
+    <UnitTest name="Found Ordinal" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="df4ea5cf-28a8-3751-9c0a-c3f0f009ccab">
+      <Execution id="a490260e-5ed7-497e-980b-fdb18ef9975c" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="IndexOf_ShouldHandleCasesAndNulls" />
+    </UnitTest>
+    <UnitTest name="Numeric True" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="c4779c47-62ee-0185-d7bb-83549cb28801">
+      <Execution id="97a58952-59d3-4523-94c7-cd7b4eff5ff1" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="IsTruthy_ShouldUseOrdinalNoCase" />
+    </UnitTest>
+    <UnitTest name="Count Zero Left" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="38ea3dee-e55b-43c3-a771-ead18b6473fa">
+      <Execution id="0bd18cd1-cdfa-4744-b77e-9951a3dfb339" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="TakeLeft_Count_ShouldHandleBoundaries" />
+    </UnitTest>
+    <UnitTest name="Not Found Ordinal Case" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="7dae1cd9-cef6-6af7-1aa2-5d1f6b503244">
+      <Execution id="ed161b55-207c-4c5f-b601-f52cb4193cf7" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="IndexOf_ShouldHandleCasesAndNulls" />
+    </UnitTest>
+    <UnitTest name="Found Ordinal No Case" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="bd2bed95-6ce7-3f10-4b69-2672bc013c19">
+      <Execution id="005ab3b1-6c48-4fb5-bbfc-c13a45e0ce52" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="IndexOf_ShouldHandleCasesAndNulls" />
+    </UnitTest>
+    <UnitTest name="Found Ordinal" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="d463c576-f3c6-b7c5-b15e-b24642dc33c5">
+      <Execution id="cdc8f7bf-75a8-41dc-8e86-bda64467bfa1" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="Contains_ShouldHandleCasesAndNulls" />
+    </UnitTest>
+    <UnitTest name="Empty Chars To Remove" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="3c093420-434e-b694-8d09-450eec80aa58">
+      <Execution id="9ae7d034-84cc-4496-a61a-51fd1ef0cb4f" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="RemoveAny_ShouldRemoveCharacters" />
+    </UnitTest>
+    <UnitTest name="TakeLeft String (Exclude)" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="81b53719-58aa-4154-68ab-0c5951496188">
+      <Execution id="f652ba1e-fa55-4c16-830f-c37c3246adca" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="TakeLeft_Delimiter_ShouldWork" />
+    </UnitTest>
+    <UnitTest name="Input Null" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="3cf5ed77-feaf-1a6b-ff0a-fd07d4b93747">
+      <Execution id="dbb8b0ec-60b5-4d7f-9aaf-854e36155f5b" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="IndexOf_ShouldHandleCasesAndNulls" />
+    </UnitTest>
+    <UnitTest name="TakeRight Char (Exclude)" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="fb7668d5-71bb-48ac-32e0-f1197b589f1a">
+      <Execution id="9a5e706f-cc37-45d0-af17-993b374d6d19" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="TakeRight_Delimiter_ShouldWork" />
+    </UnitTest>
+    <UnitTest name="Empty Input" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="2ac0b579-0aac-5061-69c2-0ade12476f82">
+      <Execution id="c4550834-b6cb-48f7-9050-d4d7aea4ea98" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="ToProperCaseSpaced_ShouldFormatCorrectly" />
+    </UnitTest>
+    <UnitTest name="TakeBetween Include" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="e1811724-a7ce-b59a-501f-05cf1d881c8a">
+      <Execution id="96206f3b-5ac2-4b0f-804b-32992b837264" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="TakeBetween_ShouldWork" />
+    </UnitTest>
+    <UnitTest name="Empty String Left" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="a7054d5f-6ca1-2bc6-a04f-abd00465410e">
+      <Execution id="6166f141-e5e9-43ce-80ce-9baf729ecde3" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="TakeLeft_Count_ShouldHandleBoundaries" />
+    </UnitTest>
+    <UnitTest name="Complex Mixed Case" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="1d04136c-e1bb-b4a3-5654-5307f0c374f9">
+      <Execution id="3a3da089-7200-4e59-bf78-85186320e4eb" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="ToProperCaseSpaced_ShouldFormatCorrectly" />
+    </UnitTest>
+    <UnitTest name="Search Null" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="551a014b-d91e-6d1c-4631-3666604b8342">
+      <Execution id="b8fcb309-f3da-47eb-bbf6-b05b503725d1" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="IndexOf_ShouldHandleCasesAndNulls" />
+    </UnitTest>
+    <UnitTest name="Case-Sensitive Mismatch" storage="d:\code\projects\dataservice\data-service-api.tests\bin\debug\net9.0\data-service-api.tests.dll" id="f9e71608-10ba-6fff-58a4-e3d5353ac364">
+      <Execution id="8a077bc4-d4c3-4946-92a7-7d18a7695030" />
+      <TestMethod codeBase="D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll" adapterTypeName="executor://mstestadapter/v2" className="DataServiceApi.Tests.StringExtensionsTests" name="EqualsOrdinal_ShouldBeCaseSensitiveAndHandleNulls" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="1d04136c-e1bb-b4a3-5654-5307f0c374f9" executionId="3a3da089-7200-4e59-bf78-85186320e4eb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6de90225-28ac-0eef-afee-2ab07730c12d" executionId="81d4a405-ac7f-4208-aaca-777514425636" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1d3b405d-d008-b9fd-9c80-65f444b93e53" executionId="acccebbb-60d1-4b64-95b0-d0abe4e33c78" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="90795029-e901-1cde-0af2-46900afa462f" executionId="bb558fb1-7d27-4a87-87e0-27ed26b1e287" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4680c9c0-8229-4453-4fa5-25d94ffc36d9" executionId="f4f88736-0c12-48e2-8802-f7cc2a87b3df" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bf3d94f6-ad85-690a-7910-350e6b4cc892" executionId="cb21d7e9-6ab6-45c8-9f64-9744bbcf32ca" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b7d61634-98a5-3cd7-745c-0f166c5f6ff0" executionId="b2b944ab-2b4a-4225-97c6-0e6dabf62e37" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e95c890c-5c4e-b8f7-bec9-d255888478a0" executionId="ec648dc2-70a2-4bc0-9bff-f6ca8a34d7b3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d20151d8-b7c7-d33c-373a-f950a069cfdc" executionId="d040d5c3-dd59-4fc9-a6cb-8bd3b62b5bb2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cfb3c54d-4d46-74e5-6c0c-5ee62a901966" executionId="5c1646fc-9493-4786-be0c-0e5fd387a184" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2277aec3-015f-c5b0-b2a5-c5bc2516e5eb" executionId="ac2e9b9b-5a79-4343-a15d-6d98c1ddc423" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="65d972a1-d2b6-38b8-bdd5-ac41614c9a5d" executionId="f96d3072-3eaa-43db-a133-4d476b3e06d8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3cf5ed77-feaf-1a6b-ff0a-fd07d4b93747" executionId="dbb8b0ec-60b5-4d7f-9aaf-854e36155f5b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c4779c47-62ee-0185-d7bb-83549cb28801" executionId="97a58952-59d3-4523-94c7-cd7b4eff5ff1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ea999f06-868b-4afe-d082-422e9dc75061" executionId="24a0da4d-d370-4bb3-82c1-5d07075f56f0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3c093420-434e-b694-8d09-450eec80aa58" executionId="9ae7d034-84cc-4496-a61a-51fd1ef0cb4f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6b634461-c257-dfc4-5cd5-527eccaaab02" executionId="35cf5298-662f-4865-aa35-fb2dff3f7b38" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bd2bed95-6ce7-3f10-4b69-2672bc013c19" executionId="005ab3b1-6c48-4fb5-bbfc-c13a45e0ce52" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f6659b5e-9f87-334e-3620-e993336998f8" executionId="59b272e4-9c60-44f3-a628-b777502d9c71" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="45245c80-119f-6f18-d2ae-42f6db3ef626" executionId="928d5399-c1a5-4613-b88b-b36895c40227" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="15f64061-4593-2c09-9918-6d3b6616087b" executionId="3e602e4a-6077-45de-846e-c00f470df17d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="551a014b-d91e-6d1c-4631-3666604b8342" executionId="b8fcb309-f3da-47eb-bbf6-b05b503725d1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="112f5627-8490-704d-eb31-bb94b63773d7" executionId="b471a648-3c78-4368-b112-9d695890a091" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7b1cbb15-10ce-916e-de5b-177eba2e62dd" executionId="858cdd63-cbd0-41d7-ab27-f15b1978a176" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="553f2454-cc10-4a33-0a8e-e188e76862d1" executionId="b08d8338-164d-4f31-95da-e72a9109924b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fb7668d5-71bb-48ac-32e0-f1197b589f1a" executionId="9a5e706f-cc37-45d0-af17-993b374d6d19" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7dae1cd9-cef6-6af7-1aa2-5d1f6b503244" executionId="ed161b55-207c-4c5f-b601-f52cb4193cf7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="81b53719-58aa-4154-68ab-0c5951496188" executionId="f652ba1e-fa55-4c16-830f-c37c3246adca" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="56688b7c-7db8-b99e-e5cb-93cd4e5005a5" executionId="2c7660dc-e21a-4628-9ca7-6a1cb5affc0e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c71e0de3-6e02-83e9-657a-e64c066fda1b" executionId="c6e3519e-bc7d-4678-84c5-f11c56c6ab99" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9a731aed-9ff5-b7a4-4998-b600d21024e9" executionId="d2d87c13-f44f-48ee-bd57-e43aaaf99766" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4067fbb3-9749-8fe2-88eb-dec3d469f1fa" executionId="412148de-da0e-4848-9027-14c681fe1ab3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="93aef83c-4a99-1964-5e63-2f875f6e697d" executionId="e8460187-1d85-48da-ac0d-8d807e1bde9f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0c116d0e-e472-52ea-af93-4e3a5034c0b7" executionId="07d415f0-bc8f-4263-b02d-03b5e5b44eed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="38ea3dee-e55b-43c3-a771-ead18b6473fa" executionId="0bd18cd1-cdfa-4744-b77e-9951a3dfb339" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4e30c772-a494-f9c3-ab7b-83f86e72212d" executionId="05f3aee0-bbea-408b-a4d0-e5d2c1416921" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d463c576-f3c6-b7c5-b15e-b24642dc33c5" executionId="cdc8f7bf-75a8-41dc-8e86-bda64467bfa1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2ac0b579-0aac-5061-69c2-0ade12476f82" executionId="c4550834-b6cb-48f7-9050-d4d7aea4ea98" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a9019275-bff0-24c7-1254-a9fa4aaae67a" executionId="c2590667-6fc6-4c46-a79d-64b99ae4bd42" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e1811724-a7ce-b59a-501f-05cf1d881c8a" executionId="96206f3b-5ac2-4b0f-804b-32992b837264" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f74fcd65-3249-3b07-55af-bfbf9f8fe585" executionId="6ed726a4-3cda-4aa0-9b6c-d75391bbc39a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a7054d5f-6ca1-2bc6-a04f-abd00465410e" executionId="6166f141-e5e9-43ce-80ce-9baf729ecde3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e2164b73-e1d4-ccf0-2221-a9f81ae42490" executionId="b803753a-4f3e-482b-a5d0-47ff53374a56" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bb0b7438-6907-46a5-2476-8d651d9c1627" executionId="972e3d8b-d83b-4b2f-82e7-339dd1d31fd1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5d5c01e9-92fa-4ef4-54a6-6a05b4a0c8d5" executionId="d31878b6-faec-481e-9079-17cbcde150f0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b855e85b-f7a6-71c0-f517-34f0563ea175" executionId="4a042de6-792e-4a62-9bff-6ac02cad144d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5a445224-daa6-ff90-75e0-9b30e24323d7" executionId="f116958f-bb61-4dfb-a0c1-a51884506c06" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8fa8a433-dade-4aee-4c46-0b035b929b2a" executionId="598aeb80-eb56-4bc5-b658-1fec37a12016" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ffa4817b-f590-0667-dcbc-84be2e43db9a" executionId="fb77c610-65aa-42f8-9e6f-f24b136144c9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="00c4d78e-850e-6498-2c39-291ca51669fe" executionId="d3d4cd4c-8e25-44c7-94d2-b12d45f36b56" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bece4f03-412f-8ac0-a6ea-fdb74dac1b1d" executionId="2ac87ee3-4518-4e74-b1be-98fe381cda9c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e09fe948-7d07-0645-3115-e98bf494c983" executionId="2c57fd8f-6a27-46b1-b74d-004e550899d5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f29db220-616f-634e-8259-3bf965232f49" executionId="c518a94c-c3cd-4947-82b3-6d464619b715" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="df4ea5cf-28a8-3751-9c0a-c3f0f009ccab" executionId="a490260e-5ed7-497e-980b-fdb18ef9975c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ca40de59-2e6a-0136-6bea-b0ecc1424eec" executionId="3c733fa6-8ab9-4e3e-a7e8-16a53bb6b44a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="81d0a7e4-0156-9966-641f-de3a60f614bb" executionId="a5208ecf-6f39-49b2-ab42-a78feb3beb31" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="558fc647-9291-8f34-7847-4461bae046f7" executionId="782ede82-a3a7-4e35-9ade-0910069e26f9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f9e71608-10ba-6fff-58a4-e3d5353ac364" executionId="8a077bc4-d4c3-4946-92a7-7d18a7695030" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="74991e12-0a95-aa4d-c38d-7de89d5e6074" executionId="1c7252fe-4e12-4f27-af22-2a2e6a7c9503" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ac52f6fb-833d-47db-f266-6a017699ecad" executionId="693d2139-6db2-4650-9a01-2906bae1c24a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ea28ed24-7103-fa10-57d3-b81e6ad7b62b" executionId="7796be86-e9b8-45ca-a591-a8f045069f35" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="61" executed="61" passed="55" failed="6" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>Test Parallelization enabled for D:\Code\Projects\DataService\data-service-api.tests\bin\Debug\net9.0\data-service-api.tests.dll (Workers: 16, Scope: MethodLevel)&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

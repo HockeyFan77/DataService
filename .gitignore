@@ -172,6 +172,10 @@ appsettings.*.json
 **/Properties/launchSettings.json
 !**/Properties/launchSettings.example.json
 
+!api-tests.http
+api-tests.*.http
+!api-tests.*.example.http
+
 # Blazor / WebAssembly build artifacts
 wwwroot/*.gz
 wwwroot/*.br

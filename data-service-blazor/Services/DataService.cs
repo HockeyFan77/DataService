@@ -32,7 +32,7 @@ public class DataService : IDataService
       ["objtypes"] = request.TypeSearch,
       ["colname"] = request.ColumnSearch,
       ["objtext"] = request.TextSearch,
-      ["exact"] = (request.UseExactSearch ?? false) ? "1" : "0",
+      ["exact"] = (request.UseExactSearch ?? false).ToString(),
       ["page"] = request.Page?.ToString(),
       ["pagesize"] = request.PageSize?.ToString()
     };

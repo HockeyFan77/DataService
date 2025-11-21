@@ -22,6 +22,28 @@
         "/consoleloggerparameters:NoSummary;ForceNoAlign"
       ],
       "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build-api-tests",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "test",
+        "${workspaceFolder}/data-service-api.tests/data-service-api.tests.csproj",
+        // Optional: You can specify the logger for test results
+        "--logger",
+        "trx"
+      ],
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "detail": "Runs all MSTest unit tests in the dedicated test project."
     }
   ]
 }

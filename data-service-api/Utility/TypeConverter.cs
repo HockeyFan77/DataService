@@ -37,6 +37,7 @@ namespace DataServiceApi.Utility
     {
       var targetType = typeof(T);
       var underlyingType = Nullable.GetUnderlyingType(targetType);
+      var effectiveTargetType = underlyingType ?? targetType;
 
       // --- Step 1: Strict Null Check for Non-Nullable Value Types ---
       if ( input == null )
@@ -53,7 +54,6 @@ namespace DataServiceApi.Utility
       }
 
       // --- Step 2 & 3: Handle Direct Compatibility and Empty Strings ---
-      var effectiveTargetType = underlyingType ?? targetType;
 
       // If the input is already the target type or directly compatible, return it immediately
       if ( effectiveTargetType.IsInstanceOfType(input) )
@@ -67,7 +67,34 @@ namespace DataServiceApi.Utility
         return fallbackValue;
       }
 
-      // --- Step 4 & 5: Use TypeConverter Fallback ---
+      // --- Step 4: Enhanced Boolean Handling for String Inputs ---
+      if ( effectiveTargetType == typeof(bool) && input is string stringValue )
+      {
+        // Explicitly handle "1" and "0" strings for boolean conversion (common for XML/DB)
+        if ( stringValue.Equals("1", StringComparison.OrdinalIgnoreCase) )
+        {
+          return (T)(object)true;
+        }
+        if ( stringValue.Equals("0", StringComparison.OrdinalIgnoreCase) )
+        {
+          return (T)(object)false;
+        }
+
+        // Also handle standard 'True'/'False' strings with TryParse
+        if ( bool.TryParse(stringValue, out bool result) )
+        {
+          return (T)(object)result;
+        }
+
+        // If it was a string but failed the known bool conversions,
+        // let it fall through to the general TypeConverter logic below,
+        // or if that fails, the final failure point (which throws if throwOnFail is true).
+        // No need to continue to the TypeConverter in the string path, as the TryParse covers it.
+        // We exit this conditional block and proceed to the TypeConverter below if necessary
+        // or let the failure propagate if the string conversion failed.
+      }
+
+      // --- Step 5 & 6: Use TypeConverter Fallback ---
       try
       {
         var converter = TypeDescriptor.GetConverter(effectiveTargetType);

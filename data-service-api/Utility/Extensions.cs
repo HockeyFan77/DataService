@@ -29,32 +29,19 @@ namespace DataServiceApi.Utility
       => string.IsNullOrWhiteSpace(s);
 
     /// <summary>
-    /// Returns <c>true</c> if <paramref name="s1"/> equals <paramref name="s2"/> (via the
-    /// <see cref="String.Equals(string, string, StringComparison)"/> method) using the
-    /// <paramref name="comparisonType"/> comparison type.
-    /// Returns <c>false</c> if either string is <c>null</c>.
-    /// </summary>
-    public static bool StringsAreEqual(string? s1, string? s2, StringComparison comparisonType)
-    {
-      //if ( s1 is null && s2 is null ) return true;
-      if ( s1 is null || s2 is null ) return false;
-      return s1.Equals(s2, comparisonType);
-    }
-
-    /// <summary>
     /// Returns <c>true</c> if <paramref name="s"/> equals <paramref name="other"/> (via the
     /// <see cref="String.Equals(string, string, StringComparison)"/> method) using the
     /// <see cref="StringComparison.Ordinal"/> comparison type.
     /// </summary>
     public static bool EqualsOrdinal(this string? s, string? other)
-      => StringsAreEqual(s, other, StringComparison.Ordinal);
+      => string.Equals(s, other, StringComparison.Ordinal);
     /// <summary>
     /// Returns <c>true</c> if <paramref name="s"/> equals <paramref name="other"/> (via the
     /// <see cref="String.Equals(string, string, StringComparison)"/> method) using the
     /// <see cref="StringComparison.OrdinalIgnoreCase"/> comparison type.
     /// </summary>
     public static bool EqualsOrdinalNoCase(this string? s, string? other)
-      => StringsAreEqual(s, other, StringComparison.OrdinalIgnoreCase);
+      => string.Equals(s, other, StringComparison.OrdinalIgnoreCase);
 
     /// <summary>
     /// Returns <c>true</c> if <paramref name="s"/> equals any string in <paramref name="strings"/> (via the
@@ -71,11 +58,9 @@ namespace DataServiceApi.Utility
     public static bool EqualsAny(this string? s, StringComparison comparisonType, IEnumerable<string?>? strings)
     {
       if ( strings != null )
-      {
         foreach ( string? test in strings )
-          if ( StringsAreEqual(s, test, comparisonType) )
+          if ( string.Equals(s, test, comparisonType) )
             return true;
-      }
       return false;
     }
     /// <summary>
@@ -152,11 +137,9 @@ namespace DataServiceApi.Utility
     public static bool ContainsAny(this string? s, StringComparison comparisonType, IEnumerable<string?>? strings)
     {
       if ( s != null && strings != null )
-      {
         foreach ( string? test in strings )
           if ( test != null && s.Contains(test, comparisonType) )
             return true;
-      }
       return false;
     }
     /// <summary>
@@ -192,7 +175,7 @@ namespace DataServiceApi.Utility
     /// Returns the left <paramref name="count"/> characters of <paramref name="s"/>.
     /// Returns <c>null</c> when <paramref name="s"/> is <c>null</c>.
     /// </summary>
-    public static string? Left(this string? s, int count)
+    public static string? TakeLeft(this string? s, int count)
     {
       if ( s == null ) return null;
       if ( s == "" || count <= 0 ) return "";
@@ -203,27 +186,27 @@ namespace DataServiceApi.Utility
     /// Returns the left characters of <paramref name="s"/> up to but not including <paramref name="delimiter"/>.
     /// Returns <c>null</c> when <paramref name="s"/> is <c>null</c>.
     /// </summary>
-    public static string? Left(this string? s, char delimiter, StringComparison comparisonType = StringComparison.Ordinal)
-      => Left(s, delimiter.ToString(), false, comparisonType);
+    public static string? TakeLeft(this string? s, char delimiter, StringComparison comparisonType = StringComparison.Ordinal)
+      => TakeLeft(s, delimiter.ToString(), false, comparisonType);
     /// <summary>
     /// Returns the left characters of <paramref name="s"/> up to and including <paramref name="delimiter"/>
     /// when <paramref name="includeDelimiter"/> is <c>true</c>.
     /// Returns <c>null</c> when <paramref name="s"/> is <c>null</c>.
     /// </summary>
-    public static string? Left(this string? s, char delimiter, bool includeDelimiter, StringComparison comparisonType = StringComparison.Ordinal)
-      => Left(s, delimiter.ToString(), includeDelimiter, comparisonType);
+    public static string? TakeLeft(this string? s, char delimiter, bool includeDelimiter, StringComparison comparisonType = StringComparison.Ordinal)
+      => TakeLeft(s, delimiter.ToString(), includeDelimiter, comparisonType);
     /// <summary>
     /// Returns the left characters of <paramref name="s"/> up to but not including <paramref name="delimiter"/>.
     /// Returns <c>null</c> when <paramref name="s"/> is <c>null</c>.
     /// </summary>
-    public static string? Left(this string? s, string? delimiter, StringComparison comparisonType = StringComparison.Ordinal)
-      => Left(s, delimiter, false, comparisonType);
+    public static string? TakeLeft(this string? s, string? delimiter, StringComparison comparisonType = StringComparison.Ordinal)
+      => TakeLeft(s, delimiter, false, comparisonType);
     /// <summary>
     /// Returns the left characters of <paramref name="s"/> up to and including <paramref name="delimiter"/>
     /// when <paramref name="includeDelimiter"/> is <c>true</c>.
     /// Returns <c>null</c> when <paramref name="s"/> is <c>null</c>.
     /// </summary>
-    public static string? Left(this string? s, string? delimiter, bool includeDelimiter, StringComparison comparisonType = StringComparison.Ordinal)
+    public static string? TakeLeft(this string? s, string? delimiter, bool includeDelimiter, StringComparison comparisonType = StringComparison.Ordinal)
     {
       if ( s == null || delimiter == null ) return null;
       if ( s == "" || delimiter == "" ) return "";
@@ -233,14 +216,14 @@ namespace DataServiceApi.Utility
         : includeDelimiter
           ? delimiterIndex + delimiter.Length
           : delimiterIndex;
-      return Left(s, count);
+      return TakeLeft(s, count);
     }
 
     /// <summary>
     /// Returns the right <paramref name="count"/> characters of <paramref name="s"/>.
     /// Returns <c>null</c> when <paramref name="s"/> is <c>null</c>.
     /// </summary>
-    public static string? Right(this string? s, int count)
+    public static string? TakeRight(this string? s, int count)
     {
       if ( s == null ) return null;
       if ( s == "" || count <= 0 ) return "";
@@ -253,8 +236,8 @@ namespace DataServiceApi.Utility
     /// <para>Note: the search for <paramref name="delimiter"/> starts at the end of <paramref name="s"/>
     /// and goes right-to-left.</para>
     /// </summary>
-    public static string? Right(this string? s, char delimiter, StringComparison comparisonType = StringComparison.Ordinal)
-      => Right(s, delimiter.ToString(), false, comparisonType);
+    public static string? TakeRight(this string? s, char delimiter, StringComparison comparisonType = StringComparison.Ordinal)
+      => TakeRight(s, delimiter.ToString(), false, comparisonType);
     /// <summary>
     /// Returns the right characters of <paramref name="s"/> up to and including the last <paramref name="delimiter"/>
     /// when <paramref name="includeDelimiter"/> is <c>true</c>.
@@ -262,16 +245,16 @@ namespace DataServiceApi.Utility
     /// <para>Note: the search for <paramref name="delimiter"/> starts at the end of <paramref name="s"/>
     /// and goes right-to-left.</para>
     /// </summary>
-    public static string? Right(this string? s, char delimiter, bool includeDelimiter, StringComparison comparisonType = StringComparison.Ordinal)
-      => Right(s, delimiter.ToString(), includeDelimiter, comparisonType);
+    public static string? TakeRight(this string? s, char delimiter, bool includeDelimiter, StringComparison comparisonType = StringComparison.Ordinal)
+      => TakeRight(s, delimiter.ToString(), includeDelimiter, comparisonType);
     /// <summary>
     /// Returns the right characters of <paramref name="s"/> up to but not including the last <paramref name="delimiter"/>.
     /// Returns <c>null</c> when <paramref name="s"/> is <c>null</c>.
     /// <para>Note: the search for <paramref name="delimiter"/> starts at the end of <paramref name="s"/>
     /// and goes right-to-left.</para>
     /// </summary>
-    public static string? Right(this string? s, string? delimiter, StringComparison comparisonType = StringComparison.Ordinal)
-      => Right(s, delimiter, false, comparisonType);
+    public static string? TakeRight(this string? s, string? delimiter, StringComparison comparisonType = StringComparison.Ordinal)
+      => TakeRight(s, delimiter, false, comparisonType);
     /// <summary>
     /// Returns the right characters of <paramref name="s"/> up to and including the last <paramref name="delimiter"/>
     /// when <paramref name="includeDelimiter"/> is <c>true</c>.
@@ -279,7 +262,7 @@ namespace DataServiceApi.Utility
     /// <para>Note: the search for <paramref name="delimiter"/> starts at the end of <paramref name="s"/>
     /// and goes right-to-left.</para>
     /// </summary>
-    public static string? Right(this string? s, string? delimiter, bool includeDelimiter, StringComparison comparisonType = StringComparison.Ordinal)
+    public static string? TakeRight(this string? s, string? delimiter, bool includeDelimiter, StringComparison comparisonType = StringComparison.Ordinal)
     {
       if ( s == null || delimiter == null ) return null;
       if ( s == "" || delimiter == "" ) return "";
@@ -289,16 +272,16 @@ namespace DataServiceApi.Utility
         : includeDelimiter
           ? s.Length - delimiterIndex
           : s.Length - delimiterIndex - delimiter.Length;
-      return Right(s, count);
+      return TakeRight(s, count);
     }
 
-    public static string? ExtractBetween(this string? s, char leftDelimiter, char rightDelimiter, StringComparison comparisonType = StringComparison.Ordinal)
-      => ExtractBetween(s, leftDelimiter.ToString(), rightDelimiter.ToString(), false, comparisonType);
-    public static string? ExtractBetween(this string? s, char leftDelimiter, char rightDelimiter, bool includeDelimiters, StringComparison comparisonType = StringComparison.Ordinal)
-      => ExtractBetween(s, leftDelimiter.ToString(), rightDelimiter.ToString(), includeDelimiters, comparisonType);
-    public static string? ExtractBetween(this string? s, string? leftDelimiter, string? rightDelimiter, StringComparison comparisonType = StringComparison.Ordinal)
-      => ExtractBetween(s, leftDelimiter, rightDelimiter, false, comparisonType);
-    public static string? ExtractBetween(this string? s, string? leftDelimiter, string? rightDelimiter, bool includeDelimiters, StringComparison comparisonType = StringComparison.Ordinal)
+    public static string? TakeBetween(this string? s, char leftDelimiter, char rightDelimiter, StringComparison comparisonType = StringComparison.Ordinal)
+      => TakeBetween(s, leftDelimiter.ToString(), rightDelimiter.ToString(), false, comparisonType);
+    public static string? TakeBetween(this string? s, char leftDelimiter, char rightDelimiter, bool includeDelimiters, StringComparison comparisonType = StringComparison.Ordinal)
+      => TakeBetween(s, leftDelimiter.ToString(), rightDelimiter.ToString(), includeDelimiters, comparisonType);
+    public static string? TakeBetween(this string? s, string? leftDelimiter, string? rightDelimiter, StringComparison comparisonType = StringComparison.Ordinal)
+      => TakeBetween(s, leftDelimiter, rightDelimiter, false, comparisonType);
+    public static string? TakeBetween(this string? s, string? leftDelimiter, string? rightDelimiter, bool includeDelimiters, StringComparison comparisonType = StringComparison.Ordinal)
     {
       if ( s == null || leftDelimiter == null || rightDelimiter == null ) return s;
 
@@ -371,7 +354,7 @@ namespace DataServiceApi.Utility
     /// Returns <c>true</c> if <paramref name="s"/> is contains a "true" string
     /// (e.g. "1", "y", "yes", "t", "true").
     /// </summary>
-    public static bool IsTrueValue(this string? s)
+    public static bool IsTruthy(this string? s)
       => EqualsAnyOrdinalNoCase(s, "1", "y", "yes", "t", "true");
 
     public static string? ToProperCaseSpaced(this string? s)
@@ -413,19 +396,6 @@ namespace DataServiceApi.Utility
 
       return string.Join(" ", words);
     }
-
-    // public static object? ConvertTo(this string? s, Type type)
-    //   => StringConverter.ConvertTo(s, type);
-    // public static object? ConvertToDefault(this string? s, Type type)
-    //   => StringConverter.ConvertToDefault(s, type);
-    // public static object? ConvertToDefault(this string? s, Type type, object? defaultValue)
-    //   => StringConverter.ConvertToDefault(s, type, defaultValue);
-    // public static T? ConvertTo<T>(this string? s)
-    //   => StringConverter.ConvertTo<T>(s);
-    // public static T? ConvertToDefault<T>(this string? s)
-    //   => StringConverter.ConvertToDefault<T>(s);
-    // public static T? ConvertToDefault<T>(this string? s, T? defaultValue)
-    //   => StringConverter.ConvertToDefault<T>(s, defaultValue);
 
   }
 

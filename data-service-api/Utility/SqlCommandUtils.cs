@@ -184,6 +184,25 @@ namespace DataServiceApi.Utility
       return command;
     }
 
+    // Caches the closed generic MethodInfo for ConversionExtensions.ConvertTo<T>
+    private static readonly ConcurrentDictionary<Type, MethodInfo> ConvertToMethodCache = new();
+
+    // Get the MethodInfo for the non-generic definition once
+    private static readonly MethodInfo GenericConvertToMethod = typeof(TypeConverter).GetMethod(nameof(TypeConverter.ConvertTo), new[] { typeof(object) })!;
+
+    /// <summary>
+    /// Gets or creates the closed generic MethodInfo for the specified target type T.
+    /// </summary>
+    private static MethodInfo GetConverterMethodInfo(Type targetType)
+    {
+      // Use GetOrAdd for thread-safe access and creation
+      return ConvertToMethodCache.GetOrAdd(targetType, t =>
+      {
+        // The slow reflection operation runs only once per Type
+        return GenericConvertToMethod.MakeGenericMethod(t);
+      });
+    }
+
     private static readonly Dictionary<SqlDbType, Type> __SqlDbTypeValueTypeMap = new()
     {
       { SqlDbType.BigInt, typeof(long) },
@@ -218,26 +237,6 @@ namespace DataServiceApi.Utility
       // { SqlDbType.Variant, typeof(object) },
       { SqlDbType.Xml, typeof(string) }
     };
-
-    // Caches the closed generic MethodInfo for ConversionExtensions.ConvertTo<T>
-    private static readonly ConcurrentDictionary<Type, MethodInfo> ConvertToMethodCache = new();
-
-    // Get the MethodInfo for the non-generic definition once
-    private static readonly MethodInfo GenericConvertToMethod = typeof(TypeConverter)
-      .GetMethod(nameof(TypeConverter.ConvertTo), new[] { typeof(object) })!;
-
-    /// <summary>
-    /// Gets or creates the closed generic MethodInfo for the specified target type T.
-    /// </summary>
-    private static MethodInfo GetConverterMethodInfo(Type targetType)
-    {
-      // Use GetOrAdd for thread-safe access and creation
-      return ConvertToMethodCache.GetOrAdd(targetType, t =>
-      {
-        // The slow reflection operation runs only once per Type
-        return GenericConvertToMethod.MakeGenericMethod(t);
-      });
-    }
   }
 
 }
