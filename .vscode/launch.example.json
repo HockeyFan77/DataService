@@ -42,6 +42,22 @@
       "sourceFileMap": {
         "/Views": "${workspaceFolder}/Views"
       }
+    },
+    {
+      "name": "API Unit Tests",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-api-tests",
+      "program": "dotnet",
+      "args": [
+        "test",
+        "${workspaceFolder}/data-service-api.tests/data-service-api.tests.csproj",
+        // Optional: To run only specific tests, add arguments here.
+        // For example, to run tests in a class: "--filter", "Fully.Qualified.ClassName"
+      ],
+      "cwd": "${workspaceFolder}/data-service-api.tests",
+      "console": "internalConsole",
+      "stopAtEntry": false
     }
   ]
 }
